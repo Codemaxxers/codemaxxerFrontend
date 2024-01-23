@@ -3,78 +3,83 @@ toc: true
 comments: true
 layout: base
 title: map
-author: luna
+author: luna and tanisha 
 permalink: /map
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Map</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
 
-<style>
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
+        .map {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-color: #87CEEB; /* Blue color for the ocean background */
+            cursor: pointer;
+        }
 
-#game-container {
-    width: 80vw; 
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
+        .island {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('images/island.png'); /* Path to your island image */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-#game-map {
-    width: 2000px; 
-    height: 2000px; 
-    position: absolute;
-}
+        .island-name {
+            color: rgb(89, 59, 7); /* Black text color */
+            font-family:'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            position: absolute;
+            bottom: -20px; /* Adjust the distance between the island and the name */
+            width: 100%; /* Ensure full width */
+            transition: color 0.3s;
+        }
 
-#sprite {
-    width: 50px; 
-    height: 50px;
-    background-color: #f00; 
-    position: absolute;
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-}
-</style>
+        .island-name a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-<title>Game Map Draft</title>
+        .island:hover {
+            /* Add hover styles if needed */
+        }
 
+        .island:hover .island-name {
+            color: #CD853F; /* Change text color on hover */
+        }
+    </style>
+</head>
 <body>
-    <div id="game-container">
-        <img id="game-map" src="images/map-draft.png" alt="Game Map">
-        <div id="sprite" class="character"></div>
+    <div class="map">
+        <div class="island" style="top: 100px; left: 150px;">
+            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Chemistry Island</a></div>
+        </div>
+        <div class="island" style="top: 250px; left: 400px;">
+            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Calculus Island</a></div>
+        </div>
+        <div class="island" style="top: 400px; left: 250px;">
+            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">CSA Island</a></div>
+        </div>
+        <div class="island" style="top: 600px; left: 500px;">
+            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Physics Island</a></div>
+        </div>
     </div>
-    <script src="game.js"></script>
 </body>
 </html>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const sprite = document.getElementById("sprite");
-    const gameMap = document.getElementById("game-map");
-
-    document.addEventListener("keydown", function (event) {
-        const speed = 5; 
-
-        switch (event.key) {
-            case "ArrowUp":
-                sprite.style.top = `${parseFloat(sprite.style.top || 0) - speed}px`;
-                gameMap.style.top = `${parseFloat(gameMap.style.top || 0) + speed}px`;
-                break;
-            case "ArrowDown":
-                sprite.style.top = `${parseFloat(sprite.style.top || 0) + speed}px`;
-                gameMap.style.top = `${parseFloat(gameMap.style.top || 0) - speed}px`;
-                break;
-            case "ArrowLeft":
-                sprite.style.left = `${parseFloat(sprite.style.left || 0) - speed}px`;
-                gameMap.style.left = `${parseFloat(gameMap.style.left || 0) + speed}px`;
-                break;
-            case "ArrowRight":
-                sprite.style.left = `${parseFloat(sprite.style.left || 0) + speed}px`;
-                gameMap.style.left = `${parseFloat(gameMap.style.left || 0) - speed}px`;
-                break;
-        }
-    });
-});
-</script>
