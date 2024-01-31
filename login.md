@@ -26,7 +26,7 @@ permalink: login
     <input id="passwordInput">
     <br>
     <br>
-    <button id="loginButton">Login</button>
+    <button id="loginButton" onclick="login()">Login</button>
     <button id="transfer">Sign Up</button>
 </div>
 
@@ -40,9 +40,7 @@ permalink: login
         });
     });
 
-    var loginButton = document.getElementById("loginButton");
-
-    loginButton.addEventListener("click", function(){
+    function login() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -59,7 +57,7 @@ permalink: login
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            credentials: 'include',
+            credentials: 'include',  // Include this line for cross-origin requests with credentials
             body: raw,
             redirect: 'follow'
         };
@@ -91,10 +89,10 @@ permalink: login
         })
         .then(result => {
             console.log(result);
-            // window.location.href = "profile";
+            // window.location.href = "http://127.0.0.1:4100/Login-Lesson/account";
         })
         .catch(error => console.error('Error during login:', error));
-    });
+    }
 </script>
 
 <style>
