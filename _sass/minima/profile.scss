@@ -1,8 +1,9 @@
-.container {
+  .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Center the divs horizontally */
     margin-top: 20px; /* Adjust top margin as needed */
+    margin-left: 270px;
   }
   
   .summary-row {
@@ -15,7 +16,7 @@
     padding: 20px;
     background-color: #E5E4E2;
     border-radius: 10px;
-    margin-left: 270px; /* Adjust margin to match sidebar width */
+    margin-left: 50px; /* Adjust margin to match sidebar width */
     text-align: center;
     margin-bottom: 20px; /* Adjust bottom margin as needed */
   }
@@ -28,4 +29,11 @@
     width: 50px; /* Adjust icon size as needed */
     margin-bottom: 10px;
   }
-  
+
+  h2 {
+    color: black;
+  }
+
+  p {
+    color: black;
+  }

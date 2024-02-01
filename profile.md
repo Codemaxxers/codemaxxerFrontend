@@ -19,14 +19,22 @@ search_exclude: true
 <div class="container-name">
   <div class="summary-row">
     <h1 id="initName"></h1>
+    <br>
   </div>
 </div>
 <div class="container">
   <div class="summary-row">
     <div class="summary-card">
-      <h2>Summary Card 1</h2>
-      <p>Text content for card 1</p>
-      <!-- <img src="icon1.png" alt="Icon 1"> -->
+      <h2>Account Level</h2>
+      <p id="accountLevelDisplay"></p>
+    </div>
+    <div class="summary-card">
+      <h2>Computer Science A</h2>
+      <p id="csaPointDisplay"></p>
+    </div>
+    <div class="summary-card">
+      <h2>Computer Science P</h2>
+      <p id="cspPointDisplay"></p>
     </div>
   </div>
 </div>
@@ -58,6 +66,7 @@ search_exclude: true
         credentials: 'include',
       };
 
+      //fetch("http://localhost:8032/api/person/jwt", requestOptions)
       fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
@@ -67,7 +76,7 @@ search_exclude: true
                     switch (response.status) {
                         case 401:
                             alert("Please log into or make an account");
-                            window.location.href = "login";
+                            // window.location.href = "login";
                             break;
                         case 403:
                             alert("Access forbidden. You do not have permission to access this resource.");
@@ -102,9 +111,12 @@ search_exclude: true
           const firstName = fullNameArray[0];
           document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
           document.getElementById("sidebarName").innerHTML = data.name;
+
+          document.getElementById("cspPointDisplay").innerHTML = data.cspPoints + " Points";
+          document.getElementById("csaPointDisplay").innerHTML = data.csaPoints + " Points";
+          document.getElementById("accountLevelDisplay").innerHTML = data.cspPoints + data.csaPoints + " Points";
+
           console.log(data);
-
-
         })
         .catch(error => console.log('error', error));
   }
