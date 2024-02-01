@@ -67,7 +67,7 @@ search_exclude: true
                     switch (response.status) {
                         case 401:
                             alert("Please log into or make an account");
-                            // window.location.href = "/codemaxxerFrontend/login";
+                            window.location.href = "login";
                             break;
                         case 403:
                             alert("Access forbidden. You do not have permission to access this resource.");
@@ -103,6 +103,8 @@ search_exclude: true
           document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
           document.getElementById("sidebarName").innerHTML = data.name;
           console.log(data);
+
+
         })
         .catch(error => console.log('error', error));
   }
