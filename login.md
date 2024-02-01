@@ -62,6 +62,7 @@ permalink: login
             redirect: 'follow'
         };
 
+        // fetch("http://localhost:8032/authenticate", requestOptions)
         fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
         .then(response => {
             if (!response.ok) {
@@ -89,7 +90,7 @@ permalink: login
         })
         .then(result => {
             console.log(result);
-            window.location.href = "https://codemaxxers.github.io/codemaxxerFrontend/profile";
+            window.location.href = "profile";
         })
         .catch(error => console.error('Error during login:', error));
     }

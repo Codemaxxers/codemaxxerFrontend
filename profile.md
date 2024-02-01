@@ -7,8 +7,20 @@ search_exclude: true
     body {
         background: #272423;
     }
+    .container-name {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: left;
+      margin-left: 300px;
+  }
+    
 </style>
 
+<div class="container-name">
+  <div class="summary-row">
+    <h1 id="initName"></h1>
+  </div>
+</div>
 <div class="container">
   <div class="summary-row">
     <div class="summary-card">
@@ -75,15 +87,21 @@ search_exclude: true
             })
         .then(data => {
           // Display user data above the table
-          const userDataContainer = document.getElementById("userData");
-          userDataContainer.innerHTML = `
-            <img src="/Login-Lesson/images/defaultUser.png" width="250" height="250">
-            <h1><strong>${data.name}</strong></h1>
-            <p>Email: ${data.email}</p>
-            <p>Age: ${data.age}</p>
-            <p>ID: ${data.id}</p>
-            <button onclick="signOut()">Sign Out</button>
-          `;
+          // const userDataContainer = document.getElementById("userData");
+          // userDataContainer.innerHTML = `
+          //   <img src="/Login-Lesson/images/defaultUser.png" width="250" height="250">
+          //   <h1><strong>${data.name}</strong></h1>
+          //   <p>Email: ${data.email}</p>
+          //   <p>Age: ${data.age}</p>
+          //   <p>ID: ${data.id}</p>
+          //   <button onclick="signOut()">Sign Out</button>
+          // `;
+
+          // First name and side bar instantiation
+          const fullNameArray = data.name.split(' ');
+          const firstName = fullNameArray[0];
+          document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
+          document.getElementById("sidebarName").innerHTML = data.name;
           console.log(data);
         })
         .catch(error => console.log('error', error));
