@@ -1,7 +1,7 @@
 ---
 toc: true
 comments: true
-layout: base
+layout: default
 title: fight everything
 author: Finn C
 permalink: /fight
