@@ -3,6 +3,7 @@ description: "Fight your way through studying"
 owner_name: Finn C, Theo H, Tanisha P, Justin N, Luna I, Rachit J
 github_username: Codemaxxers
 github_repo: "codemaxxerFrontend"
+repository: "F1nnC/codemaxxerFrontend"
 baseurl: "/codemaxxerFrontend"
 remote_theme: jekyll/minima
 minima:
