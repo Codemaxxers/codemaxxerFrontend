@@ -18,9 +18,9 @@ permalink: /qrt
         const url = `${baseURL}/${course}`;
         fetch(url, {
             method: 'GET',
-            mode: 'cors',
-            cache: 'default',
-            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         })
         .then(response => {
             if (!response.ok) {
