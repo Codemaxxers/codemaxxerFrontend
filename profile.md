@@ -4,22 +4,34 @@ search_exclude: true
 --- 
 
 <style>
-    body {
-        background: #272423;
-    }
-    .container-name {
+    .container-profile {
       display: flex;
       flex-wrap: wrap;
       justify-content: left;
       margin-left: 300px;
-  }
-    
+    }
+
+    .account-card {
+      background-color: #2f80d0;
+    }
+
+    .container-profile {
+      height: 20vh; /* 20% of the viewport height */
+      /* background-color: #141c2d; Add your preferred background color */
+    }
+
+    #initName {
+      margin-left: 20px;
+    }
 </style>
 
-<div class="container-name">
+<div class="container-profile">
   <div class="summary-row">
     <h1 id="initName"></h1>
-    <br>
+    <div class="account-card">
+      <div id="profilePicture">
+      </div>
+    </div>
   </div>
 </div>
 <div class="container">
@@ -66,7 +78,7 @@ search_exclude: true
         credentials: 'include',
       };
 
-      //fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      // fetch("http://localhost:8032/api/person/jwt", requestOptions)
       fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
@@ -95,20 +107,19 @@ search_exclude: true
                 // Success!!!
             })
         .then(data => {
-          // Display user data above the table
-          // const userDataContainer = document.getElementById("userData");
-          // userDataContainer.innerHTML = `
-          //   <img src="/Login-Lesson/images/defaultUser.png" width="250" height="250">
-          //   <h1><strong>${data.name}</strong></h1>
-          //   <p>Email: ${data.email}</p>
-          //   <p>Age: ${data.age}</p>
-          //   <p>ID: ${data.id}</p>
-          //   <button onclick="signOut()">Sign Out</button>
-          // `;
 
-          // First name and side bar instantiation
           const fullNameArray = data.name.split(' ');
           const firstName = fullNameArray[0];
+          console.log(data.profilePicInt)
+
+          let profilePictureDiv = document.getElementById("profilePicture");
+          let imgElement = document.createElement("img");
+          imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
+          imgElement.style.width = "50px";
+          imgElement.style.height = "50px";
+          imgElement.style.float = "left";
+          profilePictureDiv.appendChild(imgElement);
+
           document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
           document.getElementById("sidebarName").innerHTML = data.name;
 
@@ -119,6 +130,11 @@ search_exclude: true
           console.log(data);
         })
         .catch(error => console.log('error', error));
+  }
+
+  function signOut() {
+    console.log("signout called")
+    document.cookie = "jwt" + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"
   }
 
 </script>

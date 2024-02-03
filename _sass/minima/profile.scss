@@ -19,6 +19,18 @@
     margin-left: 50px; /* Adjust margin to match sidebar width */
     text-align: center;
     margin-bottom: 20px; /* Adjust bottom margin as needed */
+    float: right;
+  }
+
+  .account-card {
+    width: 300px; /* Adjust width as needed */
+    padding: 20px;
+    background-color: #E5E4E2;
+    border-radius: 10px;
+    margin-left: 60%; /* Adjust margin to match sidebar width */
+    text-align: center;
+    margin-bottom: 20px; /* Adjust bottom margin as needed */
+    position: absolute;
   }
   
   .summary-card h2 {
