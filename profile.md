@@ -4,63 +4,117 @@ search_exclude: true
 --- 
 
 <style>
+    .page-content {
+      padding: 0px !important;
+    }
+
     .container-profile {
       display: flex;
       flex-wrap: wrap;
       justify-content: left;
-      margin-left: 300px;
+      height: 18vh; /* 20% of the viewport height */
+      position: absolute;
+      top: 0;
+      z-index: -1;
+      width: 100%;
+      background-color: #2a2930;
     }
 
     .account-card {
-      background-color: #2f80d0;
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
+      /* background-color: #2f80d0; */
+      /* background-color: #2a2930; */
     }
 
-    .container-profile {
-      height: 20vh; /* 20% of the viewport height */
-      /* background-color: #141c2d; Add your preferred background color */
+    .sumText {
+      margin-left: 330px;
     }
 
     #initName {
-      margin-left: 20px;
+      height: 50px;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    #detailText {
+      font-size: 22.5px;
+    }
+
+    .allBoxes {
+      margin-top: 12%;
+    }
+
+    .summary-row {
+      margin-top: 2%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    .logo {
+      width: 105px !important;
+      height: auto !important;
+    }
+
+    .logo_name {
+      font-size: 65px;
+      margin-left: 10px;
+    }
+
+    .logo_items flex {
+      margin-left: 10px;
+    }
+
+    #sidebar_close {
+      height: 50px;
     }
 </style>
 
 <div class="container-profile">
   <div class="summary-row">
-    <h1 id="initName"></h1>
+    <div class="sumText">
+      <h1 id="initName"></h1>
+      <h3 id="detailText">Here are your gaming stats!</h3>
+    </div>
     <div class="account-card">
       <div id="profilePicture">
       </div>
     </div>
   </div>
+  <br>
 </div>
-<div class="container">
-  <div class="summary-row">
-    <div class="summary-card">
-      <h2>Account Level</h2>
-      <p id="accountLevelDisplay"></p>
-    </div>
-    <div class="summary-card">
-      <h2>Computer Science A</h2>
-      <p id="csaPointDisplay"></p>
-    </div>
-    <div class="summary-card">
-      <h2>Computer Science P</h2>
-      <p id="cspPointDisplay"></p>
+<div class="allBoxes">
+  <div class="container">
+    <div class="summary-row">
+      <div class="summary-card">
+        <h2>Account Level</h2>
+        <p id="accountLevelDisplay"></p>
+      </div>
+      <div class="summary-card">
+        <h2>Computer Science A</h2>
+        <p id="csaPointDisplay"></p>
+      </div>
+      <div class="summary-card">
+        <h2>Computer Science P</h2>
+        <p id="cspPointDisplay"></p>
+      </div>
     </div>
   </div>
-</div>
-<div class="container">
-  <div class="summary-row">
-    <div class="summary-card">
-      <box-icon name='code'></box-icon>
-      <h2>Summary Card 2</h2>
-      <p>Text content for card 2</p>
-    </div>
-    <div class="summary-card">
-      <box-icon name='code'></box-icon>
-      <h2>Summary Card 3</h2>
-      <p>Text content for card 3</p>
+  <div class="container">
+    <div class="summary-row">
+      <div class="summary-card">
+        <box-icon name='code'></box-icon>
+        <h2>Summary Card 2</h2>
+        <p>Text content for card 2</p>
+      </div>
+      <div class="summary-card">
+        <box-icon name='code'></box-icon>
+        <h2>Summary Card 3</h2>
+        <p>Text content for card 3</p>
+      </div>
     </div>
   </div>
 </div>
@@ -78,8 +132,8 @@ search_exclude: true
         credentials: 'include',
       };
 
-      // fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+      fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -115,10 +169,23 @@ search_exclude: true
           let profilePictureDiv = document.getElementById("profilePicture");
           let imgElement = document.createElement("img");
           imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
-          imgElement.style.width = "50px";
-          imgElement.style.height = "50px";
+          imgElement.style.width = "60px";
+          imgElement.style.height = "60px";
           imgElement.style.float = "left";
+          imgElement.style.borderRadius = "5px";
+          var nameForProfile = document.createElement("h3");
+          nameForProfile.innerHTML = data.name;
+          var changeProfileText = document.createElement("p");
+          changeProfileText.innerHTML = "Change Profile";
+          changeProfileText.style.marginBottom = "0px";
+
           profilePictureDiv.appendChild(imgElement);
+          profilePictureDiv.appendChild(nameForProfile);
+          profilePictureDiv.appendChild(changeProfileText);
+
+          changeProfileText.addEventListener("click", function() {
+            window.location.href = "settings";
+          });
 
           document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
           document.getElementById("sidebarName").innerHTML = data.name;

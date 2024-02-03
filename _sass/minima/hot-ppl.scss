@@ -76,9 +76,7 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
 .sidebar.close {
   width: calc(55px + 20px);
 }
-.logo_items {
-  gap: 8px;
-}
+
 .logo_name {
   font-size: 22px;
   color: white;
@@ -108,7 +106,7 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 10px;
   overflow-y: auto;
   height: calc(100% - 82px);
 }
