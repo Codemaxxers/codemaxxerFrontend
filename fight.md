@@ -124,7 +124,7 @@ permalink: /fight
 
 <div>
     <div class="health-box">
-        <div class="move" id="health">Player: 100</div>
+        <div class="move" id="health">Player: 10</div>
         <div class="move" id="EnemyHealth">Enemy: </div>
     </div>
     <div class="fight-container">
@@ -152,28 +152,64 @@ permalink: /fight
 <script>
     // Define a global array to store enemy IDs
     let enemyIds = [];
+    const questions = {
+        question1: "Is JavaScript a statically typed language?",
+        answer1: "No",
+        
+        question2: "Does HTML stand for Hyper Text Markup Language?",
+        answer2: "Yes",
+        
+        question3: "Is Python a compiled language?",
+        answer3: "No",
+        
+        question4: "Does CSS stand for Cascading Style Sheets?",
+        answer4: "Yes",
+        
+        question5: "Is Java primarily used for front-end web development?",
+        answer5: "No",
+        
+        // Add more questions and answers as needed
+    };
+    //Enemy Values
+    var updateHealthEnemy = document.getElementById("EnemyHealth");
+    var updateHealth = document.getElementById("health");
+    var eHealth = 0;
+    var eAttack = 0;
+    var eDefense = 0;
+
+    // Add event listeners to the buttons
+    document.getElementById("move1").addEventListener("click", function() {
+        Battle(5);
+    });
+    document.getElementById("run").addEventListener("click", Leave);
+
+    // Define global variables
+    let StartingHealth = 10;
+    let health = 10;
 
     // Call the function to fetch enemies when the script is loaded
     GetEnemy();
 
-    // Add event listeners to the buttons
-    document.getElementById("move1").addEventListener("click", Question);
-    document.getElementById("run").addEventListener("click", Leave);
-
-    // Define global variables
-    let StartingHealth = 100;
-    let health = 100;
 
     function Question() {
-        var responseBox = document.getElementById("response-box");
-        let question = "What kind of code looks like 0010110101110";
-        let answer = "binary";
+        let random = Math.floor(Math.random() * 5);
+        let answer = questions[`answer${random}`];
+        let question = questions[`question${random}`];
 
-        let response = prompt(question.toLowerCase());
+        console.log("Question:", question);
+        console.log("Answer:", answer);
+
+        let response = prompt(question ? question.toLowerCase() : "Question not available");
+        
+        if (response === null || response === undefined) {
+            console.log("Prompt cancelled or failed");
+            return false; // or handle differently based on your requirements
+        }
+
         if (response == answer) {
-            responseBox.innerHTML = "You Win";
+            return true;
         } else {
-            responseBox.innerHTML = "You Lose";
+            return false;
         }
     }
 
@@ -228,12 +264,40 @@ permalink: /fight
                 });
 
                 // Get a random enemy ID from the enemyIds array
-                let randomEnemyId = enemyIds[Math.floor(Math.random() * enemyIds.length)];
-                console.log("Random Enemy ID:", randomEnemyId);
+                let randomEnemyIndex = Math.floor(Math.random() * filteredEnemies.length);
+
+                // Get the random enemy object
+                let randomEnemy = filteredEnemies[randomEnemyIndex];
+
+                // Updating Values depending on the fetched enemy
+                eHealth = randomEnemy.health;
+                eAttack = randomEnemy.attack;
+                eDefense = randomEnemy.defense;
+
+                updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
             } else {
                 console.log("No enemies found at or below user's level.");
             }
         })
         .catch(error => console.log('error', error));
     }
+
+    function Battle(attack) {
+        correct = Question();
+        if (correct == true) {
+            eHealth -= attack;
+            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+        } else {
+            health -= eAttack;
+            updateHealth.innerHTML = `Player: ${health}`;
+        }
+        if (health <= 0) {
+            return;
+        }
+        if (eHealth <= 0) {
+            return;
+        }
+    }
+
+
 </script>
