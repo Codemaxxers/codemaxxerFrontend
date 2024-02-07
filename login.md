@@ -62,8 +62,9 @@ permalink: login
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8032/authenticate", requestOptions)
-        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
+        // LOCAL TESTING
+        //fetch("http://localhost:8032/authenticate", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
         .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;

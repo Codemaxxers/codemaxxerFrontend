@@ -132,8 +132,9 @@ search_exclude: true
         credentials: 'include',
       };
 
-      fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+      // LOCAL TESTING
+      // fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -142,7 +143,7 @@ search_exclude: true
                     switch (response.status) {
                         case 401:
                             alert("Please log into or make an account");
-                            // window.location.href = "login";
+                            window.location.href = "login";
                             break;
                         case 403:
                             alert("Access forbidden. You do not have permission to access this resource.");
@@ -201,7 +202,18 @@ search_exclude: true
 
   function signOut() {
     console.log("signout called")
-    document.cookie = "jwt" + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"
-  }
+    var requestOptions = {
+        method: 'POST',
+        credentials: 'include',  // Include this line for cross-origin requests with credentials
+        redirect: 'follow'
+    };
+
+    // LOCAL TESTING
+    // fetch("http://localhost:8032/signout", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/logoutUser")
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+    }
 
 </script>
