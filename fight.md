@@ -110,7 +110,7 @@ permalink: /fight
         border-radius: 8px;
         margin-top: 15px;
         margin-left: 100px;
-        margin-right: 75vw;
+        margin-right: 70vw;
     }
 </style>
 
@@ -124,6 +124,7 @@ permalink: /fight
 
 <div>
     <div class="health-box">
+        <div class="move" id="level">Player Level: </div>
         <div class="move" id="health">Player: 10</div>
         <div class="move" id="EnemyHealth">Enemy: </div>
     </div>
@@ -173,9 +174,11 @@ permalink: /fight
     //Enemy Values
     var updateHealthEnemy = document.getElementById("EnemyHealth");
     var updateHealth = document.getElementById("health");
+    var levelUpdate = document.getElementById("level");
     var eHealth = 0;
     var eAttack = 0;
     var eDefense = 0;
+    let userLevel = 1;
 
     // Add event listeners to the buttons
     document.getElementById("move1").addEventListener("click", function() {
@@ -188,9 +191,9 @@ permalink: /fight
     let health = 10;
 
     // Call the function to fetch enemies when the script is loaded
+    GetLevel();
     GetEnemy();
-
-
+    
     function Question() {
         let random = Math.floor(Math.random() * 5);
         let answer = questions[`answer${random}`];
@@ -219,24 +222,10 @@ permalink: /fight
         }
     }
 
-    function GetLevel(points) {
-        let l = 1;
-        while (true) {
-            if (points - (l + 5) > 0) {
-                points -= 5;
-                l += 1;
-                console.log(l);
-            } else {
-                break;
-            }
-        }
-        return l; // Return the level value
-    }
-
     function GetEnemy() {
         // Fetch the Users Account Points First
         // Hard Coded Value for now
-        var userLevel = GetLevel(100); // Assuming 25 points are retrieved for the user
+        console.log(userLevel);
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -299,5 +288,47 @@ permalink: /fight
         }
     }
 
+    function GetLevel() {
+      var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+      };
+
+      fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+        .then(response => {
+                if (!response.ok) {
+                    const errorMsg = 'Login error: ' + response.status;
+                    console.log(errorMsg);
+
+                    switch (response.status) {
+                        case 401:
+                            alert("Please log into or make an account");
+                            // window.location.href = "login";
+                            break;
+                        case 403:
+                            alert("Access forbidden. You do not have permission to access this resource.");
+                            break;
+                        case 404:
+                            alert("User not found. Please check your credentials.");
+                            break;
+                        // Add more cases for other status codes as needed
+                        default:
+                            alert("Login failed. Please try again later.");
+                    }
+
+                    return Promise.reject('Login failed');
+                }
+                return response.json();
+                // Success!!!
+            })
+        .then(data => {
+            userLevel = data.accountLevel; // Set the innerHTML to just the numeric value
+            return userLevel;
+        })
+        .catch(error => console.log('error', error));
+  }
 
 </script>
