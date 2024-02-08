@@ -141,8 +141,18 @@ permalink: /fight
             <h1>Scratch</h1>
             <p><b>5 Damage</b> scratch your opponent</p>
         </div>
-        <div class="move"></div>
-        <div class="move"></div>
+        <div class="move" id="move2">
+            <h1>Thunderbolt</h1>
+            <p><b>15 Damage</b> rain lighting down on your opponent</p>
+        </div>
+        <div class="move" id="move3">
+            <h1>Fireball</h1>
+            <p><b>25 Damage</b> Set ablaze to your opponent</p>
+        </div>
+        <div class="move" id="move4">
+            <h1>Tidal Wave</h1>
+            <p><b>40 Damage</b> A wall of water sure to drown your opponent</p>
+        </div>
         <div class="move" id="run">
             <h1>Run Away</h1>
             <p>leave the battle</p>
@@ -183,6 +193,15 @@ permalink: /fight
     // Add event listeners to the buttons
     document.getElementById("move1").addEventListener("click", function() {
         Battle(5);
+    });
+    document.getElementById("move2").addEventListener("click", function() {
+        Battle(15);
+    });
+    document.getElementById("move3").addEventListener("click", function() {
+        Battle(25);
+    });
+    document.getElementById("move4").addEventListener("click", function() {
+        Battle(45);
     });
     document.getElementById("run").addEventListener("click", Leave);
 
@@ -237,7 +256,7 @@ permalink: /fight
             redirect: 'follow'
         };
 
-        var api = "http://localhost:8032/api/enemies"
+        var api = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/enemies"
         fetch(api, requestOptions)
         .then(response => response.json()) // Convert response to JSON format
         .then(result => {
@@ -281,9 +300,10 @@ permalink: /fight
             updateHealth.innerHTML = `Player: ${health}`;
         }
         if (health <= 0) {
-            return;
+            window.location.href = "{{site.baseurl}}/codemaxxersFrontend/islandmap";
         }
         if (eHealth <= 0) {
+            window.location.href = "{{site.baseurl}}/codemaxxersFrontend/islandmap";
             return;
         }
     }
@@ -296,7 +316,7 @@ permalink: /fight
         credentials: 'include',
       };
 
-      fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
       //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
@@ -326,6 +346,9 @@ permalink: /fight
             })
         .then(data => {
             userLevel = data.accountLevel; // Set the innerHTML to just the numeric value
+            console.log(data.accountLevel);
+            console.log(userLevel);
+            levelUpdate.innerHTML = "Player Level:" + userLevel;
             return userLevel;
         })
         .catch(error => console.log('error', error));
