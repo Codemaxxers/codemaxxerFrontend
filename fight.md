@@ -300,10 +300,10 @@ permalink: /fight
             updateHealth.innerHTML = `Player: ${health}`;
         }
         if (health <= 0) {
-            window.location.href = "{{site.baseurl}}/codemaxxersFrontend/islandmap";
+            window.location.href = "{{site.baseurl}}/islandmap";
         }
         if (eHealth <= 0) {
-            window.location.href = "{{site.baseurl}}/codemaxxersFrontend/islandmap";
+            window.location.href = "{{site.baseurl}}/islandmap";
             return;
         }
     }
