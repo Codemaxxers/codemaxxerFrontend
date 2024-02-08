@@ -1,27 +1,26 @@
 ---
 toc: true
 comments: true
-layout: default
+layout: battle
 title: fight everything
 author: Finn C
 permalink: /fight
 ---
-
 <style>
     .fight-container {
         display: flex;
         justify-content: space-around;
-        align-items: center;
+        align-items: flex-start; /* Align items to the top */
         margin-top: 50px;
     }
 
     .player-box,
     .enemy-box {
-        width: 150px;
-        height: 150px;
-        border: 2px solid #333;
+        width: 200px; /* Increased width */
+        height: 200px; /* Increased height */
         border-radius: 8px;
         overflow: hidden;
+        position: relative; /* Add position relative to allow absolute positioning */
     }
 
     .player-box img,
@@ -33,17 +32,20 @@ permalink: /fight
 
     .controller {
         display: flex;
-        justify-content: space-between; 
+        justify-content: space-around;
         align-items: center;
-        background-color: #f7f7f7; 
-        padding: 10px; 
+        background-color: #f7f7f7;
+        padding: 10px;
         border-radius: 8px;
         margin-top: 15px;
+        margin-left: 100px;
+        margin-right: 100px;
+        transform: translateY(40vh); /* Move the player image down */
     }
 
     .move {
-        background-color: #e0e0e0; 
-        color: #333; 
+        background-color: #e0e0e0;
+        color: #333;
         text-align: center;
         padding: 10px;
         border-radius: 8px;
@@ -53,7 +55,7 @@ permalink: /fight
     }
 
     .move:hover {
-        background-color: #ccc; 
+        background-color: #ccc;
     }
 
     h1 {
@@ -61,57 +63,295 @@ permalink: /fight
         font-size: 1.2em;
     }
 
+    .player-box {
+        margin-bottom: 50px; /* Add margin to push it down */
+        transform: translateY(40vh); /* Move the player image down */
+    }
+
+    .enemy-box {
+        order: 2; /* Order the enemy box to appear second */
+        transform: scale(0.75); /* Make the enemy image a bit smaller */
+    }
+
     p {
         margin: 5px 0 0;
-        font-size: 0.9em; 
+        font-size: 0.9em;
     }
 
     b {
         color: #ff6347;
     }
+
     #response-box {
         color: white;
     }
+
+    /* Shadow/platform effect */
+    .player-box::after,
+    .enemy-box::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        z-index: -1;
+        box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.5);
+    }
+
+    .health-box {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #f7f7f7;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 15px;
+        margin-left: 100px;
+        margin-right: 70vw;
+    }
 </style>
 
-<div id="response-box">
-</div>
+<style>
+    .banner {
+        background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0, 0, 0, 0.5)),url(images/grassy_background.png);
+        background-size: cover;
+        background-position: center;
+    }
+</style>
 
-<div class="fight-container">
-    <div class="player-box"> 
-        <img src="{{site.baseurl}}/images/player.png">
+<div>
+    <div class="health-box">
+        <div class="move" id="level">Player Level: </div>
+        <div class="move" id="health">Player: 10</div>
+        <div class="move" id="EnemyHealth">Enemy: </div>
     </div>
-    <div class="enemy-box">
-        <img src="{{site.baseurl}}/images/enemy.png">
+    <div class="fight-container">
+        <div class="player-box">
+            <img src="{{site.baseurl}}/images/player.png">
+        </div>
+        <div class="enemy-box">
+            <img src="{{site.baseurl}}/images/enemy.png">
+        </div>
     </div>
-</div>
-
-<div class="controller">
-    <div class="move" id="move1">
-        <h1>Scratch</h1>
-        <p><b>50 Damage</b> scratch your opponent</p>
-    </div>
-    <div class="move">
-    </div>
-    <div class="move">
-    </div>
-    <div class="move">
+    <div class="controller">
+        <div class="move" id="move1">
+            <h1>Scratch</h1>
+            <p><b>5 Damage</b> scratch your opponent</p>
+        </div>
+        <div class="move" id="move2">
+            <h1>Thunderbolt</h1>
+            <p><b>15 Damage</b> rain lighting down on your opponent</p>
+        </div>
+        <div class="move" id="move3">
+            <h1>Fireball</h1>
+            <p><b>25 Damage</b> Set ablaze to your opponent</p>
+        </div>
+        <div class="move" id="move4">
+            <h1>Tidal Wave</h1>
+            <p><b>40 Damage</b> A wall of water sure to drown your opponent</p>
+        </div>
+        <div class="move" id="run">
+            <h1>Run Away</h1>
+            <p>leave the battle</p>
+        </div>
     </div>
 </div>
 
 <script>
-    document.getElementById("move1").addEventListener("click", Question);
+    // Define a global array to store enemy IDs
+    let enemyIds = [];
+    const questions = {
+        question1: "Is JavaScript a statically typed language?",
+        answer1: "No",
+        
+        question2: "Does HTML stand for Hyper Text Markup Language?",
+        answer2: "Yes",
+        
+        question3: "Is Python a compiled language?",
+        answer3: "No",
+        
+        question4: "Does CSS stand for Cascading Style Sheets?",
+        answer4: "Yes",
+        
+        question5: "Is Java primarily used for front-end web development?",
+        answer5: "No",
+        
+        // Add more questions and answers as needed
+    };
+    //Enemy Values
+    var updateHealthEnemy = document.getElementById("EnemyHealth");
+    var updateHealth = document.getElementById("health");
+    var levelUpdate = document.getElementById("level");
+    var eHealth = 0;
+    var eAttack = 0;
+    var eDefense = 0;
+    let userLevel = 1;
 
+    // Add event listeners to the buttons
+    document.getElementById("move1").addEventListener("click", function() {
+        Battle(5);
+    });
+    document.getElementById("move2").addEventListener("click", function() {
+        Battle(15);
+    });
+    document.getElementById("move3").addEventListener("click", function() {
+        Battle(25);
+    });
+    document.getElementById("move4").addEventListener("click", function() {
+        Battle(45);
+    });
+    document.getElementById("run").addEventListener("click", Leave);
+
+    // Define global variables
+    let StartingHealth = 10;
+    let health = 10;
+
+    // Call the function to fetch enemies when the script is loaded
+    GetLevel();
+    GetEnemy();
+    
     function Question() {
-        var responseBox = document.getElementById("response-box");
-        let question = "What kind of code looks like 0010110101110";
-        let answer = "binary";
+        let random = Math.floor(Math.random() * 5);
+        let answer = questions[`answer${random}`];
+        let question = questions[`question${random}`];
 
-        let response = prompt(question.toLowerCase());
+        console.log("Question:", question);
+        console.log("Answer:", answer);
+
+        let response = prompt(question ? question.toLowerCase() : "Question not available");
+        
+        if (response === null || response === undefined) {
+            console.log("Prompt cancelled or failed");
+            return false; // or handle differently based on your requirements
+        }
+
         if (response == answer) {
-            responseBox.innerHTML = "You Win";
+            return true;
         } else {
-            responseBox.innerHTML = "You Lose";
+            return false;
         }
     }
+
+    function Leave() {
+        if (health < StartingHealth / 2) {
+            alert("Running Away Failed");
+        }
+    }
+
+    function GetEnemy() {
+        // Fetch the Users Account Points First
+        // Hard Coded Value for now
+        console.log(userLevel);
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            credentials: 'include',  // Include this line for cross-origin requests with credentials
+            redirect: 'follow'
+        };
+
+        var api = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/enemies"
+        fetch(api, requestOptions)
+        .then(response => response.json()) // Convert response to JSON format
+        .then(result => {
+            console.log(result); // Log the result for debugging purposes
+
+            // Filter enemies based on user's level or lower
+            let filteredEnemies = result.filter(enemy => parseInt(enemy.level) <= parseInt(userLevel));
+
+            if (filteredEnemies.length > 0) {
+                // Loop through filtered enemies to populate enemyIds array and update enemy health
+                filteredEnemies.forEach(enemy => {
+                    enemyIds.push(enemy.id); // Add enemy ID to the array
+                });
+
+                // Get a random enemy ID from the enemyIds array
+                let randomEnemyIndex = Math.floor(Math.random() * filteredEnemies.length);
+
+                // Get the random enemy object
+                let randomEnemy = filteredEnemies[randomEnemyIndex];
+
+                // Updating Values depending on the fetched enemy
+                eHealth = randomEnemy.health;
+                eAttack = randomEnemy.attack;
+                eDefense = randomEnemy.defense;
+
+                updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+            } else {
+                console.log("No enemies found at or below user's level.");
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    function Battle(attack) {
+        correct = Question();
+        if (correct == true) {
+            eHealth -= attack;
+            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+        } else {
+            health -= eAttack;
+            updateHealth.innerHTML = `Player: ${health}`;
+        }
+        if (health <= 0) {
+            window.location.href = "{{site.baseurl}}/codemaxxersFrontend/islandmap";
+        }
+        if (eHealth <= 0) {
+            window.location.href = "{{site.baseurl}}/codemaxxersFrontend/islandmap";
+            return;
+        }
+    }
+
+    function GetLevel() {
+      var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+      };
+
+      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+      //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+        .then(response => {
+                if (!response.ok) {
+                    const errorMsg = 'Login error: ' + response.status;
+                    console.log(errorMsg);
+
+                    switch (response.status) {
+                        case 401:
+                            alert("Please log into or make an account");
+                            // window.location.href = "login";
+                            break;
+                        case 403:
+                            alert("Access forbidden. You do not have permission to access this resource.");
+                            break;
+                        case 404:
+                            alert("User not found. Please check your credentials.");
+                            break;
+                        // Add more cases for other status codes as needed
+                        default:
+                            alert("Login failed. Please try again later.");
+                    }
+
+                    return Promise.reject('Login failed');
+                }
+                return response.json();
+                // Success!!!
+            })
+        .then(data => {
+            userLevel = data.accountLevel; // Set the innerHTML to just the numeric value
+            console.log(data.accountLevel);
+            console.log(userLevel);
+            levelUpdate.innerHTML = "Player Level:" + userLevel;
+            return userLevel;
+        })
+        .catch(error => console.log('error', error));
+  }
+
 </script>
