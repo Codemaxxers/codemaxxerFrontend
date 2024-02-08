@@ -102,8 +102,7 @@ search_exclude: true
         })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
-        }
-            
+    }            
 </script>
 
 <div id="profile-container">
