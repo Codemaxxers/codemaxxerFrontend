@@ -62,6 +62,7 @@ permalink: login
             redirect: 'follow'
         };
 
+        // LOCAL TESTING
         // fetch("http://localhost:8032/authenticate", requestOptions)
         fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
         .then(response => {
@@ -90,7 +91,7 @@ permalink: login
         })
         .then(result => {
             console.log(result);
-            window.location.href = "profile";
+            window.location.href = "dashboard";
         })
         .catch(error => console.error('Error during login:', error));
     }
