@@ -4,56 +4,56 @@ search_exclude: true
 --- 
 
 <script>
-  window.onload = function () {
-    fetchUserData();
-  };
+    window.onload = function () {
+        fetchUserData();
+    };
 
-  function fetchUserData() {
-      var requestOptions = {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default',
-        credentials: 'include',
-      };
+    function fetchUserData() {
+        var requestOptions = {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default',
+            credentials: 'include',
+        };
 
-      // LOCAL TESTING
-      // fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
-        .then(response => {
-                if (!response.ok) {
-                    const errorMsg = 'Login error: ' + response.status;
-                    console.log(errorMsg);
+        // LOCAL TESTING
+        // fetch("http://localhost:8032/api/person/jwt", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+            .then(response => {
+                    if (!response.ok) {
+                        const errorMsg = 'Login error: ' + response.status;
+                        console.log(errorMsg);
 
-                    switch (response.status) {
-                        case 401:
-                            alert("Please log into or make an account");
-                            window.location.href = "login";
-                            break;
-                        case 403:
-                            alert("Access forbidden. You do not have permission to access this resource.");
-                            break;
-                        case 404:
-                            alert("User not found. Please check your credentials.");
-                            break;
-                        // Add more cases for other status codes as needed
-                        default:
-                            alert("Login failed. Please try again later.");
+                        switch (response.status) {
+                            case 401:
+                                alert("Please log into or make an account");
+                                window.location.href = "login";
+                                break;
+                            case 403:
+                                alert("Access forbidden. You do not have permission to access this resource.");
+                                break;
+                            case 404:
+                                alert("User not found. Please check your credentials.");
+                                break;
+                            // Add more cases for other status codes as needed
+                            default:
+                                alert("Login failed. Please try again later.");
+                        }
+
+                        return Promise.reject('Login failed');
                     }
-
-                    return Promise.reject('Login failed');
-                }
-                return response.json();
-                // Success!!!
+                    return response.json();
+                    // Success!!!
+                })
+            .then(data => {
+                console.log(data);
+                document.getElementById('profile-picture').src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";;
+                document.getElementById('profile-name').innerText = data.name;
+                document.getElementById('email').placeholder = data.email;
+                document.getElementById('name').placeholder = data.name;
             })
-        .then(data => {
-            console.log(data);
-            document.getElementById('profile-picture').src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";;
-            document.getElementById('profile-name').innerText = data.name;
-            document.getElementById('email').placeholder = data.email;
-            document.getElementById('name').placeholder = data.name;
-        })
         .catch(error => console.log('error', error));
-  }
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('profilePicChangeButton').addEventListener('click', function() {
@@ -102,7 +102,11 @@ search_exclude: true
         })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
-    }            
+    }
+
+    function signOut() {
+        sessionStorage.clear();
+    }
 </script>
 
 <div id="profile-container">
