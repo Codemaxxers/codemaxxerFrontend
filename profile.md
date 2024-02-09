@@ -103,6 +103,7 @@ search_exclude: true
         })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
+
         }
 
 
@@ -140,6 +141,8 @@ search_exclude: true
 }
 
             
+    }            
+
 </script>
 <div id="profile-container">
   <div id="profile-info">
