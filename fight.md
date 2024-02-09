@@ -303,6 +303,18 @@ permalink: /fight
             window.location.href = "{{site.baseurl}}/islandmap";
         }
         if (eHealth <= 0) {
+            
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+            //Adding points to the account
+            fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=2", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+            //Re-direct to island
             window.location.href = "{{site.baseurl}}/islandmap";
             return;
         }
