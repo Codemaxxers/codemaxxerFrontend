@@ -7,7 +7,6 @@ search_exclude: true
   window.onload = function () {
     fetchUserData();
   };
-
   function fetchUserData() {
       var requestOptions = {
         method: 'GET',
@@ -17,8 +16,8 @@ search_exclude: true
       };
 
       // LOCAL TESTING
-      // fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+       fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -51,7 +50,9 @@ search_exclude: true
             document.getElementById('profile-name').innerText = data.name;
             document.getElementById('email').placeholder = data.email;
             document.getElementById('name').placeholder = data.name;
-        })
+            console.log(data.id);
+            document.getElementById('id').innerText = data.id;
+            })
         .catch(error => console.log('error', error));
   }
 
@@ -89,8 +90,8 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        // fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+         fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
                 // If the response is successful, reload the window
@@ -102,17 +103,56 @@ search_exclude: true
         })
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
-    }            
-</script>
 
+        }
+
+
+        function updateUserProfile(data) {
+  // Extracting form data
+  const formData = new FormData(data);
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const id = document.getElementById('id').innerHTML;
+
+  // Constructing the request body
+  const requestBody = {
+    name: name,
+    email: email
+  };
+  console.log(requestBody);
+  // Making the POST request
+  fetch(`/api/person/updatePerson/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to update profile');
+    }
+    // Redirecting to the reading page after successful update
+    window.location.href = '/reading';
+  })
+  .catch(error => {
+    console.error('Error updating profile:', error);
+  });
+}
+
+            
+    }            
+
+</script>
 <div id="profile-container">
   <div id="profile-info">
     <img id="profile-picture" src="">
-    <h1 id="profile-name"></h1>
+    <h1 id="profile-name"></h1> 
+    <h1 id="id"></h1> 
     <button id="profilePicChangeButton">Change Profile Picture</button>
   </div>
   <div id="profile-form">
-    <form onsubmit="event.preventDefault(); updateUserProfile(this.data);">
+    <form onsubmit="event.preventDefault(); updateUserProfile(this);">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email">
       <label for="name">Name:</label>
