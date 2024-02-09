@@ -188,14 +188,16 @@ permalink: /fight
             window.location.href = "{{site.baseurl}}/islandmap";
         }
         if (eHealth <= 0) {
-            
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
                 redirect: 'follow'
             };
             //Adding points to the account
-            fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=2", requestOptions)
+            fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=75", requestOptions)
                 .then(response => response.text())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
