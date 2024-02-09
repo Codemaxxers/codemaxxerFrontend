@@ -194,7 +194,8 @@ permalink: /fight
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
-                redirect: 'follow'
+                redirect: 'follow',
+                credentials: 'include'
             };
             //Adding points to the account
             fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=75", requestOptions)
