@@ -100,3 +100,61 @@ permalink: signup
         color: #000000;
     }
 </style>
+
+<script>
+       function signUp() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "email": document.getElementById("emailInput").value,
+            "password": document.getElementById("passwordInput").value
+
+            // For quick testing
+            //"email": "toby@gmail.com",
+            //"password": "123Toby!"
+        });
+        console.log(raw);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            credentials: 'include',  // Include this line for cross-origin requests with credentials
+            body: raw,
+            redirect: 'follow'
+        };
+
+        // LOCAL TESTING
+        // fetch("http://localhost:8032/authenticate", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/post?email=yuh@gmail.com&password=123Yuh!&name=Yuh", requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Incorrect username or password");
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    // Add more cases for other status codes as needed
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.text()
+        })
+        .then(result => {
+            console.log(result);
+            window.location.href = "dashboard";
+        })
+        .catch(error => console.error('Error during login:', error));
+    }
+</script>

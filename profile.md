@@ -4,20 +4,21 @@ search_exclude: true
 --- 
 
 <script>
-  window.onload = function () {
-    fetchUserData();
-  };
-  function fetchUserData() {
-      var requestOptions = {
+    window.onload = function () {
+        fetchUserData();
+    };
+
+    function fetchUserData() {
+        var requestOptions = {
         method: 'GET',
         mode: 'cors',
         cache: 'default',
         credentials: 'include',
-      };
+        };
 
-      // LOCAL TESTING
-       fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+        // LOCAL TESTING
+        // fetch("http://localhost:8032/api/person/jwt", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -97,7 +98,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-         fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+            fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
@@ -115,40 +116,39 @@ search_exclude: true
 
 
         function updateUserProfile(data) {
-  // Extracting form data
-  const formData = new FormData(data);
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const id = document.getElementById('id').innerHTML;
+    // Extracting form data
+    const formData = new FormData(data);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const id = document.getElementById('id').innerHTML;
 
-  // Constructing the request body
-  const requestBody = {
+    // Constructing the request body
+    const requestBody = {
     name: name,
     email: email
-  };
-  console.log(requestBody);
-  // Making the POST request
-  fetch(`/api/person/updatePerson/${id}`, {
+    };
+    console.log(requestBody);
+    // Making the POST request
+    fetch(`/api/person/updatePerson/${id}`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
     },
     body: JSON.stringify(requestBody)
-  })
-  .then(response => {
+    })
+    .then(response => {
     if (!response.ok) {
-      throw new Error('Failed to update profile');
+        throw new Error('Failed to update profile');
     }
     // Redirecting to the reading page after successful update
     window.location.href = '/reading';
-  })
-  .catch(error => {
+    })
+    .catch(error => {
     console.error('Error updating profile:', error);
-  });
+    });
 }
-               
-
 </script>
+
 <div id="profile-container">
   <div id="profile-info">
     <img id="profile-picture" src="">
