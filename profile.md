@@ -139,9 +139,7 @@ search_exclude: true
     console.error('Error updating profile:', error);
   });
 }
-
-            
-    }            
+               
 
 </script>
 <div id="profile-container">
