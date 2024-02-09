@@ -98,8 +98,8 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-            fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
-        //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        // fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
                 // If the response is successful, reload the window
