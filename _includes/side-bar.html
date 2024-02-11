@@ -57,9 +57,9 @@
             </a>
           </li>
           <li class="item">
-            <a href="" class="link flex">
+            <a href="#" class="link flex">
               <i class="bx bx-log-out"></i>
-              <span onclick="signOut()">Log out</span>
+              <span onclick="signout()">Log out</span>
             </a>
           </li>
         </ul>
@@ -72,3 +72,23 @@
     </div>
   </nav>
 </div>
+
+<script>
+  function signout() {
+    var requestOptions = {
+      method: 'POST',
+      redirect: 'follow',
+      credentials: 'include'
+    };
+
+    // LOCAL TESTING
+    // fetch("http://localhost:8032/signout", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+            console.log(result);
+            window.location.href = "login";
+        })
+      .catch(error => console.log('error', error));
+  }
+</script>
