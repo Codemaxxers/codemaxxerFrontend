@@ -8,6 +8,11 @@ permalink: /fight
 ---
 
 <div>
+    <div class="alert" id="alert" style="display: none;">
+        <div id="home-btn" class="move">
+            Go back to homepage
+        </div>
+    </div>
     <div class="health-box">
         <div class="move" id="level">Player Level: </div>
         <div class="move" id="health">Player: 10</div>
@@ -21,7 +26,7 @@ permalink: /fight
             <img id="eIMG" style="display:none;" src="{{site.baseurl}}/images/">
         </div>
     </div>
-    <div class="controller">
+    <div id="moves" class="controller">
         <div class="move" id="move1">
             <h1>Scratch</h1>
             <p><b>5 Damage</b> scratch your opponent</p>
@@ -56,6 +61,10 @@ permalink: /fight
     var updateHealth = document.getElementById("health");
     var levelUpdate = document.getElementById("level");
     var enemyIMG = document.getElementById("eIMG");
+    var controller = document.getElementById("moves");
+    var alert = document.getElementById("alert");
+    var alertBox = document.getElementById("home-btn");
+    
     var eHealth = 0;
     var eAttack = 0;
     var eDefense = 0;
@@ -63,6 +72,9 @@ permalink: /fight
     let userLevel = 1;
 
     // Add event listeners to the buttons
+    document.getElementById("alert").addEventListener("click", function() {
+        window.location.href = "{{site.baseurl}}/dashboard";
+    });
     document.getElementById("move1").addEventListener("click", function() {
         Battle(5);
     });
@@ -175,7 +187,8 @@ permalink: /fight
             updateHealth.innerHTML = `Player: ${health}`;
         }
         if (health <= 0) {
-            window.location.href = "{{site.baseurl}}/islandmap";
+            alert.style = "";
+            alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
         }
         if (eHealth <= 0) {
             var myHeaders = new Headers();
@@ -193,7 +206,8 @@ permalink: /fight
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
             //Re-direct to island
-            window.location.href = "{{site.baseurl}}/islandmap";
+            alert.style = "";
+            alertBox.innerHTML = "<b>You Won</b><p>Go back to homepage</p>";
             return;
         }
     }
