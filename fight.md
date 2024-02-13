@@ -18,7 +18,7 @@ permalink: /fight
             <img src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box">
-            <img id="eIMG" onerror="this.style.display='none'" src="{{site.baseurl}}/images/">
+            <img id="eIMG" style="display:none;" src="{{site.baseurl}}/images/">
         </div>
     </div>
     <div class="controller">
@@ -155,6 +155,7 @@ permalink: /fight
 
                 //Update Img
                 enemyIMG.src = enemyIMG.src + `${eName}.png`
+                enemyIMG.style = "";
 
                 updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
             } else {
