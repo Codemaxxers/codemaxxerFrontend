@@ -102,6 +102,7 @@ permalink: signup
 </style>
 
 <script>
+
        function signUp() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
