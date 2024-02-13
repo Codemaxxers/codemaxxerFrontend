@@ -18,7 +18,7 @@ permalink: /fight
             <img src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box">
-            <img id="eIMG" src="{{site.baseurl}}/images/">
+            <img id="eIMG" onerror="this.style.display='none'" src="{{site.baseurl}}/images/">
         </div>
     </div>
     <div class="controller">
