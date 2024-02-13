@@ -7,7 +7,7 @@
 
 .player-box,
 .enemy-box {
-    width: 200px;
+    width: 400px;
     height: 300px; /* Increased height for player box */
     border-radius: 8px;
     overflow: hidden;
