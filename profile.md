@@ -358,4 +358,16 @@ search_exclude: true
         background-color: #0056b3;
     }
 
+    .account-card {
+        width: 300px; /* Adjust width as needed */
+        padding: 20px;
+        background-color: #E5E4E2;
+        border-radius: 10px;
+        margin-left: 80%; /* Adjust margin to match sidebar width */
+        text-align: center;
+        margin-bottom: 20px; /* Adjust bottom margin as needed */
+        position: absolute;
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
+    }
+
 </style>

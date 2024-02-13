@@ -1,68 +1,105 @@
 ---
-layout: profile
+layout: star
 search_exclude: true
---- 
+---
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap">
 
 <style>
-  .account-card {
-    width: 300px; /* Adjust width as needed */
-    padding: 20px;
-    background-color: #E5E4E2;
-    border-radius: 10px;
-    margin-left: 78%; /* Adjust margin to match sidebar width */
-    text-align: center;
-    margin-bottom: 20px; /* Adjust bottom margin as needed */
-    position: absolute;
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
-  }
+    #backIcon {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        color: white;
+        font-size: 5em;
+        transition: all .3s ease-in-out;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0; /* Change background color as needed */
+        margin-top: 10%;
+        font-family: 'Noto Sans Mono', sans-serif !important; /* Applying the font to the whole body */
+    }
+
+    .imageDiv {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .imageContainer {
+        position: relative;
+    }
+
+    .image {
+        width: 500px; /* Adjust image size as needed */
+        height: auto;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border-radius: 10px; /* Adjust border radius as needed */
+        margin: 20px;
+    }
+
+    .gameModeLabel {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2.5em;
+        font-weight: bold;
+        text-align: center;
+        color: #333;
+        opacity: 0;
+        transition: opacity 0.3s ease, color 0.3s ease;
+        font-family: 'Noto Sans Mono', sans-serif !important;
+        width: 275px;
+    }
+
+    .imageContainer:hover .gameModeLabel {
+        opacity: 1;
+        color: white;
+    }
+
+    .image:hover {
+        transform: scale(1.1); /* Adjust scale factor as desired */
+    }
+
+    .account-card {
+        top: 30px;
+        right: 10px;
+        margin-right: 40%;
+        width: 300px; /* Adjust width as needed */
+        margin-top: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px; /* Adjust bottom margin as needed */
+        position: absolute;
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
+    }
+
 </style>
 
-<div class="container-profile">
-  <div class="summary-row">
-    <div class="sumText">
-      <h1 id="initName"></h1>
-      <h3 id="detailText">Here are your gaming stats!</h3>
-    </div>
-    <div class="account-card">
-      <div id="profilePicture">
-      </div>
-    </div>
-  </div>
-  <br>
-</div>
-<div class="allBoxes">
-  <div class="container">
-    <div class="summary-row">
-      <div class="summary-card">
-        <h2>Account Points</h2>
-        <p id="accountLevelDisplay"></p>
-      </div>
-      <div class="summary-card">
-        <h2>Computer Science A</h2>
-        <p id="csaPointDisplay"></p>
-      </div>
-      <div class="summary-card">
-        <h2>Computer Science P</h2>
-        <p id="cspPointDisplay"></p>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="summary-row">
-      <div class="summary-card">
-        <box-icon name='code'></box-icon>
-        <h2>Summary Card 2</h2>
-        <p>Text content for card 2</p>
-      </div>
-      <div class="summary-card">
-        <box-icon name='code'></box-icon>
-        <h2>Summary Card 3</h2>
-        <p>Text content for card 3</p>
-      </div>
-    </div>
-  </div>
+
+<a href="dashboard"><i class="bx bx-arrow-back" id="backIcon"></i></a>
+<div class="account-card">
+    <div id="profilePicture"></div>
 </div>
 
+<div class="imageDiv">
+    <div class="imageContainer">
+        <a href="singleplayer"><img src="images/singleplayer.png" class="image" id="singleImage"></a>
+        <div class="gameModeLabel">Single Player</div>
+    </div>
+    <div class="imageContainer">
+        <a href="multiplayer"><img src="images/multiplayer.png" class="image"></a>
+        <div class="gameModeLabel">Multiplayer</div>
+    </div>
+</div>
 
 <script>
   window.onload = function () {
