@@ -20,7 +20,7 @@ search_exclude: true
   <div class="container">
     <div class="summary-row">
       <div class="summary-card">
-        <h2>Account Level</h2>
+        <h2>Account Points</h2>
         <p id="accountLevelDisplay"></p>
       </div>
       <div class="summary-card">
