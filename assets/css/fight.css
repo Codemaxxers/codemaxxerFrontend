@@ -14,6 +14,20 @@
     position: relative;
 }
 
+
+
+.alert {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 8px;
+    position: absolute;
+    top: 40vh;
+    left: 45vw;
+}
+
 .player-box {
     width: 150px;
 }
