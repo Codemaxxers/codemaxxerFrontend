@@ -18,7 +18,7 @@ permalink: /fight
             <img src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box">
-            <img src="{{site.baseurl}}/images/enemy.png">
+            <img id="eIMG" src="{{site.baseurl}}/images/">
         </div>
     </div>
     <div class="controller">
@@ -70,9 +70,11 @@ permalink: /fight
     var updateHealthEnemy = document.getElementById("EnemyHealth");
     var updateHealth = document.getElementById("health");
     var levelUpdate = document.getElementById("level");
+    var enemyIMG = document.getElementById("eIMG");
     var eHealth = 0;
     var eAttack = 0;
     var eDefense = 0;
+    var eName = "";
     let userLevel = 1;
 
     // Add event listeners to the buttons
@@ -166,6 +168,10 @@ permalink: /fight
                 eHealth = randomEnemy.health;
                 eAttack = randomEnemy.attack;
                 eDefense = randomEnemy.defense;
+                eName = randomEnemy.name;
+
+                //Update Img
+                enemyIMG.src = enemyIMG.src + `${eName}.png`
 
                 updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
             } else {
