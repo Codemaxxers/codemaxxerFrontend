@@ -18,7 +18,7 @@ permalink: /fight
             <img src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box">
-            <img src="{{site.baseurl}}/images/enemy.png">
+            <img id="eIMG" onerror="this.style.display='none'" src="{{site.baseurl}}/images/">
         </div>
     </div>
     <div class="controller">
@@ -49,30 +49,17 @@ permalink: /fight
     // Define a global array to store enemy IDs
     let enemyIds = [];
     const questions = {
-        question1: "Is JavaScript a statically typed language?",
-        answer1: "No",
-        
-        question2: "Does HTML stand for Hyper Text Markup Language?",
-        answer2: "Yes",
-        
-        question3: "Is Python a compiled language?",
-        answer3: "No",
-        
-        question4: "Does CSS stand for Cascading Style Sheets?",
-        answer4: "Yes",
-        
-        question5: "Is Java primarily used for front-end web development?",
-        answer5: "No",
-        
-        // Add more questions and answers as needed
+        question1: "Is JavaScript a statically typed language?", answer1: "n", question2: "Does HTML stand for Hyper Text Markup Language?", answer2: "y", question3: "Is Python a compiled language?", answer3: "n", question4: "Does CSS stand for Cascading Style Sheets?", answer4: "y", question5: "Is Java primarily used for front-end web development?", answer5: "n", question6: "Is PHP a server-side scripting language?", answer6: "y", question7: "Is SQL a programming language?", answer7: "n", question8: "Is Ruby on Rails a programming language?", answer8: "n", question9: "Is C++ an object-oriented programming language?", answer9: "y", question10: "Is TypeScript a superset of JavaScript?", answer10: "y",
     };
     //Enemy Values
     var updateHealthEnemy = document.getElementById("EnemyHealth");
     var updateHealth = document.getElementById("health");
     var levelUpdate = document.getElementById("level");
+    var enemyIMG = document.getElementById("eIMG");
     var eHealth = 0;
     var eAttack = 0;
     var eDefense = 0;
+    var eName = "";
     let userLevel = 1;
 
     // Add event listeners to the buttons
@@ -99,21 +86,19 @@ permalink: /fight
     GetEnemy();
 
     function Question() {
-        let random = Math.floor(Math.random() * 5);
+        let random = Math.floor(Math.random() * 10) + 1;
         let answer = questions[`answer${random}`];
         let question = questions[`question${random}`];
 
         console.log("Question:", question);
         console.log("Answer:", answer);
 
-        let response = prompt(question ? question.toLowerCase() : "Question not available");
+        let response;
+        do {
+            response = prompt(question ? question.toLowerCase() + " (y/n)" : "Question not available (y/n)");
+        } while (response !== "y" && response !== "n");
         
-        if (response === null || response === undefined) {
-            console.log("Prompt cancelled or failed");
-            return false; // or handle differently based on your requirements
-        }
-
-        if (response == answer) {
+        if (response === answer) {
             return true;
         } else {
             return false;
@@ -166,6 +151,10 @@ permalink: /fight
                 eHealth = randomEnemy.health;
                 eAttack = randomEnemy.attack;
                 eDefense = randomEnemy.defense;
+                eName = randomEnemy.name;
+
+                //Update Img
+                enemyIMG.src = enemyIMG.src + `${eName}.png`
 
                 updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
             } else {
@@ -176,8 +165,8 @@ permalink: /fight
     }
 
     function Battle(attack) {
-        correct = Question();
-        if (correct == true) {
+        let correct = Question();
+        if (correct) {
             eHealth -= attack;
             updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
         } else {
