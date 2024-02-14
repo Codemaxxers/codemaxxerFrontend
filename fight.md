@@ -127,7 +127,7 @@ permalink: /fight
     let StartingHealth = 10;
     let health = 10;
 
-    let course = "test";
+    let course = "csp";
     console.log(course)
 
     // Call the function to fetch enemies when the script is loaded
