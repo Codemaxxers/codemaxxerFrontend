@@ -174,12 +174,12 @@ permalink: /fight
 
     function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
         if (selectedAnswer === correctAnswer) {
-            alert("Correct! You attack the enemy.");
+            console.log("Correct! You attack the enemy.");
             eHealth -= attackValue;
             updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
             fetchQuestion(attackValue); // Fetch a new question for the next attack
         } else {
-            alert("Incorrect. The enemy attacks you!");
+            console.log("Incorrect. The enemy attacks you!");
             health -= eAttack;
             updateHealth.innerHTML = `Player: ${health}`;
             fetchQuestion(attackValue); // Fetch a new question for the next attack
