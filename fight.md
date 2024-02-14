@@ -136,6 +136,7 @@ permalink: /fight
     // Call the function to fetch enemies when the script is loaded
     GetLevel();
     GetEnemy();
+    fetchQuestion(); // Fetch a new question at the start
 
     function fetchQuestion() {
         var myHeaders = new Headers();
@@ -164,22 +165,31 @@ permalink: /fight
             for (let i = 1; i <= 4; i++) {
                 let answerDiv = document.createElement("div");
                 answerDiv.innerText = result[`answer${i}`];
-                answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer); }; // Example function to check the answer
+                answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer, attackValue); };
                 answersDiv.appendChild(answerDiv);
             }
         })
         .catch(error => console.log('error', error));
     }
 
-    function checkAnswer(selectedAnswer, correctAnswer) {
-        if(selectedAnswer === correctAnswer) {
-            alert("Correct!");
-            // Perform any action for correct answer
+    function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
+        if (selectedAnswer === correctAnswer) {
+            alert("Correct! You attack the enemy.");
+            eHealth -= attackValue;
+            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+            fetchQuestion(attackValue); // Fetch a new question for the next attack
         } else {
-            alert("Incorrect. Try again!");
-            // Perform any action for incorrect answer
+            alert("Incorrect. The enemy attacks you!");
+            health -= eAttack;
+            updateHealth.innerHTML = `Player: ${health}`;
+            fetchQuestion(attackValue); // Fetch a new question for the next attack
         }
+
+        // Call Battle to check for end-of-battle scenarios
+        Battle(attackValue);
     }
+
+
 
 
     function Question() {
@@ -264,21 +274,12 @@ permalink: /fight
     }
 
     function Battle(attack) {
-        let correct = Question();
-        if (correct) {
-            eHealth -= attack;
-            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
-            fetchQuestion(); // Fetch a new question after a successful attack
-        } else {
-            health -= eAttack;
-            updateHealth.innerHTML = `Player: ${health}`;
-            fetchQuestion(); // Fetch a new question after a failed attack
-        }
+        fetchQuestion(attack); // Call fetchQuestion with the attack value
+        // Check if the player or enemy has been defeated
         if (health <= 0) {
             alert.style = "";
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
-        }
-        if (eHealth <= 0) {
+        } else if (eHealth <= 0) {
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
