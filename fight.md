@@ -6,6 +6,36 @@ title: fight everything
 author: Finn C
 permalink: /fight
 ---
+<style>
+    .question-box {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: 350px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .question-box h2 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    #answers div {
+        margin-top: 10px;
+        padding: 5px;
+        background-color: #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #answers div:hover {
+        background-color: #ccc;
+    }
+</style>
 
 <div>
     <div class="alert" id="alert" style="display: none;">
@@ -24,6 +54,13 @@ permalink: /fight
         </div>
         <div class="enemy-box">
             <img id="eIMG" style="display:none;" src="{{site.baseurl}}/images/">
+        </div>
+    </div>
+    <div class="question-box">
+        <h2>Attack</h2>
+        <p id="question-text">Select an Attack</p>
+        <div id="answers">
+            <!-- Dynamically filled answers will go here -->
         </div>
     </div>
     <div id="moves" class="controller">
@@ -53,9 +90,6 @@ permalink: /fight
 <script>
     // Define a global array to store enemy IDs
     let enemyIds = [];
-    const questions = {
-        question1: "Is JavaScript a statically typed language?", answer1: "n", question2: "Does HTML stand for Hyper Text Markup Language?", answer2: "y", question3: "Is Python a compiled language?", answer3: "n", question4: "Does CSS stand for Cascading Style Sheets?", answer4: "y", question5: "Is Java primarily used for front-end web development?", answer5: "n", question6: "Is PHP a server-side scripting language?", answer6: "y", question7: "Is SQL a programming language?", answer7: "n", question8: "Is Ruby on Rails a programming language?", answer8: "n", question9: "Is C++ an object-oriented programming language?", answer9: "y", question10: "Is TypeScript a superset of JavaScript?", answer10: "y",
-    };
     //Enemy Values
     var updateHealthEnemy = document.getElementById("EnemyHealth");
     var updateHealth = document.getElementById("health");
@@ -65,7 +99,7 @@ permalink: /fight
     var alert = document.getElementById("alert");
     var alertBox = document.getElementById("home-btn");
     
-    var eHealth = 0;
+    var eHealth = 40;
     var eAttack = 0;
     var eDefense = 0;
     var eName = "";
@@ -93,28 +127,62 @@ permalink: /fight
     let StartingHealth = 10;
     let health = 10;
 
+    let course = "test";
+    console.log(course)
+
     // Call the function to fetch enemies when the script is loaded
     GetLevel();
     GetEnemy();
 
-    function Question() {
-        let random = Math.floor(Math.random() * 10) + 1;
-        let answer = questions[`answer${random}`];
-        let question = questions[`question${random}`];
+    function fetchQuestion(attackValue) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
-        console.log("Question:", question);
-        console.log("Answer:", answer);
-
-        let response;
-        do {
-            response = prompt(question ? question.toLowerCase() + " (y/n)" : "Question not available (y/n)");
-        } while (response !== "y" && response !== "n");
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            credentials: 'include',
+            redirect: 'follow'
+        };
         
-        if (response === answer) {
-            return true;
+        var api = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/random/${course}`;
+        fetch(api, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result); // For debugging
+            // Update the question text
+            document.getElementById("question-text").innerText = result.question;
+
+            // Clear previous answers
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+
+            // Dynamically create answer buttons or text for each possible answer
+            for (let i = 1; i <= 4; i++) {
+                let answerDiv = document.createElement("div");
+                answerDiv.innerText = result[`answer${i}`];
+                answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer, attackValue); };
+                answersDiv.appendChild(answerDiv);
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
+        if (selectedAnswer === correctAnswer) {
+            console.log("Correct! You attack the enemy.");
+            eHealth -= attackValue;
+            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+            fetchQuestion(attackValue); // Fetch a new question for the next attack
         } else {
-            return false;
+            console.log("Incorrect. The enemy attacks you!");
+            health -= eAttack;
+            updateHealth.innerHTML = `Player: ${health}`;
+            fetchQuestion(attackValue); // Fetch a new question for the next attack
         }
+
+        // Call Battle to check for end-of-battle scenarios
+        Battle(attackValue);
     }
 
     function Leave() {
@@ -178,19 +246,13 @@ permalink: /fight
     }
 
     function Battle(attack) {
-        let correct = Question();
-        if (correct) {
-            eHealth -= attack;
-            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
-        } else {
-            health -= eAttack;
-            updateHealth.innerHTML = `Player: ${health}`;
-        }
+        fetchQuestion(attack); // Call fetchQuestion with the attack value
+        // Check if the player or enemy has been defeated
         if (health <= 0) {
             alert.style = "";
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
-        }
-        if (eHealth <= 0) {
+        } else if (eHealth < 1) {
+            updateHealthEnemy.innerHTML = `Enemy: Defeated`;
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
