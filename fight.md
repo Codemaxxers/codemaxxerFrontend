@@ -136,7 +136,6 @@ permalink: /fight
     // Call the function to fetch enemies when the script is loaded
     GetLevel();
     GetEnemy();
-    fetchQuestion(); // Fetch a new question at the start
 
     function fetchQuestion(attackValue) {
         var myHeaders = new Headers();
@@ -255,7 +254,7 @@ permalink: /fight
         if (health <= 0) {
             alert.style = "";
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
-        } else if (eHealth <= 0) {
+        } else if (eHealth < 1) {
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
