@@ -138,7 +138,7 @@ permalink: /fight
     GetEnemy();
     fetchQuestion(); // Fetch a new question at the start
 
-    function fetchQuestion() {
+    function fetchQuestion(attackValue) {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -187,30 +187,6 @@ permalink: /fight
 
         // Call Battle to check for end-of-battle scenarios
         Battle(attackValue);
-    }
-
-
-
-
-    function Question() {
-        let random = Math.floor(Math.random() * 10) + 1;
-        let answer = questions[`answer${random}`];
-        let question = questions[`question${random}`];
-
-        console.log("Question:", question);
-        console.log("Answer:", answer);
-
-        let response;
-        do {
-            response = prompt(question ? question.toLowerCase() + " (y/n)" : "Question not available (y/n)");
-        } while (response !== "y" && response !== "n");
-        
-        if (response === answer) {
-            return true;
-        } else {
-            return false;
-        }
-        
     }
 
     function Leave() {
