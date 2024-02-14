@@ -1,8 +1,9 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-canvas.width = window.innerWidth - 120;
-canvas.height = 600
+
+canvas.width = 1000;
+canvas.height = 576;
 
 
 const collisionsMap = []
@@ -137,7 +138,7 @@ playerRightImage.src = './img/playerRight.png'
 
 const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4 -175,
+    x: canvas.width / 2 - 192 / 4 / 2,
     y: canvas.height / 2 - 68 / 2
   },
   image: playerDownImage,
