@@ -6,6 +6,36 @@ title: fight everything
 author: Finn C
 permalink: /fight
 ---
+<style>
+    .question-box {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: 250px;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .question-box h2 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    #answers div {
+        margin-top: 10px;
+        padding: 5px;
+        background-color: #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #answers div:hover {
+        background-color: #ccc;
+    }
+</style>
 
 <div>
     <div class="alert" id="alert" style="display: none;">
@@ -24,6 +54,13 @@ permalink: /fight
         </div>
         <div class="enemy-box">
             <img id="eIMG" style="display:none;" src="{{site.baseurl}}/images/">
+        </div>
+    </div>
+    <div class="question-box">
+        <h2>Attack</h2>
+        <p id="question-text">Loading...</p>
+        <div id="answers">
+            <!-- Dynamically filled answers will go here -->
         </div>
     </div>
     <div id="moves" class="controller">
@@ -53,7 +90,7 @@ permalink: /fight
 <script>
     // Define a global array to store enemy IDs
     let enemyIds = [];
-    const questions = {
+    const questions = { // old questions
         question1: "Is JavaScript a statically typed language?", answer1: "n", question2: "Does HTML stand for Hyper Text Markup Language?", answer2: "y", question3: "Is Python a compiled language?", answer3: "n", question4: "Does CSS stand for Cascading Style Sheets?", answer4: "y", question5: "Is Java primarily used for front-end web development?", answer5: "n", question6: "Is PHP a server-side scripting language?", answer6: "y", question7: "Is SQL a programming language?", answer7: "n", question8: "Is Ruby on Rails a programming language?", answer8: "n", question9: "Is C++ an object-oriented programming language?", answer9: "y", question10: "Is TypeScript a superset of JavaScript?", answer10: "y",
     };
     //Enemy Values
@@ -65,7 +102,7 @@ permalink: /fight
     var alert = document.getElementById("alert");
     var alertBox = document.getElementById("home-btn");
     
-    var eHealth = 0;
+    var eHealth = 40;
     var eAttack = 0;
     var eDefense = 0;
     var eName = "";
@@ -93,9 +130,57 @@ permalink: /fight
     let StartingHealth = 10;
     let health = 10;
 
+    let course = "test";
+    console.log(course)
+
     // Call the function to fetch enemies when the script is loaded
     GetLevel();
     GetEnemy();
+
+    function fetchQuestion() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            credentials: 'include',
+            redirect: 'follow'
+        };
+        
+        var api = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/random";
+        fetch(api, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result); // For debugging
+            // Update the question text
+            document.getElementById("question-text").innerText = result.question;
+
+            // Clear previous answers
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+
+            // Dynamically create answer buttons or text for each possible answer
+            for (let i = 1; i <= 4; i++) {
+                let answerDiv = document.createElement("div");
+                answerDiv.innerText = result[`answer${i}`];
+                answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer); }; // Example function to check the answer
+                answersDiv.appendChild(answerDiv);
+            }
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    function checkAnswer(selectedAnswer, correctAnswer) {
+        if(selectedAnswer === correctAnswer) {
+            alert("Correct!");
+            // Perform any action for correct answer
+        } else {
+            alert("Incorrect. Try again!");
+            // Perform any action for incorrect answer
+        }
+    }
+
 
     function Question() {
         let random = Math.floor(Math.random() * 10) + 1;
@@ -115,6 +200,7 @@ permalink: /fight
         } else {
             return false;
         }
+        
     }
 
     function Leave() {
@@ -182,9 +268,11 @@ permalink: /fight
         if (correct) {
             eHealth -= attack;
             updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+            fetchQuestion(); // Fetch a new question after a successful attack
         } else {
             health -= eAttack;
             updateHealth.innerHTML = `Player: ${health}`;
+            fetchQuestion(); // Fetch a new question after a failed attack
         }
         if (health <= 0) {
             alert.style = "";
