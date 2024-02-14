@@ -11,7 +11,7 @@ permalink: /fight
         position: absolute;
         right: 20px;
         top: 20px;
-        width: 250px;
+        width: 350px;
         padding: 20px;
         background-color: #f0f0f0;
         border-radius: 8px;
@@ -58,7 +58,7 @@ permalink: /fight
     </div>
     <div class="question-box">
         <h2>Attack</h2>
-        <p id="question-text">Loading...</p>
+        <p id="question-text">Select an Attack</p>
         <div id="answers">
             <!-- Dynamically filled answers will go here -->
         </div>
@@ -90,9 +90,6 @@ permalink: /fight
 <script>
     // Define a global array to store enemy IDs
     let enemyIds = [];
-    const questions = { // old questions
-        question1: "Is JavaScript a statically typed language?", answer1: "n", question2: "Does HTML stand for Hyper Text Markup Language?", answer2: "y", question3: "Is Python a compiled language?", answer3: "n", question4: "Does CSS stand for Cascading Style Sheets?", answer4: "y", question5: "Is Java primarily used for front-end web development?", answer5: "n", question6: "Is PHP a server-side scripting language?", answer6: "y", question7: "Is SQL a programming language?", answer7: "n", question8: "Is Ruby on Rails a programming language?", answer8: "n", question9: "Is C++ an object-oriented programming language?", answer9: "y", question10: "Is TypeScript a superset of JavaScript?", answer10: "y",
-    };
     //Enemy Values
     var updateHealthEnemy = document.getElementById("EnemyHealth");
     var updateHealth = document.getElementById("health");
@@ -255,6 +252,7 @@ permalink: /fight
             alert.style = "";
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
         } else if (eHealth < 1) {
+            updateHealthEnemy.innerHTML = `Enemy: Defeated`;
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
