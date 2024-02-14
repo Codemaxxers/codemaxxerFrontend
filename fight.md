@@ -148,7 +148,7 @@ permalink: /fight
             redirect: 'follow'
         };
         
-        var api = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/random";
+        var api = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/random/${course}`;
         fetch(api, requestOptions)
         .then(response => response.json())
         .then(result => {
