@@ -1,5 +1,5 @@
 ---
-layout: star
+layout: menulayout
 search_exclude: true
 ---
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap">
@@ -57,6 +57,7 @@ search_exclude: true
         transition: opacity 0.3s ease, color 0.3s ease;
         font-family: 'Noto Sans Mono', sans-serif !important;
         width: 275px;
+        background-color: rgba(0, 0, 0, .8);
     }
 
     .imageContainer:hover .gameModeLabel {
@@ -70,8 +71,12 @@ search_exclude: true
 
     .account-card {
         top: 30px;
-        right: 10px;
-        margin-right: 40%;
+        /* right: 10px; Remove this line */
+        /* margin-right: 40%; Remove this line */
+        /* Add the following lines */
+        left: 0;
+        right: 0;
+        margin: 0 auto;
         width: 300px; /* Adjust width as needed */
         margin-top: 10px;
         padding: 20px;
@@ -92,11 +97,11 @@ search_exclude: true
 
 <div class="imageDiv">
     <div class="imageContainer">
-        <a href="singleplayer"><img src="images/singleplayer.png" class="image" id="singleImage"></a>
+        <a href="game/index.html"><img src="images/pixelRoadUpscaled.png" class="image" id="singleImage"></a>
         <div class="gameModeLabel">Single Player</div>
     </div>
     <div class="imageContainer">
-        <a href="multiplayer"><img src="images/multiplayer.png" class="image"></a>
+        <a href="multiplayer"><img src="images/battle2.jpeg" class="image"></a>
         <div class="gameModeLabel">Multiplayer</div>
     </div>
 </div>

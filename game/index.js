@@ -137,8 +137,8 @@ playerRightImage.src = './img/playerRight.png'
 
 const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4 -175,
-    y: canvas.height / 2 - 68 / 2
+    x: canvas.width / 2 - 192 / 4,
+    y: canvas.height / 2 - 68 / 2 + 100
   },
   image: playerDownImage,
   frames: {
