@@ -63,6 +63,17 @@
     transition: background-color 0.3s;
 }
 
+.moveATK {
+    background-color: #1e1e1e;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    width: 150px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .move:hover {
     background-color: #ccc;
 }
