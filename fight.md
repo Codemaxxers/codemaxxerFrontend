@@ -73,7 +73,7 @@ permalink: /fight
 
     // Add event listeners to the buttons
     document.getElementById("alert").addEventListener("click", function() {
-        window.location.href = "{{site.baseurl}}/dashboard";
+        window.location.href = "{{site.baseurl}}/game/index.html";
     });
     document.getElementById("move1").addEventListener("click", function() {
         Battle(5);
