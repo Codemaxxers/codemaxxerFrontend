@@ -7,6 +7,24 @@ author: Finn C
 permalink: /fight
 ---
 <style>
+    .fade-in {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+    }
+
+    @keyframes flash {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    .flashing {
+        animation: flash 0.5s infinite alternate; /* Use alternate to switch back and forth */
+    }
     .question-box {
         position: absolute;
         right: 20px;
@@ -17,6 +35,11 @@ permalink: /fight
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         font-family: Arial, sans-serif;
+    }
+
+    .death {
+        transition: opacity 0.5s ease-in-out;
+        opacity: 0;
     }
 
     .question-box h2 {
@@ -50,10 +73,10 @@ permalink: /fight
     </div>
     <div class="fight-container">
         <div class="player-box">
-            <img src="{{site.baseurl}}/images/player.png">
+            <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box">
-            <img id="eIMG" style="display:none;" src="{{site.baseurl}}/images/">
+            <img id="eIMG" class="fade-in" src="{{site.baseurl}}/images/">
         </div>
     </div>
     <div class="question-box">
@@ -64,19 +87,19 @@ permalink: /fight
         </div>
     </div>
     <div id="moves" class="controller">
-        <div class="move" id="move1">
+        <div class="moveATK" id="move1">
             <h1>Scratch</h1>
             <p><b>5 Damage</b> scratch your opponent</p>
         </div>
-        <div class="move" id="move2">
+        <div class="moveATK" id="move2">
             <h1>Thunderbolt</h1>
             <p><b>15 Damage</b> rain lighting down on your opponent</p>
         </div>
-        <div class="move" id="move3">
+        <div class="moveATK" id="move3">
             <h1>Fireball</h1>
             <p><b>25 Damage</b> Set ablaze to your opponent</p>
         </div>
-        <div class="move" id="move4">
+        <div class="moveATK" id="move4">
             <h1>Tidal Wave</h1>
             <p><b>40 Damage</b> A wall of water sure to drown your opponent</p>
         </div>
@@ -95,6 +118,7 @@ permalink: /fight
     var updateHealth = document.getElementById("health");
     var levelUpdate = document.getElementById("level");
     var enemyIMG = document.getElementById("eIMG");
+    var playerIMG = document.getElementById("pIMG");
     var controller = document.getElementById("moves");
     var alert = document.getElementById("alert");
     var alertBox = document.getElementById("home-btn");
@@ -107,19 +131,7 @@ permalink: /fight
 
     // Add event listeners to the buttons
     document.getElementById("alert").addEventListener("click", function() {
-        window.location.href = "{{site.baseurl}}/dashboard";
-    });
-    document.getElementById("move1").addEventListener("click", function() {
-        Battle(5);
-    });
-    document.getElementById("move2").addEventListener("click", function() {
-        Battle(15);
-    });
-    document.getElementById("move3").addEventListener("click", function() {
-        Battle(25);
-    });
-    document.getElementById("move4").addEventListener("click", function() {
-        Battle(45);
+        window.location.href = "{{site.baseurl}}/game/index.html";
     });
     document.getElementById("run").addEventListener("click", Leave);
 
@@ -173,11 +185,25 @@ permalink: /fight
             console.log("Correct! You attack the enemy.");
             eHealth -= attackValue;
             updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+            // When an image gets hurt, you can add the flashing class to it
+            enemyIMG.classList.add('flashing');
+
+            // After a certain duration, remove the flashing class to stop the flashing effect
+            setTimeout(function() {
+                enemyIMG.classList.remove('flashing');
+            }, 2000);
             fetchQuestion(attackValue); // Fetch a new question for the next attack
         } else {
             console.log("Incorrect. The enemy attacks you!");
             health -= eAttack;
             updateHealth.innerHTML = `Player: ${health}`;
+            // When an image gets hurt, you can add the flashing class to it
+            playerIMG.classList.add('flashing');
+
+            // After a certain duration, remove the flashing class to stop the flashing effect
+            setTimeout(function() {
+                playerIMG.classList.remove('flashing');
+            }, 2000);
             fetchQuestion(attackValue); // Fetch a new question for the next attack
         }
 
@@ -235,9 +261,12 @@ permalink: /fight
 
                 //Update Img
                 enemyIMG.src = enemyIMG.src + `${eName}.png`
-                enemyIMG.style = "";
+                setTimeout(function() {
+                    enemyIMG.classList.add('visible');
+                }, 100);
 
                 updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+
             } else {
                 console.log("No enemies found at or below user's level.");
             }
@@ -250,6 +279,7 @@ permalink: /fight
         // Check if the player or enemy has been defeated
         if (health <= 0) {
             alert.style = "";
+            playerIMG.classList = "death";
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
         } else if (eHealth < 1) {
             updateHealthEnemy.innerHTML = `Enemy: Defeated`;
@@ -269,6 +299,7 @@ permalink: /fight
                 .catch(error => console.log('error', error));
             //Re-direct to island
             alert.style = "";
+            enemyIMG.classList = "death";
             alertBox.innerHTML = "<b>You Won</b><p>Go back to homepage</p>";
             return;
         }
@@ -312,6 +343,29 @@ permalink: /fight
             })
         .then(data => {
             userLevel = data.accountLevel; // Set the innerHTML to just the numeric value
+            //Changing color of move to show you can use it
+            document.getElementById("move1").style = "background-color: #e0e0e0;";
+            document.getElementById("move1").addEventListener("click", function() {
+                Battle(5);
+            });
+            if (userLevel >= 2) {
+                document.getElementById("move2").style = "background-color: #e0e0e0;";
+                document.getElementById("move2").addEventListener("click", function() {
+                    Battle(15);
+                });
+            }
+            if (userLevel >= 5) {
+                document.getElementById("move3").style = "background-color: #e0e0e0;";
+                document.getElementById("move3").addEventListener("click", function() {
+                    Battle(25);
+                });
+            }
+            if (userLevel >= 10) {
+                document.getElementById("move4").style = "background-color: #e0e0e0;";
+                document.getElementById("move4").addEventListener("click", function() {
+                    Battle(45);
+                });
+            }
             console.log(data.accountLevel);
             console.log(userLevel);
             levelUpdate.innerHTML = "Player Level:" + userLevel;

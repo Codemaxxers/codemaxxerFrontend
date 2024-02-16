@@ -17,7 +17,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        // fetch("http://localhost:8032/api/person/jwt", requestOptions)
+         //fetch("http://localhost:8032/api/person/jwt", requestOptions)
         fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
@@ -51,6 +51,7 @@ search_exclude: true
                 document.getElementById('profile-name').innerText = data.name;
                 document.getElementById('email').placeholder = data.email;
                 document.getElementById('name').placeholder = data.name;
+                document.getElementById('id').innerText = data.id;
             })
         .then(data => {
             console.log(data);
@@ -112,40 +113,63 @@ search_exclude: true
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
 
-    }
-
-    function updateUserProfile(data) {
-        // Extracting form data
-        const formData = new FormData(data);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const id = document.getElementById('id').innerHTML;
-
-        // Constructing the request body
-        const requestBody = {
-        name: name,
-        email: email
-        };
-        console.log(requestBody);
-        // Making the POST request
-        fetch(`/api/person/updatePerson/${id}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
-        })
-        .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to update profile');
         }
-        // Redirecting to the reading page after successful update
-        window.location.href = '/reading';
+
+
+        function updateUserProfile(data) {
+            // Extracting form data
+            const formData = new FormData(data);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const id = document.getElementById('id').innerHTML;
+
+            // Constructing the request body
+            const requestBody = {
+            name: name,
+            email: email
+            };
+            console.log(requestBody);
+            // Making the POST request LOCAL TESTING
+            // fetch(`http://localhost:8032/api/person/updatePerson/${id}`, {
+            fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+            })
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update profile');
+            }
+            // SHOULD Redirect to the reading page after successful update BUT only if I fix email not updating
+            //signout();
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+            });
+        }
+
+
+
+  function signout() {
+    var requestOptions = {
+      method: 'POST',
+      redirect: 'follow',
+      credentials: 'include'
+    };
+
+    // LOCAL TESTING
+     //fetch("http://localhost:8032/signout", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+            console.log(result);
+            //window.location.href = "login";
         })
-        .catch(error => {
-        console.error('Error updating profile:', error);
-        });
-    }
+      .catch(error => console.log('error', error));
+  }
+
 </script>
 
 <div id="profile-container">
