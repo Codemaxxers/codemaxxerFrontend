@@ -17,7 +17,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        // fetch("http://localhost:8032/api/person/jwt", requestOptions)
+         //fetch("http://localhost:8032/api/person/jwt", requestOptions)
         fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
@@ -51,6 +51,7 @@ search_exclude: true
                 document.getElementById('profile-name').innerText = data.name;
                 document.getElementById('email').placeholder = data.email;
                 document.getElementById('name').placeholder = data.name;
+                document.getElementById('id').innerText = data.id;
             })
         .then(data => {
             console.log(data);
@@ -128,8 +129,9 @@ search_exclude: true
     email: email
     };
     console.log(requestBody);
-    // Making the POST request
-    fetch(`/api/person/updatePerson/${id}`, {
+    // Making the POST request LOCAL TESTING
+    // fetch(`http://localhost:8032/api/person/updatePerson/${id}`, {
+    fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -140,13 +142,34 @@ search_exclude: true
     if (!response.ok) {
         throw new Error('Failed to update profile');
     }
-    // Redirecting to the reading page after successful update
-    window.location.href = '/reading';
+    // SHOULD Redirect to the reading page after successful update BUT only if I fix email not updating
+    //signout();
     })
     .catch(error => {
     console.error('Error updating profile:', error);
     });
 }
+
+
+
+  function signout() {
+    var requestOptions = {
+      method: 'POST',
+      redirect: 'follow',
+      credentials: 'include'
+    };
+
+    // LOCAL TESTING
+     //fetch("http://localhost:8032/signout", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+            console.log(result);
+            //window.location.href = "login";
+        })
+      .catch(error => console.log('error', error));
+  }
+
 </script>
 
 <div id="profile-container">
