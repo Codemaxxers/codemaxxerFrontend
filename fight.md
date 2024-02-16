@@ -37,6 +37,11 @@ permalink: /fight
         font-family: Arial, sans-serif;
     }
 
+    .death {
+        transition: opacity 0.5s ease-in-out;
+        opacity: 0;
+    }
+
     .question-box h2 {
         margin-top: 0;
         color: #333;
@@ -274,6 +279,7 @@ permalink: /fight
         // Check if the player or enemy has been defeated
         if (health <= 0) {
             alert.style = "";
+            playerIMG.classList.add("death");
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
         } else if (eHealth < 1) {
             updateHealthEnemy.innerHTML = `Enemy: Defeated`;
@@ -293,6 +299,7 @@ permalink: /fight
                 .catch(error => console.log('error', error));
             //Re-direct to island
             alert.style = "";
+            enemyIMG.classList.add("death");
             alertBox.innerHTML = "<b>You Won</b><p>Go back to homepage</p>";
             return;
         }
