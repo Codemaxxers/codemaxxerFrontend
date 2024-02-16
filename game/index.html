@@ -24,7 +24,6 @@
         cursor: pointer;
         font-size: 16px;
       }
-  
       button:hover {
         background-color: #ddd;
       }
@@ -40,6 +39,12 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         z-index: 9999;
         display: none;
+      }
+      .battle{
+        position: absolute;
+        top: 600px;
+        left: 100px;
+        border:  10px solid black;
       }
     </style>
   </head>
@@ -173,7 +178,6 @@
             cursor: pointer;
           "
         >
-          sdkfjlsdajl
         </div>
         <div
           id="attacksBox"
@@ -197,6 +201,14 @@
       </div>
     </div>
   </div>
+  
+  <button id="battle" class="Battle">Battle Enemy</button>
+  <script>
+    const battleButton = document.getElementById('battle');
+    battleButton.addEventListener('click', function() {
+      window.location.href = 'https://codemaxxers.github.io/codemaxxerFrontend/fight';
+    });
+  </script>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
     integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
