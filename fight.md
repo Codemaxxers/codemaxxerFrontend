@@ -279,7 +279,7 @@ permalink: /fight
         // Check if the player or enemy has been defeated
         if (health <= 0) {
             alert.style = "";
-            playerIMG.classList.add("death");
+            playerIMG.classList = "death";
             alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
         } else if (eHealth < 1) {
             updateHealthEnemy.innerHTML = `Enemy: Defeated`;
@@ -299,7 +299,7 @@ permalink: /fight
                 .catch(error => console.log('error', error));
             //Re-direct to island
             alert.style = "";
-            enemyIMG.classList.add("death");
+            enemyIMG.classList = "death";
             alertBox.innerHTML = "<b>You Won</b><p>Go back to homepage</p>";
             return;
         }
