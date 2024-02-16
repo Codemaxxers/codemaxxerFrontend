@@ -73,6 +73,7 @@ permalink: signup
 
         document.getElementsByClassName('close')[0].addEventListener('click', function() {
             document.getElementById('popup-modal').style.display = 'none';
+            window.location.href = "login";
         });
     }
 
