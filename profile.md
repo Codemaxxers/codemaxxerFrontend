@@ -112,41 +112,40 @@ search_exclude: true
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
 
-        }
-
-
-        function updateUserProfile(data) {
-    // Extracting form data
-    const formData = new FormData(data);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const id = document.getElementById('id').innerHTML;
-
-    // Constructing the request body
-    const requestBody = {
-    name: name,
-    email: email
-    };
-    console.log(requestBody);
-    // Making the POST request
-    fetch(`/api/person/updatePerson/${id}`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(requestBody)
-    })
-    .then(response => {
-    if (!response.ok) {
-        throw new Error('Failed to update profile');
     }
-    // Redirecting to the reading page after successful update
-    window.location.href = '/reading';
-    })
-    .catch(error => {
-    console.error('Error updating profile:', error);
-    });
-}
+
+    function updateUserProfile(data) {
+        // Extracting form data
+        const formData = new FormData(data);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const id = document.getElementById('id').innerHTML;
+
+        // Constructing the request body
+        const requestBody = {
+        name: name,
+        email: email
+        };
+        console.log(requestBody);
+        // Making the POST request
+        fetch(`/api/person/updatePerson/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+        })
+        .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update profile');
+        }
+        // Redirecting to the reading page after successful update
+        window.location.href = '/reading';
+        })
+        .catch(error => {
+        console.error('Error updating profile:', error);
+        });
+    }
 </script>
 
 <div id="profile-container">

@@ -22,6 +22,7 @@ search_exclude: true
         };
 
         // Fetch the top 5 players with highest CSA points
+        // LOCAL TESTING
         // fetch("http://localhost:8032/api/person/leaderboardCSA", requestOptions)
         fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/leaderboardCSA", requestOptions)
             .then(response => response.json())
