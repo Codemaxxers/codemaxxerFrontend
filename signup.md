@@ -59,8 +59,8 @@ permalink: signup
         };
 
         // LOCAL TESTING
-        // fetch("http://localhost:8032/signout", requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+        fetch("http://localhost:8032/signout", requestOptions)
+        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
         .then(response => response.text())
         .then(result => {
                 console.log(result);
@@ -96,7 +96,7 @@ permalink: signup
         let live = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/post?email=${emailInput}&password=${passwordInput}&name=${usernameInput}`;
 
         // LOCAL TESTING
-        fetch(live, requestOptions)
+        fetch(local, requestOptions)
         // fetch(liveURL, requestOptions)
         .then(response => {
             if (!response.ok) {

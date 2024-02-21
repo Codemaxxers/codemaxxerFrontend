@@ -1,0 +1,53 @@
+{
+    "items": [
+      {
+        "name": "Biker Jacket",
+        "gearID": 1000,
+        "healthAdded": 20,
+        "damageAdded": 0,
+        "iconUrls": ""
+      },
+      {
+        "name": "Metal Armor",
+        "gearID": 1010,
+        "healthAdded": 50,
+        "damageAdded": 0,
+        "iconUrls": ""
+      },
+      {
+        "name": "HTML Armor",
+        "gearID": 1020,
+        "healthAdded": 100,
+        "damageAdded": 0,
+        "iconUrls": ""
+      },
+      {
+        "name": "CSS Armor",
+        "gearID": 1030,
+        "healthAdded": 125,
+        "damageAdded": 0,
+        "iconUrls": ""
+      },
+      {
+        "name": "JavaScript Armor",
+        "gearID": 1040,
+        "healthAdded": 175,
+        "damageAdded": 0,
+        "iconUrls": ""
+      },
+      {
+        "name": "Basic Sword",
+        "gearID": 2000,
+        "healthAdded": 0,
+        "damageAdded": 100,
+        "iconUrls": ""
+      },
+      {
+        "name": "Basic Charm",
+        "gearID": 3000,
+        "healthAdded": 50,
+        "damageAdded": 50,
+        "iconUrls": ""
+      }
+    ]
+}

@@ -17,8 +17,8 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-         //fetch("http://localhost:8032/api/person/jwt", requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+        fetch("http://localhost:8032/api/person/jwt", requestOptions)
+        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -99,8 +99,8 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        // fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
                 // If the response is successful, reload the window
@@ -160,8 +160,8 @@ search_exclude: true
     };
 
     // LOCAL TESTING
-     //fetch("http://localhost:8032/signout", requestOptions)
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+    fetch("http://localhost:8032/signout", requestOptions)
+    // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
       .then(response => response.text())
       .then(result => {
             console.log(result);
