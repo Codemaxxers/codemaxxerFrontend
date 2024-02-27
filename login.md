@@ -63,7 +63,7 @@ permalink: login
         };
 
         // LOCAL TESTING
-        fetch("http://localhost:8032/authenticate", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
         // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
         .then(response => {
             if (!response.ok) {
