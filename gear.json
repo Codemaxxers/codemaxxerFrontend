@@ -36,10 +36,38 @@
         "iconUrls": ""
       },
       {
-        "name": "Basic Sword",
+        "name": "Rusty Spoon",
         "gearID": 2000,
         "healthAdded": 0,
+        "damageAdded": 20,
+        "iconUrls": ""
+      },
+      {
+        "name": "Socket Wrench",
+        "gearID": 2010,
+        "healthAdded": 0,
+        "damageAdded": 50,
+        "iconUrls": ""
+      },
+      {
+        "name": "HTML Hammer",
+        "gearID": 2020,
+        "healthAdded": 0,
         "damageAdded": 100,
+        "iconUrls": ""
+      },
+      {
+        "name": "CSS Crossbow",
+        "gearID": 2030,
+        "healthAdded": 0,
+        "damageAdded": 125,
+        "iconUrls": ""
+      },
+      {
+        "name": "JavaScript Javelin",
+        "gearID": 2040,
+        "healthAdded": 0,
+        "damageAdded": 175,
         "iconUrls": ""
       },
       {
