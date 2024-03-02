@@ -69,9 +69,9 @@
             </a>
           </li>
           <li class="item">
-            <a href="#" class="link flex">
+            <a onclick="signout()" class="link flex">
               <i class="bx bx-log-out"></i>
-              <span onclick="signout()">Log out</span>
+              <span>Log out</span>
             </a>
           </li>
         </ul>
@@ -84,6 +84,12 @@
     </div>
   </nav>
 </div>
+
+<style>
+  .item {
+    cursor: pointer;
+  }
+</style>
 
 <script>
   function signout() {
