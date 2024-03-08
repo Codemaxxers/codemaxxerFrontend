@@ -176,7 +176,7 @@ search_exclude: true
   <div id="profile-info">
     <img id="profile-picture" src="">
     <h1 id="profile-name"></h1> 
-    <h1 id="id"></h1> 
+    <!-- <h1 id="id"></h1>  -->
     <button id="profilePicChangeButton">Change Profile Picture</button>
   </div>
   <div id="profile-form">

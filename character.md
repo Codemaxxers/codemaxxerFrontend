@@ -34,93 +34,93 @@ search_exclude: true
 </div>
 
 <style>
-.scroll {
-    overflow-y: auto; /* Enable vertical scrollbar if content overflows */
-}
+    .scroll {
+        overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+    }
 
-.page-content {
-    margin-left: 270px;
-}
+    .page-content {
+        margin-left: 270px;
+    }
 
-.flex-container {
-    display: flex;
-    flex-direction: row;
-}
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+    }
 
-.equipped-slot {
-    margin-right: 20px;
-}
+    .equipped-slot {
+        margin-right: 20px;
+    }
 
-#profile-container, #equip-spot {
-    display: flex;
-    align-items: flex-start; /* Align items to the top */
-    margin: 50px auto;
-    padding: 20px;
-    max-width: 800px; /* Adjust as needed */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
-}
+    #profile-container, #equip-spot {
+        display: flex;
+        align-items: flex-start; /* Align items to the top */
+        margin: 50px auto;
+        padding: 20px;
+        max-width: 800px; /* Adjust as needed */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+    }
 
-#inventory {
-    align-items: flex-start; /* Align items to the top */
-    margin: 50px auto;
-    padding: 20px;
-    max-width: 800px; /* Adjust as needed */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+    #inventory {
+        align-items: flex-start; /* Align items to the top */
+        margin: 50px auto;
+        padding: 20px;
+        max-width: 800px; /* Adjust as needed */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
 
-}
+    }
 
-#equipped {
-    display: flex;
-    align-items: flex-start; /* Align items to the left */
-    margin-right: 20px;
-}
+    #equipped {
+        display: flex;
+        align-items: flex-start; /* Align items to the left */
+        margin-right: 20px;
+    }
 
-#playerImage {
-    width: 40%;
-    height: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
-}
+    #playerImage {
+        width: 40%;
+        height: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-right: 20px;
+    }
 
-#characterHealth,
-#characterDamage {
-    color: white;
-    margin-left: 0% !important;
-}
+    #characterHealth,
+    #characterDamage {
+        color: white;
+        margin-left: 0% !important;
+    }
 
-#equip-spot {
-    width: 200px;
-    border: 2px dashed #ccc;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 0px;
-}
+    #equip-spot {
+        width: 200px;
+        border: 2px dashed #ccc;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
 
-.item-stats {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    position: absolute;
-    padding: 5px;
-    border-radius: 5px;
-    z-index: 1; /* Ensure it's on top of other elements */
-}
+    .item-stats {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        position: absolute;
+        padding: 5px;
+        border-radius: 5px;
+        z-index: 1; /* Ensure it's on top of other elements */
+    }
 
-#equippedArmor {
-    width: 80px;
-    height: auto;
-    margin-right: 10px;
-}
+    #equippedArmor {
+        width: 80px;
+        height: auto;
+        margin-right: 10px;
+    }
 
-@keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 </style>
 
 <script>
