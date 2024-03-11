@@ -3,8 +3,6 @@ layout: none
 permalink: /vulnerabilities
 ---
 
-{%- include gave-navbar.html -%}
-
 <html>
 
 <head>
