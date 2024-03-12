@@ -46,7 +46,73 @@
         left: 100px;
         border:  10px solid black;
       }
-    </style>
+
+    .characterBar {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 10px solid black;
+      padding: 20px;
+      background-color: grey;
+      margin-top: 650px;
+    }
+
+    .characterBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+    }
+
+    .questLog,
+    .stats {
+      margin-left: 50px;
+      display: flex;
+      flex-direction: column; /* Changed to column */
+      align-items: center;
+      text-align: center;
+    }
+
+    .questLog {
+      margin-top: 10px;
+    }
+
+    .stats {
+      margin-left: auto;
+    }
+
+    .level {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* CSS for progress bar */
+    .progress {
+      width: 200px;
+      height: 20px;
+      background-color: #ccc;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: green;
+      border-radius: 10px;
+    }
+
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    #canvas {
+      animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+    }
+  </style>
   </head>
   
   <div style="display: inline-block; position: absolute; top: 50px; left: 50px; border:  10px solid black;">
@@ -65,7 +131,7 @@
       "
     ></div>
   
-    <canvas></canvas>
+    <canvas id="canvas"></canvas>
 
     <div class="dialog-container">
         <p id="question"></p>
@@ -218,6 +284,22 @@
   </div>
   
   <button id="battle" class="Battle">Battle Enemy</button>
+  <div class="characterBar">
+    <div class="questLog">
+      <h1>Quest<br>Log<br><img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/book.png" style="width: 75px; height: auto;"></h1>
+    </div>
+    <div class="level">
+      <h1 id="playerLevel"></h1>
+      <div class="progress">
+        <div id="levelProgressBar" class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="stats">
+      <h1 id="playerHealth"></h1>
+      <br>
+      <h1 id="playerDamage"></h1>
+    </div>
+  </div>
   <script>
     const battleButton = document.getElementById('battle');
     battleButton.addEventListener('click', function() {
@@ -297,5 +379,9 @@
             console.error('Error fetching questions:', error);
     }); 
   }
+
+  const characterBar = document.querySelector('.characterBar');
+  characterBar.style.width = (window.innerWidth - 300) + 'px';
+  console.log(characterBar.style.width);
 
   </script>

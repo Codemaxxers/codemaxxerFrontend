@@ -55,6 +55,21 @@ document.addEventListener("DOMContentLoaded", function(){
     .then(data => {
       console.log(data.finishedTutorial)
       finishedTutorial = data.finishedTutorial; // Assign the value to the global variable
+      const playerHealth = document.querySelector('#playerHealth');
+      if (data.armorGearIdEquipped == 0) {
+        playerHealth.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/heart.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalHealth;
+      } else {
+        playerHealth.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/heart.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalHealth + " - " + '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/armor/' + data.armorGearIdEquipped + '.png" style="width: 50px; height: auto;">';
+      }
+
+      const playerDamage = document.querySelector('#playerDamage');
+      if (data.weaponGearIdEquipped == 0) {
+        playerDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalDamage;
+      } else {
+        playerDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalDamage + " - " + '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/weapons/' + data.weaponGearIdEquipped + '.png" style="width: 50px; height: auto;">';
+      }
+      const playerLevel = document.querySelector('#playerLevel');
+      playerLevel.innerHTML = 'Level ' + data.accountLevel;
 
       if (finishedTutorial === false) { // Corrected comparison operator
           document.querySelector('.battle').style.display = 'none';
