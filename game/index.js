@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 switch (response.status) {
                     case 401:
                         alert("Please log into or make an account");
-                        window.location.href = "login";
+                        window.location.href = "/codemaxxerFrontend/login";
                         break;
                     case 403:
                         alert("Access forbidden. You do not have permission to access this resource.");
