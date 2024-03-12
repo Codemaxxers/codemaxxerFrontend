@@ -3,8 +3,6 @@ layout: none
 permalink: /password
 ---
 
-{%- include gave-navbar.html -%}
-
 <html>
 <body>
     <div class="container">
@@ -39,6 +37,11 @@ permalink: /password
 </html>
 
 <style>
+
+
+#play_container {
+display: none;
+}
 
 .container {
     width: 300px;
