@@ -1,3 +1,113 @@
+// Declare finishedTutorial outside of the function scope
+let finishedTutorial;
+
+function finishTutorial() {
+  const requestOptions = {
+    method: 'POST',
+    credentials: 'include',
+    redirect: 'follow'
+  };
+  
+  fetch("http://localhost:8032/api/person/finishedTutorial", requestOptions)
+  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  var requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
+  };
+
+  // LOCAL TESTING
+  fetch("http://localhost:8032/api/person/jwt", requestOptions)
+  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        window.location.href = "/codemaxxerFrontend/login";
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    // Add more cases for other status codes as needed
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.json();
+            // Success!!!
+        })
+    .then(data => {
+      console.log(data.finishedTutorial)
+      finishedTutorial = data.finishedTutorial; // Assign the value to the global variable
+      const playerHealth = document.querySelector('#playerHealth');
+      if (data.armorGearIdEquipped == 0) {
+        playerHealth.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/heart.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalHealth;
+      } else {
+        playerHealth.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/heart.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalHealth + " - " + '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/armor/' + data.armorGearIdEquipped + '.png" style="width: 50px; height: auto;">';
+      }
+
+      const playerDamage = document.querySelector('#playerDamage');
+      if (data.weaponGearIdEquipped == 0) {
+        playerDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalDamage;
+      } else {
+        playerDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalDamage + " - " + '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/weapons/' + data.weaponGearIdEquipped + '.png" style="width: 50px; height: auto;">';
+      }
+      const playerLevel = document.querySelector('#playerLevel');
+      playerLevel.innerHTML = 'Level ' + data.accountLevel;
+
+      if (finishedTutorial === false) { // Corrected comparison operator
+          document.querySelector('.battle').style.display = 'none';
+          let dialogCounter = 0; // Initialize dialogCounter to 0
+
+          const messages = ["Welcome to RIFT! (Press space)", "Rift is a turned based RPG game in which your coding knowledge will be tested.", "The game is simple. Progess through single player islands = get cool gear and level up.", "The more you prove you know, the stronger you'll get.", "After powering up, go fight your friends in multiplayer!", "Soon you'll be able to use w, a, s, d to move around the map."]; // Array of messages
+
+          function displayMessage() {
+              if (dialogCounter < messages.length) {
+                  document.querySelector('#tutorialDialogueBox').innerHTML = messages[dialogCounter];
+                  dialogCounter++;
+              } else {
+                  // If all messages have been displayed, you can handle it here.
+                  // For example, you can reset the dialogCounter or hide the dialogue box.
+                  finishTutorial();
+                  document.querySelector('#tutorialDialogueBox').style.display = 'none';
+                  finishedTutorial = true;
+                  console.log("finishedTutorial is " + finishedTutorial);
+                  document.querySelector('.battle').style.display = 'flex';
+              }
+          }
+
+          // Display the first message initially
+          displayMessage();
+
+          // Listen for keypress event
+          document.addEventListener('keypress', function(event) {
+            if (event.key === ' ' && finishedTutorial === false) {
+                displayMessage(); // Call function to display the next message
+            }
+          });
+
+          document.querySelector('#tutorialDialogueBox').style.display = 'flex';
+      }
+      console.log(data);
+  })
+});
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
@@ -272,7 +382,7 @@ function animate() {
     }
   }
 
-  if (keys.w.pressed && lastKey === 'w') {
+  if (keys.w.pressed && lastKey === 'w' && finishedTutorial) {
     player.animate = true
     player.image = player.sprites.up
 
@@ -300,12 +410,11 @@ function animate() {
         break
       }
     }
-
     if (moving)
       movables.forEach((movable) => {
         movable.position.y += 3
       })
-  } else if (keys.a.pressed && lastKey === 'a') {
+  } else if (keys.a.pressed && lastKey === 'a' && finishedTutorial) {
     player.animate = true
     player.image = player.sprites.left
 
@@ -338,7 +447,7 @@ function animate() {
       movables.forEach((movable) => {
         movable.position.x += 3
       })
-  } else if (keys.s.pressed && lastKey === 's') {
+  } else if (keys.s.pressed && lastKey === 's' && finishedTutorial) {
     player.animate = true
     player.image = player.sprites.down
 
@@ -371,7 +480,7 @@ function animate() {
       movables.forEach((movable) => {
         movable.position.y -= 3
       })
-  } else if (keys.d.pressed && lastKey === 'd') {
+  } else if (keys.d.pressed && lastKey === 'd' && finishedTutorial) {
     player.animate = true
     player.image = player.sprites.right
 
