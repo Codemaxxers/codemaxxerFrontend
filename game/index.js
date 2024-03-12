@@ -16,6 +16,7 @@ function finishTutorial() {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
+  // fetch JWT token for user authentication 
   var requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -53,8 +54,10 @@ document.addEventListener("DOMContentLoaded", function(){
             // Success!!!
         })
     .then(data => {
+      // display player info on webpage
       console.log(data.finishedTutorial)
       finishedTutorial = data.finishedTutorial; // Assign the value to the global variable
+      // display player health, damage, and level on webpage
       const playerHealth = document.querySelector('#playerHealth');
       if (data.armorGearIdEquipped == 0) {
         playerHealth.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/heart.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalHealth;
@@ -97,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
           // Listen for keypress event
           document.addEventListener('keypress', function(event) {
+            // user press space to move through tutorial 
             if (event.key === ' ' && finishedTutorial === false) {
                 displayMessage(); // Call function to display the next message
             }
