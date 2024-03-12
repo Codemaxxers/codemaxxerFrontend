@@ -1,6 +1,20 @@
 // Declare finishedTutorial outside of the function scope
 let finishedTutorial;
 
+function finishTutorial() {
+  const requestOptions = {
+    method: 'POST',
+    credentials: 'include',
+    redirect: 'follow'
+  };
+  
+  fetch("http://localhost:8032/api/person/finishedTutorial", requestOptions)
+  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+}
+
 document.addEventListener("DOMContentLoaded", function(){
   var requestOptions = {
     method: 'GET',
@@ -55,9 +69,11 @@ document.addEventListener("DOMContentLoaded", function(){
               } else {
                   // If all messages have been displayed, you can handle it here.
                   // For example, you can reset the dialogCounter or hide the dialogue box.
+                  finishTutorial();
                   document.querySelector('#tutorialDialogueBox').style.display = 'none';
                   finishedTutorial = true;
                   console.log("finishedTutorial is " + finishedTutorial);
+                  document.querySelector('.battle').style.display = 'flex';
               }
           }
 
