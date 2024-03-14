@@ -19,34 +19,30 @@ author: Grace
             text-align: center;
             position: relative;
         }
-
         canvas {
             display: block;
+            background-color: white;
         }
-
         #typingBar {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
         }
-
         input {
             font-size: 16px;
             width: 300px;
             padding: 10px;
             margin-top: 20px;
         }
-
         #inputHistory {
             font-size: 16px;
             margin-top: 20px;
         }
     </style>
-    <title>Knowledge Test Game</title>
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <canvas id="gameCanvas" width="1200" height="800"></canvas>
     <div id="typingBar">
         <input type="text" id="userInput" placeholder="Type the definition">
         <div id="inputHistory"></div>
@@ -86,15 +82,40 @@ author: Grace
             const rock = {
                 term: termDefinitionPair.term,
                 definition: termDefinitionPair.definition,
-                x: Math.random() * (canvas.width - 100) + 50,
+                x: Math.random() * (canvas.width - 200),
                 y: 0,
                 speed: (Math.random())/10
             };
             rocks.push(rock);
         }
+        function newRock() {
+            const termDefinitionPair = termsAndDefinitions[Math.floor(Math.random() * termsAndDefinitions.length)];
+            let newX, newY;
+            do {
+                newX = Math.random() * (canvas.width - 100) + 50;
+                newY = 0
+            } while (isOverlapping(newX, newY));
+            const rock = {
+                term: termDefinitionPair.term,
+                definition: termDefinitionPair.definition,
+                x: newX,
+                y: n,
+                speed: (Math.random()) / 10
+            };
+            rocks.push(rock);
+        }
+        function isOverlapping(newX, newY) {
+            for (const rock of rocks) {
+                const distance = Math.sqrt((newX - rock.x) ** 2 + (newY - rock.y) ** 2);
+                if (distance < 200) { // Adjust the distance as needed
+                    return true; // Overlapping
+                }
+            }
+            return false; // Not overlapping
+        }
         function drawText(text, x, y, width = 200, height = 200, fontSize = 18) {
             ctx.font = `${fontSize}px Arial`;
-            ctx.fillStyle = "#fff";
+            ctx.fillStyle = "black";
             // Split the text into lines that fit within the specified width
             const lines = [];
             let currentLine = "";
@@ -146,13 +167,11 @@ author: Grace
                 }
             }
         }
-
         function gameLoop() {
             newRock();
             checkInput();
             setTimeout(gameLoop, 10000);
         }
-
         userInput.addEventListener("input", checkInput);
         gameLoop();
         draw();
