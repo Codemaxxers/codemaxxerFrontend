@@ -16,6 +16,7 @@ function finishTutorial() {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
+  // fetch JWT token for user authentication 
   var requestOptions = {
     method: 'GET',
     mode: 'cors',
@@ -53,8 +54,10 @@ document.addEventListener("DOMContentLoaded", function(){
             // Success!!!
         })
     .then(data => {
+      // display player info on webpage
       console.log(data.finishedTutorial)
       finishedTutorial = data.finishedTutorial; // Assign the value to the global variable
+      // display player health, damage, and level on webpage
       const playerHealth = document.querySelector('#playerHealth');
       if (data.armorGearIdEquipped == 0) {
         playerHealth.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/heart.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalHealth;
@@ -118,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
           // Listen for keypress event
           document.addEventListener('keypress', function(event) {
+            // user press space to move through tutorial 
             if (event.key === ' ' && finishedTutorial === false) {
                 displayMessage(); // Call function to display the next message
             }
@@ -132,10 +136,11 @@ document.addEventListener("DOMContentLoaded", function(){
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+// adjust canvas size to window dimensions 
 canvas.width = window.innerWidth - 120;
 canvas.height = 600
 
-
+//process collision maps, battle zones, and characters' positions
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
   collisionsMap.push(collisions.slice(i, 70 + i))
@@ -152,12 +157,14 @@ for (let i = 0; i < charactersMapData.length; i += 70) {
 }
 console.log(charactersMap)
 
+// initialize boundary objects based on collision map
 const boundaries = []
 const offset = {
   x: -735,
   y: -650
 }
 
+// what is 1025!!
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === 1025)
@@ -188,6 +195,7 @@ battleZonesMap.forEach((row, i) => {
   })
 })
 
+// initialize characters 
 const characters = []
 const villagerImg = new Image()
 villagerImg.src = './img/villager/Idle.png'
@@ -248,12 +256,14 @@ charactersMap.forEach((row, i) => {
   })
 })
 
+// initialize background and foreground images
 const image = new Image()
 image.src = './img/Pellet Town.png'
 
 const foregroundImage = new Image()
 foregroundImage.src = './img/foregroundObjects.png'
 
+// player sprites for diff directions
 const playerDownImage = new Image()
 playerDownImage.src = './img/playerDown.png'
 
@@ -266,6 +276,7 @@ playerLeftImage.src = './img/playerLeft.png'
 const playerRightImage = new Image()
 playerRightImage.src = './img/playerRight.png'
 
+// initialize player sprite 
 const player = new Sprite({
   position: {
     x: canvas.width / 2 - 192 / 4,
@@ -284,6 +295,7 @@ const player = new Sprite({
   }
 })
 
+// initialize background, foreground, and keys state
 const background = new Sprite({
   position: {
     x: offset.x,
@@ -335,6 +347,7 @@ const battle = {
   initiated: false
 }
 
+// animation function for rendering game elements and handling user input
 function animate() {
   const animationId = window.requestAnimationFrame(animate)
   renderables.forEach((renderable) => {
@@ -377,6 +390,8 @@ function animate() {
         audio.battle.play()
 
         battle.initiated = true
+
+        // animate overlappingDiv to indicate batle initiation
         gsap.to('#overlappingDiv', {
           opacity: 1,
           repeat: 3,
@@ -407,12 +422,14 @@ function animate() {
     player.animate = true
     player.image = player.sprites.up
 
+    // check collision w/character
     checkForCharacterCollision({
       characters,
       player,
       characterOffset: { x: 0, y: 3 }
     })
 
+    // check collision w/boundaries
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -431,11 +448,14 @@ function animate() {
         break
       }
     }
+
+    //update positions if not colliding 
     if (moving)
       movables.forEach((movable) => {
         movable.position.y += 3
       })
   } else if (keys.a.pressed && lastKey === 'a' && finishedTutorial) {
+    // left movement
     player.animate = true
     player.image = player.sprites.left
 
@@ -469,6 +489,7 @@ function animate() {
         movable.position.x += 3
       })
   } else if (keys.s.pressed && lastKey === 's' && finishedTutorial) {
+   // down movement 
     player.animate = true
     player.image = player.sprites.down
 
@@ -502,6 +523,7 @@ function animate() {
         movable.position.y -= 3
       })
   } else if (keys.d.pressed && lastKey === 'd' && finishedTutorial) {
+    // right movement
     player.animate = true
     player.image = player.sprites.right
 
@@ -538,6 +560,7 @@ function animate() {
 }
 // animate()
 
+// if user presses space to interact with NPC 
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
   if (player.isInteracting) {
@@ -547,6 +570,7 @@ window.addEventListener('keydown', (e) => {
 
         const { dialogueIndex, dialogue } = player.interactionAsset
         if (dialogueIndex <= dialogue.length - 1) {
+          // display next dialogue message 
           document.querySelector('#characterDialogueBox').innerHTML =
             player.interactionAsset.dialogue[dialogueIndex]
           return
@@ -562,6 +586,7 @@ window.addEventListener('keydown', (e) => {
     return
   }
 
+  // player is not interacting (user uses w, a, s, d)
   switch (e.key) {
     case ' ':
       if (!player.interactionAsset) return
@@ -593,6 +618,7 @@ window.addEventListener('keydown', (e) => {
   }
 })
 
+// checks which key was released and updates corresponding property in keys object
 window.addEventListener('keyup', (e) => {
   switch (e.key) {
     case 'w':
@@ -610,6 +636,7 @@ window.addEventListener('keyup', (e) => {
   }
 })
 
+// flag to track whether user has clicked 
 let clicked = false
 addEventListener('click', () => {
   if (!clicked) {

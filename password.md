@@ -3,7 +3,6 @@ layout: none
 permalink: /password
 ---
 
-
 <html>
 <body>
     <div class="container">
@@ -38,6 +37,11 @@ permalink: /password
 </html>
 
 <style>
+
+
+#play_container {
+display: none;
+}
 
 .container {
     width: 300px;
