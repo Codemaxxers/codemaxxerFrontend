@@ -63,7 +63,7 @@ search_exclude: true
             email.classList.add('email');
 
             var csaPoints = document.createElement('p');
-            csaPoints.textContent = "CSA Points: " + player.csaPoints;
+            csaPoints.textContent = player.csaPoints;
             csaPoints.classList.add('csaPoints');
 
             // Append elements to the card
