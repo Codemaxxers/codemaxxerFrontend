@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   // LOCAL TESTING
-  fetch("http://localhost:8032/api/person/jwt", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+  fetch("http://localhost:8032/api/person/characterData", requestOptions)
+  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
     .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -68,8 +68,29 @@ document.addEventListener("DOMContentLoaded", function(){
       } else {
         playerDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 35px; height: auto; margin-right: 5px;">' + data.totalDamage + " - " + '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/weapons/' + data.weaponGearIdEquipped + '.png" style="width: 50px; height: auto;">';
       }
+
+      // PLAYER LEVEL
       const playerLevel = document.querySelector('#playerLevel');
       playerLevel.innerHTML = 'Level ' + data.accountLevel;
+      // PLAYER LEVEL
+
+      // PLAYER XP BAR
+      const currentXP = data.accountPoints;
+      const nextLevelXP = data.nextLevelXPThreshold;
+      const previousLevelXP = data.previousLevelXPThreshold;
+
+      const rightside = (nextLevelXP - previousLevelXP);
+      const leftside = (currentXP - previousLevelXP)
+
+      console.log("XP NEEDED FOR NEXT LEVEL: " + rightside)
+      console.log("XP PROGRESS TOWARDS NEXT LEVEL: " + leftside)
+
+      const xpBar = document.querySelector('#xp-bar-progress');
+      const progress = (leftside / rightside) * 100; // Calculate progress percentage
+
+      xpBar.style.width = `${progress}%`;
+      // PLAYER XP BAR
+
 
       if (finishedTutorial === false) { // Corrected comparison operator
           document.querySelector('.battle').style.display = 'none';
