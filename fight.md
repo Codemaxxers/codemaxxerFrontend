@@ -128,6 +128,7 @@ permalink: /fight
     var eDefense = 0;
     var eName = "";
     let userLevel = 1;
+    let totalPoints = 0;
 
     // Add event listeners to the buttons
     document.getElementById("alert").addEventListener("click", function() {
@@ -157,7 +158,7 @@ permalink: /fight
             redirect: 'follow'
         };
         
-        var api = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/random/${course}`;
+        var api = `http://localhost:8032/api/questions/randomQuestion/${course}`;
         fetch(api, requestOptions)
         .then(response => response.json())
         .then(result => {
@@ -168,6 +169,7 @@ permalink: /fight
             // Clear previous answers
             const answersDiv = document.getElementById("answers");
             answersDiv.innerHTML = "";
+            totalPoints = totalPoints + result.points;
 
             // Dynamically create answer buttons or text for each possible answer
             for (let i = 1; i <= 4; i++) {
@@ -181,6 +183,9 @@ permalink: /fight
     }
 
     function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
+        // Increment total points regardless of the answer
+        totalPoints += attackValue;
+
         if (selectedAnswer === correctAnswer) {
             console.log("Correct! You attack the enemy.");
             eHealth -= attackValue;
@@ -192,7 +197,6 @@ permalink: /fight
             setTimeout(function() {
                 enemyIMG.classList.remove('flashing');
             }, 2000);
-            fetchQuestion(attackValue); // Fetch a new question for the next attack
         } else {
             console.log("Incorrect. The enemy attacks you!");
             health -= eAttack;
@@ -204,7 +208,6 @@ permalink: /fight
             setTimeout(function() {
                 playerIMG.classList.remove('flashing');
             }, 2000);
-            fetchQuestion(attackValue); // Fetch a new question for the next attack
         }
 
         // Call Battle to check for end-of-battle scenarios
@@ -232,7 +235,7 @@ permalink: /fight
             redirect: 'follow'
         };
 
-        var api = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/enemies"
+        var api = "http://localhost:8032/api/enemies"
         fetch(api, requestOptions)
         .then(response => response.json()) // Convert response to JSON format
         .then(result => {
@@ -293,7 +296,7 @@ permalink: /fight
                 credentials: 'include'
             };
             //Adding points to the account
-            fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=75", requestOptions)
+            fetch(`http://localhost:8032/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
                 .then(response => response.text())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
@@ -313,7 +316,7 @@ permalink: /fight
         credentials: 'include',
     };
 
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+    fetch("http://localhost:8032/api/person/jwt", requestOptions)
     //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
