@@ -31,10 +31,9 @@ body {
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
-  width: 100%;
-  max-width: 867px;
+  width: 1000px;
   margin: 25px 10px;
-  height: calc(100% - 50px);
+  height: calc(867px);
   border: var(--border);
   border-radius: 5px;
   background: var(--msger-bg);
