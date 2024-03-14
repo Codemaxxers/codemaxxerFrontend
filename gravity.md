@@ -79,27 +79,16 @@ author: Grace
         let score = 0;
         function newRock() {
             const termDefinitionPair = termsAndDefinitions[Math.floor(Math.random() * termsAndDefinitions.length)];
-            const rock = {
-                term: termDefinitionPair.term,
-                definition: termDefinitionPair.definition,
-                x: Math.random() * (canvas.width - 200),
-                y: 0,
-                speed: (Math.random())/10
-            };
-            rocks.push(rock);
-        }
-        function newRock() {
-            const termDefinitionPair = termsAndDefinitions[Math.floor(Math.random() * termsAndDefinitions.length)];
             let newX, newY;
             do {
-                newX = Math.random() * (canvas.width - 100) + 50;
+                newX = Math.random() * (canvas.width - 200) + 50;
                 newY = 0
             } while (isOverlapping(newX, newY));
             const rock = {
                 term: termDefinitionPair.term,
                 definition: termDefinitionPair.definition,
                 x: newX,
-                y: n,
+                y: newY,
                 speed: (Math.random()) / 10
             };
             rocks.push(rock);
