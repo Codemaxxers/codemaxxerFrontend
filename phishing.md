@@ -1,6 +1,6 @@
 ---
 layout: none
-permalink: /spotthediff
+permalink: /phishing
 ---
 
 <head>
