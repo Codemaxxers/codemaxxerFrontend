@@ -8,7 +8,7 @@ permalink: /insidehouse
 <div>
     <button onclick="goHome()" id="homeBtn" class="homeBtn">Go Homepage</button>
     <div class="inside-container">
-        <a id="computerBtn" href="{{site.baseurl}}/game/compscreen.md"> <img class="computerBtn" src="images/homeComputer.png"></a>
+        <a id="computerBtn" href="{{site.baseurl}}/compscreen"> <img class="computerBtn" src="images/homeComputer.png"></a>
     </div>
 </div>
 </body>
