@@ -34,6 +34,16 @@ permalink: /insidehouse
 
     body {
         background-image: url("{{site.baseurl}}/images/indoorRoom.png");
+        background-size: contain;
+        background-repeat: no-repeat; /* optional, to prevent image repetition */
+        background-position: center; /* optional, to center the image */
+        height: 100vh;
+    }
+
+    img {
+        margin-top: 50px; 
+        margin-bottom: -40px;
+
     }
 
     .homeBtn{
