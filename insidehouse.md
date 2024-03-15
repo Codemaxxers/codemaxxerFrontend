@@ -43,6 +43,7 @@ permalink: /insidehouse
         height: 100vh;
         margin-bottom: 30px;
         background-size: 925px;
+        object-fit: cover;
     }
 
     .homeBtn{
