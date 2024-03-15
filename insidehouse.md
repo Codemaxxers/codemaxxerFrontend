@@ -21,18 +21,14 @@ permalink: /insidehouse
 </script>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+    
     * {
-        font-family: 'Press Start 2P', cursive;
+        font-family: "DotGothic16", sans-serif;
         box-sizing: border-box;
     }
 
-    button {
-        border: 0;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      
-    button:hover {
+    .homeBtn:hover {
         background-color: #ddd;
     }
 
@@ -40,10 +36,11 @@ permalink: /insidehouse
         background-image: url("{{site.baseurl}}/images/indoorRoom.png");
     }
 
-    .battle{
+    .homeBtn{
         position: absolute;
-        top: 600px;
-        left: 100px;
-        border:  10px solid black;
+        border:  3px solid black;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
     }
 </style>
