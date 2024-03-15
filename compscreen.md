@@ -3,8 +3,15 @@ toc: true
 layout: post
 title: Computer Screen Close Up 
 author: Emma
+permalink: /computerScreen
 ---
 
 <html lang="en">
-<img id="blankScreen" class="" src="{{site.baseurl}}/game/img/blankScreen.png">
+
 </html>
+
+<style>
+    body {
+        background-image: url("{{site.baseurl}}/images/blankScreen.png");
+    }
+</style>
