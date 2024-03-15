@@ -8,7 +8,7 @@ permalink: /insidehouse
 <div>
     <button onclick="goHome()" id="homeBtn" class="homeBtn">Go Homepage</button>
     <div class="inside-container">
-        <a id="computerBtn" href="{{site.baseurl}}/game/compscreen.md"> <img class="computerBtn" src="images/houseComputer.png"></a>
+        <a id="computerBtn" href="{{site.baseurl}}/game/compscreen.md"> <img class="computerBtn" src="images/homeComputer.png"></a>
     </div>
 </div>
 </body>
@@ -41,12 +41,8 @@ permalink: /insidehouse
         background-repeat: no-repeat; /* optional, to prevent image repetition */
         background-position: center; /* optional, to center the image */
         height: 100vh;
-    }
-
-    img {
-        margin-top: 50px; 
-        margin-bottom: -40px;
-
+        margin-bottom: 30px;
+        background-size: 925px;
     }
 
     .homeBtn{
@@ -62,8 +58,11 @@ permalink: /insidehouse
     }
 
     .computerBtn {
-        width: 300px;
-        height: 300px;
+        width: 97px;
+        height: 97px;
         left: 200px;
+        position:absolute;
+            top:23.8%;
+            left:28%;
     }
 </style>
