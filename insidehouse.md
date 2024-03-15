@@ -28,13 +28,7 @@ permalink: /insidehouse
         box-sizing: border-box;
     }
 
-    button {
-        cursor: pointer;
-        font-size: 20px;
-        border-radius: 13px;
-      }
-      
-    button:hover {
+    .homeBtn:hover {
         background-color: #ddd;
     }
 
@@ -42,10 +36,11 @@ permalink: /insidehouse
         background-image: url("{{site.baseurl}}/images/indoorRoom.png");
     }
 
-    .battle{
+    .homeBtn{
         position: absolute;
-        top: 600px;
-        left: 100px;
-        border:  10px solid black;
+        border:  3px solid black;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
     }
 </style>
