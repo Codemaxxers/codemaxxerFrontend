@@ -21,8 +21,23 @@ permalink: /insidehouse
 </script>
 
 <style>
+    * {
+        font-family: 'Press Start 2P', cursive;
+        box-sizing: border-box;
+    }
+
+    button {
+        border: 0;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+    button:hover {
+        background-color: #ddd;
+    }
+
     body {
-        background-image: url("{{site.baseurl}}/images/insideRoom");
+        background-image: url("{{site.baseurl}}/images/indoorRoom.png");
     }
 
     .battle{
