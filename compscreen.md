@@ -15,24 +15,37 @@ permalink: /compscreen
 
 </body>
 
+<script>
+    var backBtn = document.getElementById("back-btn");
+    function goBack() {
+        window.location.href = '{{site.baseurl}}/insidehouse';
+    }
+</script>
+
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+    
     * {
-        font-family: 'Press Start 2P', cursive;
+        font-family: "DotGothic16", sans-serif;
         box-sizing: border-box;
     }
 
-    button {
-        border: 0;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      
-    button:hover {
+    .backBtn:hover {
         background-color: #ddd;
     }
 
+    .backBtn{
+        position: absolute;
+        border:  3px solid black;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
     body {
-        background-image: url("{{site.baseurl}}/images/blankScreen.png");
+        background-image: url("{{site.baseurl}}/images/blankScreenWide.png");
         background-size: contain;
         background-repeat: no-repeat; /* optional, to prevent image repetition */
         background-position: center; /* optional, to center the image */
