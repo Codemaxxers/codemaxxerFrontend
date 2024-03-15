@@ -7,9 +7,9 @@ permalink: /insidehouse
 <body>
 <div>
     <button onclick="goHome()" id="homeBtn" class="homeBtn">Go Homepage</button>
-    <div class="fight-container">
+    <div class="inside-container">
+        <a id="computerBtn" href="{{site.baseurl}}/game/compscreen.md"> <img class="computerBtn" src="images/houseComputer.png"></a>
     </div>
-
 </div>
 </body>
 
@@ -22,7 +22,10 @@ permalink: /insidehouse
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
-    
+    body {
+        background-image: url("{{site.baseurl}}/images/indoorRoom.png");
+    }
+
     * {
         font-family: "DotGothic16", sans-serif;
         box-sizing: border-box;
@@ -52,5 +55,15 @@ permalink: /insidehouse
         cursor: pointer;
         font-size: 20px;
         border-radius: 10px;
+    }
+
+    .homeBtn:hover {
+        background-color: #ddd;
+    }
+
+    .computerBtn {
+        width: 300px;
+        height: 300px;
+        left: 200px;
     }
 </style>
