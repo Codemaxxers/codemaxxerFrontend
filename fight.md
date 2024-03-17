@@ -6,59 +6,7 @@ title: fight everything
 author: Finn C
 permalink: /fight
 ---
-<style>
-    .fade-in {
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
 
-    .fade-in.visible {
-        opacity: 1;
-    }
-
-    @keyframes flash {
-        0% { opacity: 1; }
-        50% { opacity: 0; }
-        100% { opacity: 1; }
-    }
-
-    .flashing {
-        animation: flash 0.5s infinite alternate; /* Use alternate to switch back and forth */
-    }
-    .question-box {
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        width: 350px;
-        padding: 20px;
-        background-color: #f0f0f0;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif;
-    }
-
-    .death {
-        transition: opacity 0.5s ease-in-out;
-        opacity: 0;
-    }
-
-    .question-box h2 {
-        margin-top: 0;
-        color: #333;
-    }
-
-    #answers div {
-        margin-top: 10px;
-        padding: 5px;
-        background-color: #ddd;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    #answers div:hover {
-        background-color: #ccc;
-    }
-</style>
 
 <div>
     <div class="alert" id="alert" style="display: none;">
@@ -80,39 +28,31 @@ permalink: /fight
         </div>
     </div>
     <div class="question-box">
-        <h2>Attack</h2>
+        <h1>Attack</h1>
         <p id="question-text">Select an Attack</p>
         <div id="answers">
             <!-- Dynamically filled answers will go here -->
         </div>
     </div>
     <div id="moves" class="controller">
-        <div class="moveATK" id="move1">
-            <h1>Scratch</h1>
-            <p><b>5 Damage</b> scratch your opponent</p>
+        <div class="move" id="">
+            <h1>Attack</h1>
         </div>
-        <div class="moveATK" id="move2">
-            <h1>Thunderbolt</h1>
-            <p><b>15 Damage</b> rain lighting down on your opponent</p>
+        <div class="move" id="">
+            <h1>Potions</h1>
         </div>
-        <div class="moveATK" id="move3">
-            <h1>Fireball</h1>
-            <p><b>25 Damage</b> Set ablaze to your opponent</p>
-        </div>
-        <div class="moveATK" id="move4">
-            <h1>Tidal Wave</h1>
-            <p><b>40 Damage</b> A wall of water sure to drown your opponent</p>
+        <div class="move" id="">
+            <h1>Inventory</h1>
         </div>
         <div class="move" id="run">
             <h1>Run Away</h1>
-            <p>leave the battle</p>
         </div>
     </div>
 </div>
 
 <script>
     // Define a global array to store enemy IDs
-    let enemyIds = [];
+    let enemyIds = []; 
     //Enemy Values
     var updateHealthEnemy = document.getElementById("EnemyHealth");
     var updateHealth = document.getElementById("health");
@@ -129,6 +69,25 @@ permalink: /fight
     var eName = "";
     let userLevel = 1;
     let totalPoints = 0;
+
+    var moves = `
+        <div class="moveATK" id="move1">
+            <h1>Scratch</h1>
+            <p><b>5 Damage</b> scratch your opponent</p>
+        </div>
+        <div class="moveATK" id="move2">
+            <h1>Thunderbolt</h1>
+            <p><b>15 Damage</b> rain lighting down on your opponent</p>
+        </div>
+        <div class="moveATK" id="move3">
+            <h1>Fireball</h1>
+            <p><b>25 Damage</b> Set ablaze to your opponent</p>
+        </div>
+        <div class="moveATK" id="move4">
+            <h1>Tidal Wave</h1>
+            <p><b>40 Damage</b> A wall of water sure to drown your opponent</p>
+        </div>
+        `
 
     // Add event listeners to the buttons
     document.getElementById("alert").addEventListener("click", function() {
