@@ -36,8 +36,8 @@
 }
 .question-box {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 40%;
+    top: 10%;
     width: 350px;
     padding: 20px;
     background-color: #f0f0f0;
@@ -96,8 +96,8 @@
     padding: 10px;
     border-radius: 8px;
     margin-top: 30vh;
-    margin-left: 75vw;
-    margin-right: 50px;
+    margin-left: 50px;
+    margin-right: 75vw;
     height: 175px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -181,10 +181,14 @@ b {
     justify-content: space-around;
     align-items: center;
     background-color: #f7f7f7;
+    position: absolute;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 15px;
-    margin-left: 36vw;
-    margin-right: 38vw;
+    margin-top: 60vh;
+    margin-left: 50px;
+    margin-right: 75vw;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 10px;
 }
 

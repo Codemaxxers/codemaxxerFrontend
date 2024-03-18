@@ -17,7 +17,11 @@ permalink: /fight
     <div class="health-box">
         <div class="move" id="level">Player Level: </div>
         <div class="move" id="health">Player: 10</div>
-        <div class="move" id="EnemyHealth">Enemy: </div>
+        <div class="move" id="defense">Defense: 10</div>
+    </div>
+    <div class="health-box" style="margin-left: 75vw; margin-right: 50px;">
+        <div class="move" id="EnemyName">Enemy: </div>
+        <div class="move" id="EnemyHealth">Enemy Health: </div>
     </div>
     <div class="fight-container">
         <div class="player-box">
@@ -27,7 +31,7 @@ permalink: /fight
             <img id="eIMG" class="fade-in" src="{{site.baseurl}}/images/">
         </div>
     </div>
-    <div class="question-box">
+    <div class="question-box" id="question-box" style="display: none;">
         <h1>Attack</h1>
         <p id="question-text">Select an Attack</p>
         <div id="answers">
@@ -55,6 +59,7 @@ permalink: /fight
     let enemyIds = []; 
     //Enemy Values
     var updateHealthEnemy = document.getElementById("EnemyHealth");
+    var questionBox = document.getElementById("question-box");
     var updateHealth = document.getElementById("health");
     var levelUpdate = document.getElementById("level");
     var enemyIMG = document.getElementById("eIMG");
@@ -217,7 +222,35 @@ permalink: /fight
         }
 
         // Call Battle to check for end-of-battle scenarios
-        Battle(attackValue);
+        questionBox.style = " display: none;";
+        controller.innerHTML = baseHTML;
+
+        if (health <= 0) {
+            alert.style = "";
+            playerIMG.classList = "death";
+            alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
+        } else if (eHealth < 1) {
+            updateHealthEnemy.innerHTML = `Enemy: Defeated`;
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                credentials: 'include'
+            };
+            //Adding points to the account
+            fetch(`http://localhost:8032/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+            //Re-direct to island
+            alert.style = "";
+            enemyIMG.classList = "death";
+            alertBox.innerHTML = "<b>You Won</b><p>Go back to island</p>";
+            return;
+        }
     }
 
     function Leave() {
@@ -284,7 +317,9 @@ permalink: /fight
     }
 
     function Battle(attack) {
-        fetchQuestion(attack); // Call fetchQuestion with the attack value
+        questionBox.style = "";
+        fetchQuestion(attack); // Call fetchQuestion with the attack
+        value
         // Check if the player or enemy has been defeated
         if (health <= 0) {
             alert.style = "";
