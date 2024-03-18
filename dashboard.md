@@ -62,6 +62,15 @@ search_exclude: true
     </div>
   </div>
 </div>
+<div class="container">
+      <div class="summary-row">
+        <div class="summary-card">
+          <h2>Predicted AP Score</h2>
+          <!-- Placeholder for the predicted AP Score -->
+          <p id="predictedAPScoreDisplay">Predicted AP Score will appear here</p>
+        </div>
+      </div>
+    </div>
 
 
 <script>
@@ -107,41 +116,27 @@ search_exclude: true
                 // Success!!!
             })
         .then(data => {
+          // Fetched user data successfully
 
-          const fullNameArray = data.name.split(' ');
-          const firstName = fullNameArray[0];
-          console.log(data.profilePicInt)
-
-          let profilePictureDiv = document.getElementById("profilePicture");
-          let imgElement = document.createElement("img");
-          imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
-          imgElement.style.width = "60px";
-          imgElement.style.height = "60px";
-          imgElement.style.float = "left";
-          imgElement.style.borderRadius = "5px";
-          var nameForProfile = document.createElement("h3");
-          nameForProfile.innerHTML = data.name;
-          var changeProfileText = document.createElement("p");
-          changeProfileText.innerHTML = "Level " + data.accountLevel;
-          changeProfileText.style.marginBottom = "0px";
-
-          profilePictureDiv.appendChild(imgElement);
-          profilePictureDiv.appendChild(nameForProfile);
-          profilePictureDiv.appendChild(changeProfileText);
-
-          changeProfileText.addEventListener("click", function() {
-            window.location.href = "settings";
-          });
-
-          document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
-          document.getElementById("sidebarName").innerHTML = data.name;
-
-          document.getElementById("cspPointDisplay").innerHTML = data.cspPoints + " Points";
-          document.getElementById("csaPointDisplay").innerHTML = data.csaPoints + " Points";
-          document.getElementById("accountLevelDisplay").innerHTML = data.cspPoints + data.csaPoints + " Points";
-
-          console.log(data);
+          // Pass the user data to the prediction model
+          predictAPScore(data.csaPoints);
         })
         .catch(error => console.log('error', error));
+  }
+
+  // Prediction model function
+  function predictAPScore(csaPoints) {
+      // Make a fetch request to your backend or invoke your backend API
+      fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
+      // fetch("https://your-backend-url.com/api/predictAPScore?csaPoints=" + csaPoints)
+        .then(response => response.json())
+        // Inside the predictAPScore function after receiving the predicted AP Score
+        .then(data => {
+            // Display the predicted AP Score
+            console.log("Predicted AP Score: " + data.predictedAPScore);
+            // Update the placeholder element with the predicted AP Score
+            document.getElementById("predictedAPScoreDisplay").innerHTML = "Predicted AP Score: " + data.predictedAPScore;
+        })
+
   }
 </script>
