@@ -23,7 +23,7 @@ permalink: /compscreen
 <div class="modal" id="modal">
     <div class="modal-inner">
         <p> test </p>
-        <button id="closeModal"> Close </button>
+        <button class ="closeBtn" id="closeModal"> Close </button>
     </div>
 </div>
 
@@ -151,6 +151,12 @@ permalink: /compscreen
         position: absolute; top: 100px; left: 30%;
         text-align: center;
         font-size: 60px;
+    }
+
+    .closeBtn {
+        position: absolute;
+            top: 100px;
+            left: 70%;
     }
 </style>
 
