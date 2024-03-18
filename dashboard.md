@@ -80,40 +80,40 @@ search_exclude: true
 
   function fetchUserData() {
     var requestOptions = {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
     };
 
     // LOCAL TESTING
     fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      .then(response => {
+    .then(response => {
         if (!response.ok) {
-          const errorMsg = 'Login error: ' + response.status;
-          console.log(errorMsg);
+            const errorMsg = 'Login error: ' + response.status;
+            console.log(errorMsg);
 
-          switch (response.status) {
-            case 401:
-              alert("Please log into or make an account");
-              window.location.href = "login";
-              break;
-            case 403:
-              alert("Access forbidden. You do not have permission to access this resource.");
-              break;
-            case 404:
-              alert("User not found. Please check your credentials.");
-              break;
-            // Add more cases for other status codes as needed
-            default:
-              alert("Login failed. Please try again later.");
-          }
+            switch (response.status) {
+                case 401:
+                    alert("Please log into or make an account");
+                    window.location.href = "login";
+                    break;
+                case 403:
+                    alert("Access forbidden. You do not have permission to access this resource.");
+                    break;
+                case 404:
+                    alert("User not found. Please check your credentials.");
+                    break;
+                // Add more cases for other status codes as needed
+                default:
+                    alert("Login failed. Please try again later.");
+            }
 
-          return Promise.reject('Login failed');
+            return Promise.reject('Login failed');
         }
         return response.json();
-      })
-      .then(data => {
+    })
+    .then(data => {
         // Update the placeholders with actual user data
         document.getElementById("initName").innerText = data.name;
         document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
@@ -121,22 +121,23 @@ search_exclude: true
         document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
 
         // Pass the user data to the prediction model
-        predictAPScore(data.csaPoints);
-      })
-      .catch(error => console.log('error', error));
-  }
+        predictAPScore(parseInt(data.csaPoints)); // Parse the csaPoints to ensure it's a number
+    })
+    .catch(error => console.log('error', error));
+}
 
-  function predictAPScore(csaPoints) {
+function predictAPScore(csaPoints) {
     fetch("http://localhost:8032/api/predictAPScore/" + csaPoints)
-      .then(response => response.json())
-      .then(data => {
+    .then(response => response.json())
+    .then(data => {
         // Round the predicted AP Score to the nearest whole number
         const predictedAPScore = Math.round(data.predictedAPScore);
         document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
         document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
-      });
-  }
+    });
+}
+
 </script>
