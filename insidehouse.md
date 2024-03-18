@@ -37,7 +37,6 @@ permalink: /insidehouse
 
     body {
         background-image: url("{{site.baseurl}}/images/indoorRoom.png");
-        background-size: contain;
         background-repeat: no-repeat; /* optional, to prevent image repetition */
         background-position: center; /* optional, to center the image */
         height: 100vh;
@@ -60,9 +59,9 @@ permalink: /insidehouse
     .computerBtn {
         width: 97px;
         height: 97px;
-        left: 200px;
+        /* left: 200px; */
         position:absolute;
-            top:23.8%;
-            left:28%;
+            top: 23.8%;
+            left: 28%;
     }
 </style>

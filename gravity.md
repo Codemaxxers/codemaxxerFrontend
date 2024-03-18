@@ -1,6 +1,5 @@
 ---
-toc: true
-layout: post
+layout: none
 title: Gravity game
 author: Grace
 permalink: /gravity
