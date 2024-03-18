@@ -127,7 +127,7 @@ search_exclude: true
   }
 
   function predictAPScore(csaPoints) {
-    fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
+    fetch("http://localhost:8032/api/predictAPScore/" + csaPoints)
       .then(response => response.json())
       .then(data => {
         // Round the predicted AP Score to the nearest whole number
