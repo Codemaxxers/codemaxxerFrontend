@@ -35,16 +35,16 @@ permalink: /fight
         </div>
     </div>
     <div id="moves" class="controller">
-        <div class="move" id="">
+        <div class="move" id="ChangeATK" onclick="attackMENU()">
             <h1>Attack</h1>
         </div>
-        <div class="move" id="">
+        <div class="move" id="ChangePT" onclick="potionMENU()">
             <h1>Potions</h1>
         </div>
-        <div class="move" id="">
+        <div class="move" id="ChangeInv" onclick="inventoryMENU()">
             <h1>Inventory</h1>
         </div>
-        <div class="move" id="run">
+        <div class="move" id="run" onclick="Leave()">
             <h1>Run Away</h1>
         </div>
     </div>
@@ -70,30 +70,77 @@ permalink: /fight
     let userLevel = 1;
     let totalPoints = 0;
 
-    var moves = `
-        <div class="moveATK" id="move1">
+    var baseHTML = `
+    <div class="move" id="ChangeATK" onclick="attackMENU()">
+            <h1>Attack</h1>
+        </div>
+        <div class="move" id="ChangePT" onclick="potionMENU()">
+            <h1>Potions</h1>
+        </div>
+        <div class="move" id="ChangeInv" onclick="inventoryMENU()">
+            <h1>Inventory</h1>
+        </div>
+        <div class="move" id="run" onclick="Leave()">
+            <h1>Run Away</h1>
+        </div>
+    `
+
+    var ATKmove = `
+        <div class="move" id="move1">
             <h1>Scratch</h1>
-            <p><b>5 Damage</b> scratch your opponent</p>
+            <p><b>5 Damage</b></p>
         </div>
-        <div class="moveATK" id="move2">
+        <div class="move" id="move2">
             <h1>Thunderbolt</h1>
-            <p><b>15 Damage</b> rain lighting down on your opponent</p>
+            <p><b>15 Damage</b></p>
         </div>
-        <div class="moveATK" id="move3">
+        <div class="move" id="move3">
             <h1>Fireball</h1>
-            <p><b>25 Damage</b> Set ablaze to your opponent</p>
+            <p><b>25 Damage</b></p>
         </div>
-        <div class="moveATK" id="move4">
-            <h1>Tidal Wave</h1>
-            <p><b>40 Damage</b> A wall of water sure to drown your opponent</p>
+        <div class="move" id="back">
+            <h1>Back</h1>
         </div>
         `
-
-    // Add event listeners to the buttons
+    
+    var comingsoon = `
+        <div class="move" id="back">
+            <h1>Back</h1>
+        </div>
+    `  
     document.getElementById("alert").addEventListener("click", function() {
-        window.location.href = "{{site.baseurl}}/game/index.html";
+        window.location.pathname = '{{site.baseurl}}/game/index.html'
     });
-    document.getElementById("run").addEventListener("click", Leave);
+
+    function inventoryMENU() {
+        controller.innerHTML = comingsoon;
+        document.getElementById("back").addEventListener("click", function() {
+            controller.innerHTML = baseHTML;
+        });
+    }
+
+    function potionMENU() {
+        controller.innerHTML = comingsoon;
+        document.getElementById("back").addEventListener("click", function() {
+            controller.innerHTML = baseHTML;
+        });
+    }
+
+    function attackMENU() {
+        controller.innerHTML = ATKmove;
+        document.getElementById("move1").addEventListener("click", function() {
+            Battle(5)
+        });
+        document.getElementById("move2").addEventListener("click", function() {
+            Battle(15)
+        });
+        document.getElementById("move3").addEventListener("click", function() {
+            Battle(25)
+        });
+        document.getElementById("back").addEventListener("click", function() {
+            controller.innerHTML = baseHTML;
+        });
+    }
 
     // Define global variables
     let StartingHealth = 10;
@@ -242,7 +289,7 @@ permalink: /fight
         if (health <= 0) {
             alert.style = "";
             playerIMG.classList = "death";
-            alertBox.innerHTML = "<b>You Lost</b><p>Go back to homepage</p>";
+            alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
         } else if (eHealth < 1) {
             updateHealthEnemy.innerHTML = `Enemy: Defeated`;
             var myHeaders = new Headers();
@@ -262,7 +309,7 @@ permalink: /fight
             //Re-direct to island
             alert.style = "";
             enemyIMG.classList = "death";
-            alertBox.innerHTML = "<b>You Won</b><p>Go back to homepage</p>";
+            alertBox.innerHTML = "<b>You Won</b><p>Go back to island</p>";
             return;
         }
     }

@@ -98,7 +98,7 @@
     margin-top: 30vh;
     margin-left: 75vw;
     margin-right: 50px;
-    height: 150px;
+    height: 175px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
