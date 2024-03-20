@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
     credentials: 'include',
   };
 
-  // LOCAL TESTING
+  savePlayerPosition();
   fetch("http://localhost:8032/api/person/characterData", requestOptions)
   // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
     .then(response => {
@@ -275,6 +275,8 @@ playerLeftImage.src = './img/playerLeft.png'
 
 const playerRightImage = new Image()
 playerRightImage.src = './img/playerRight.png'
+
+
 
 // initialize player sprite 
 const player = new Sprite({
@@ -644,3 +646,16 @@ addEventListener('click', () => {
     clicked = true
   }
 })
+
+function savePlayerPosition() {
+  localStorage.clear();
+  localStorage.setItem('playerPositionX', background.position.x);
+  localStorage.setItem('playerPositionY', background.position.y);
+}
+
+window.addEventListener('unload', savePlayerPosition);
+
+localStorage.getItem('playerPositionX');
+localStorage.getItem('playerPositionY');
+console.log(localStorage.getItem('playerPositionX'), localStorage.getItem('playerPositionY'));
+console.log(offset.x, offset.y);
