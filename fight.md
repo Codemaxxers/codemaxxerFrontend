@@ -7,7 +7,6 @@ author: Finn C
 permalink: /fight
 ---
 
-
 <div>
     <div class="alert" id="alert" style="display: none;">
         <div id="home-btn" class="move">
@@ -52,6 +51,32 @@ permalink: /fight
             <h1>Run Away</h1>
         </div>
     </div>
+    <div id="weaponMenu">
+        <div class="move" id="ChangeATK" onclick="attackMENU()">
+            <h1>Attack</h1>
+        </div>
+        <div class="move" id="ChangePT" onclick="potionMENU()">
+            <h1>Potions</h1>
+        </div>
+        <div class="move" id="ChangeInv" onclick="inventoryMENU()">
+            <h1>Inventory</h1>
+        </div>
+        <div class="move" id="run" onclick="Leave()">
+            <h1>Run Away</h1>
+        </div>
+    </div>
 </div>
 
 <script src="{{site.baseurl}}/assets/js/fight.js"></script>
+
+<style>
+#weaponMenu {
+    background-color: #f7f7f7;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Adjust z-index as needed */
+    display: none;
+}
+</style>

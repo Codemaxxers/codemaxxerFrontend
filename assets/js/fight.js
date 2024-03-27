@@ -10,6 +10,7 @@ var playerIMG = document.getElementById("pIMG");
 var controller = document.getElementById("moves");
 var alert = document.getElementById("alert");
 var alertBox = document.getElementById("home-btn");
+var weaponMenu = document.getElementById("weaponMenu");
 
 var eHealth = 40;
 var eAttack = 0;
@@ -55,18 +56,20 @@ var comingsoon = `
     <div class="move" id="back">
         <h1>Back</h1>
     </div>
-`  
+`
+
 document.getElementById("alert").addEventListener("click", function() {
     window.location.pathname = '{{site.baseurl}}/game/index.html'
 });
 
 function inventoryMENU() {
     controller.innerHTML = comingsoon;
+    weaponMenu.style.display = "block";
     document.getElementById("back").addEventListener("click", function() {
         controller.innerHTML = baseHTML;
+        weaponMenu.style.display = "none";
     });
 }
-
 function potionMENU() {
     controller.innerHTML = comingsoon;
     document.getElementById("back").addEventListener("click", function() {
@@ -293,12 +296,12 @@ function Battle(attack) {
 }
 
 function GetLevel() {
-var requestOptions = {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-    credentials: 'include',
-};
+    var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+    };
 
 fetch("http://localhost:8032/api/person/jwt", requestOptions)
 //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
@@ -360,3 +363,17 @@ fetch("http://localhost:8032/api/person/jwt", requestOptions)
     })
     .catch(error => console.log('error', error));
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+        credentials: "include"
+    };
+
+    fetch("http://localhost:8032/api/person/getWeaponInventory", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+});
