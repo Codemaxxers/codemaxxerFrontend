@@ -61,7 +61,7 @@
       transform: translateX(-50%);
       border: 10px solid black;
       padding: 20px;
-      background-color: grey;
+      background-color: rgb(202, 197, 197);
       margin-top: 650px;
     }
 
@@ -124,6 +124,53 @@
     #canvas {
       animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
     }
+
+    .questLog:hover {
+      cursor: pointer;
+      /* border: 3px solid rgb(67, 128, 219); */
+      border: 3px solid rgb(18, 70, 175);
+      transition: border-color 0.3s ease-in-out; /* Smooth transition for border color */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: add shadow effect */
+    }
+
+    .questLog {
+      padding: 10px;
+      border: 3px solid transparent; /* Start with a transparent border */
+    }
+
+    #questLogDialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      display: none;
+      width: 80%;
+      max-width: 600px; /* Adjust max-width as needed */
+      padding: 20px;
+    }
+
+    .quest {
+        margin-bottom: 20px;
+    }
+
+    .quest h2 {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    .quest p {
+        margin-bottom: 10px;
+    }
+
+    .questLog button {
+        margin-top: 20px;
+    }
+
   </style>
   </head>
   
@@ -298,7 +345,7 @@
   <button id="battle" class="Battle">Battle Enemy</button>
   <button id="enterhouse" class="Battle">Enter House</button>
   <div class="characterBar">
-    <div class="questLog">
+    <div class="questLog" onclick="openQuestLog()">
       <h1>Quest<br>Log<br><img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/book.png" style="width: 75px; height: auto;"></h1>
     </div>
     <div class="level">
@@ -311,6 +358,22 @@
       <br>
       <h1 id="playerDamage"></h1>
     </div>
+  </div>
+  <div id="questLogDialog" class="dialog-container">
+    <h1>Quest Log</h1>
+    <div class="quest" id="quest1">
+        <h2>Quest 1: Journey to the Coding Realm</h2>
+        <p>Description: Embark on a quest to master coding and unlock the secrets of algorithms.</p>
+        <p>Reward: 1000 CSP points</p>
+    </div>
+    <br>
+    <div class="quest" id="quest2">
+        <h2>Quest 2: Defeat the Bugs</h2>
+        <p>Description: Conquer the bugs that plague your code and emerge victorious.</p>
+        <p>Reward: Debugging tool</p>
+    </div>
+    <!-- Add more quest sections as needed -->
+    <button onclick="closeQuestLog()">Close</button>
   </div>
   <script>
     const battleButton = document.getElementById('battle');

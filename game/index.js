@@ -15,6 +15,25 @@ function finishTutorial() {
     .catch((error) => console.error(error));
 }
 
+
+// Function to open the quest log pop-up dialog
+function openQuestLog() {
+  // Get the quest log dialog box element
+  const questLogDialog = document.getElementById('questLogDialog');
+
+  // Show the quest log dialog box
+  questLogDialog.style.display = 'block';
+}
+
+// Function to close the quest log pop-up dialog
+function closeQuestLog() {
+  // Get the quest log dialog box element
+  const questLogDialog = document.getElementById('questLogDialog');
+
+  // Hide the quest log dialog box
+  questLogDialog.style.display = 'none';
+}
+
 document.addEventListener("DOMContentLoaded", function(){
   // fetch JWT token for user authentication 
   var requestOptions = {
