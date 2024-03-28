@@ -184,7 +184,7 @@ b {
     position: absolute;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 60vh;
+    margin-top: 10vh;
     margin-left: 50px;
     margin-right: 75vw;
     grid-template-columns: repeat(2, 1fr);

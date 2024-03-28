@@ -15,8 +15,8 @@ permalink: /fight
     </div>
     <div class="health-box">
         <div class="move" id="level">Player Level: </div>
-        <div class="move" id="health">Player: 10</div>
-        <div class="move" id="defense">Defense: 10</div>
+        <div class="move" id="health">Player: </div>
+        <div class="move" id="attack">Attack: 10</div>
     </div>
     <div class="health-box" style="margin-left: 75vw; margin-right: 50px;">
         <div class="move" id="EnemyName">Enemy: </div>
@@ -52,18 +52,6 @@ permalink: /fight
         </div>
     </div>
     <div id="weaponMenu">
-        <div class="move" id="ChangeATK" onclick="attackMENU()">
-            <h1>Attack</h1>
-        </div>
-        <div class="move" id="ChangePT" onclick="potionMENU()">
-            <h1>Potions</h1>
-        </div>
-        <div class="move" id="ChangeInv" onclick="inventoryMENU()">
-            <h1>Inventory</h1>
-        </div>
-        <div class="move" id="run" onclick="Leave()">
-            <h1>Run Away</h1>
-        </div>
     </div>
 </div>
 
