@@ -15,6 +15,39 @@ function finishTutorial() {
     .catch((error) => console.error(error));
 }
 
+function openTab(event, tabName) {
+  const tabContents = document.querySelectorAll('.tab-content');
+  const tabs = document.querySelectorAll('.tab');
+
+  tabContents.forEach(content => {
+      content.style.display = 'none';
+  });
+  tabs.forEach(tab => {
+      tab.classList.remove('active');
+  });
+
+  const selectedTabContent = document.getElementById(tabName);
+  selectedTabContent.style.display = 'block';
+  event.currentTarget.classList.add('active');
+}
+
+function closeQuestLog() {
+  document.getElementById('questLogDialog').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const defaultTab = document.querySelector('.tab');
+  if (defaultTab) {
+      defaultTab.classList.add('active');
+      const defaultTabContentId = defaultTab.getAttribute('onclick').split("'")[1];
+      const defaultTabContent = document.getElementById(defaultTabContentId);
+      if (defaultTabContent) {
+          defaultTabContent.style.display = 'block';
+      }
+  }
+});
+
+
 
 // Function to open the quest log pop-up dialog
 function openQuestLog() {

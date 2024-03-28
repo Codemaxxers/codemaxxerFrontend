@@ -171,6 +171,35 @@
         margin-top: 20px;
     }
 
+    .quest-tabs {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .tab {
+        cursor: pointer;
+        padding: 10px;
+        background-color: #ddd;
+        border: 1px solid black;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
+    }
+
+    .tab.active {
+        background-color: white;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
   </style>
   </head>
   
@@ -361,18 +390,22 @@
   </div>
   <div id="questLogDialog" class="dialog-container">
     <h1>Quest Log</h1>
-    <div class="quest" id="quest1">
+    <div class="quest-tabs">
+        <div class="tab active" onclick="openTab(event, 'quest1')">Quest 1</div>
+        <div class="tab" onclick="openTab(event, 'quest2')">Quest 2</div>
+        <!-- Add more tabs as needed -->
+    </div>
+    <div class="tab-content" id="quest1">
         <h2>Quest 1: Journey to the Coding Realm</h2>
         <p>Description: Embark on a quest to master coding and unlock the secrets of algorithms.</p>
         <p>Reward: 1000 CSP points</p>
     </div>
-    <br>
-    <div class="quest" id="quest2">
+    <div class="tab-content" id="quest2" style="display: none;">
         <h2>Quest 2: Defeat the Bugs</h2>
         <p>Description: Conquer the bugs that plague your code and emerge victorious.</p>
         <p>Reward: Debugging tool</p>
     </div>
-    <!-- Add more quest sections as needed -->
+    <!-- Add more tab-content sections as needed -->
     <button onclick="closeQuestLog()">Close</button>
   </div>
   <script>
