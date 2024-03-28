@@ -1,117 +1,70 @@
 ---
 toc: true
 comments: true
-layout: default
+layout: battle
 title: fight everything
 author: Finn C
 permalink: /fight
 ---
 
+<div>
+    <div class="alert" id="alert" style="display: none;">
+        <div id="home-btn" class="move">
+            Go back to homepage
+        </div>
+    </div>
+    <div class="health-box">
+        <div class="move" id="level">Player Level: </div>
+        <div class="move" id="health">Player: </div>
+        <div class="move" id="attack">Attack: 10</div>
+    </div>
+    <div class="health-box" style="margin-left: 75vw; margin-right: 50px;">
+        <div class="move" id="EnemyName">Enemy: </div>
+        <div class="move" id="EnemyHealth">Enemy Health: </div>
+    </div>
+    <div class="fight-container">
+        <div class="player-box">
+            <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
+        </div>
+        <div class="enemy-box">
+            <img id="eIMG" class="fade-in" src="{{site.baseurl}}/images/">
+        </div>
+    </div>
+    <div class="question-box" id="question-box" style="display: none;">
+        <h1>Attack</h1>
+        <p id="question-text">Select an Attack</p>
+        <div id="answers">
+            <!-- Dynamically filled answers will go here -->
+        </div>
+    </div>
+    <div id="moves" class="controller">
+        <div class="move" id="ChangeATK" onclick="attackMENU()">
+            <h1>Attack</h1>
+        </div>
+        <div class="move" id="ChangePT" onclick="potionMENU()">
+            <h1>Potions</h1>
+        </div>
+        <div class="move" id="ChangeInv" onclick="inventoryMENU()">
+            <h1>Inventory</h1>
+        </div>
+        <div class="move" id="run" onclick="Leave()">
+            <h1>Run Away</h1>
+        </div>
+    </div>
+    <div id="weaponMenu">
+    </div>
+</div>
+
+<script src="{{site.baseurl}}/assets/js/fight.js"></script>
+
 <style>
-    .fight-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        margin-top: 50px;
-    }
-
-    .player-box,
-    .enemy-box {
-        width: 150px;
-        height: 150px;
-        border: 2px solid #333;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .player-box img,
-    .enemy-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .controller {
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        background-color: #f7f7f7; 
-        padding: 10px; 
-        border-radius: 8px;
-        margin-top: 15px;
-    }
-
-    .move {
-        background-color: #e0e0e0; 
-        color: #333; 
-        text-align: center;
-        padding: 10px;
-        border-radius: 8px;
-        width: 150px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .move:hover {
-        background-color: #ccc; 
-    }
-
-    h1 {
-        margin: 0;
-        font-size: 1.2em;
-    }
-
-    p {
-        margin: 5px 0 0;
-        font-size: 0.9em; 
-    }
-
-    b {
-        color: #ff6347;
-    }
-    #response-box {
-        color: white;
-    }
+#weaponMenu {
+    background-color: #f7f7f7;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Adjust z-index as needed */
+    display: none;
+}
 </style>
-
-<div id="response-box">
-</div>
-
-<div class="fight-container">
-    <div class="player-box"> 
-        <img src="{{site.baseurl}}/images/player.png">
-    </div>
-    <div class="enemy-box">
-        <img src="{{site.baseurl}}/images/enemy.png">
-    </div>
-</div>
-
-<div class="controller">
-    <div class="move" id="move1">
-        <h1>Scratch</h1>
-        <p><b>50 Damage</b> scratch your opponent</p>
-    </div>
-    <div class="move">
-    </div>
-    <div class="move">
-    </div>
-    <div class="move">
-    </div>
-</div>
-
-<script>
-    document.getElementById("move1").addEventListener("click", Question);
-
-    function Question() {
-        var responseBox = document.getElementById("response-box");
-        let question = "What kind of code looks like 0010110101110";
-        let answer = "binary";
-
-        let response = prompt(question.toLowerCase());
-        if (response == answer) {
-            responseBox.innerHTML = "You Win";
-        } else {
-            responseBox.innerHTML = "You Lose";
-        }
-    }
-</script>
