@@ -24,7 +24,6 @@
         cursor: pointer;
         font-size: 16px;
       }
-  
       button:hover {
         background-color: #ddd;
       }
@@ -41,7 +40,138 @@
         z-index: 9999;
         display: none;
       }
-    </style>
+      .battle{
+        position: absolute;
+        top: 600px;
+        left: 100px;
+        border:  10px solid black;
+      }
+
+      .enterhouse{
+        position: absolute;
+        top: 500px;
+        left: 100px;
+        border:  10px solid black;
+      }
+
+    .characterBar {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 10px solid black;
+      padding: 20px;
+      background-color: rgb(202, 197, 197);
+      margin-top: 650px;
+    }
+
+    .characterBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+    }
+
+    .questLog,
+    .stats {
+      margin-left: 50px;
+      display: flex;
+      flex-direction: column; /* Changed to column */
+      align-items: center;
+      text-align: center;
+    }
+
+    .questLog {
+      margin-top: 10px;
+    }
+
+    .stats {
+      margin-left: auto;
+    }
+
+    .level {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #xp-bar {
+      background-color: #ddd;
+      height: 10px; /* Adjust height as needed */
+      width: 100%; /* Fills the parent element */
+      position: absolute;
+      top: 40px;
+      left: 0;
+    }
+
+    #xp-bar-progress {
+      content: ''; /* This creates the inner progress bar element */
+      background-color: #008000; /* Adjust color as needed */
+      height: 10px; /* Fills the entire height of the .xp-bar */
+      position: absolute;
+      top: 40px;
+      left: 0;
+      width: 0%; /* This will be dynamically changed based on current XP */
+    }
+
+
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    #canvas {
+      animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+    }
+
+    .questLog:hover {
+      cursor: pointer;
+      /* border: 3px solid rgb(67, 128, 219); */
+      border: 3px solid rgb(18, 70, 175);
+      transition: border-color 0.3s ease-in-out; /* Smooth transition for border color */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: add shadow effect */
+    }
+
+    .questLog {
+      padding: 10px;
+      border: 3px solid transparent; /* Start with a transparent border */
+    }
+
+    #questLogDialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      display: none;
+      width: 80%;
+      max-width: 600px; /* Adjust max-width as needed */
+      padding: 20px;
+    }
+
+    .quest {
+        margin-bottom: 20px;
+    }
+
+    .quest h2 {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    .quest p {
+        margin-bottom: 10px;
+    }
+
+    .questLog button {
+        margin-top: 20px;
+    }
+
+  </style>
   </head>
   
   <div style="display: inline-block; position: absolute; top: 50px; left: 50px; border:  10px solid black;">
@@ -60,7 +190,7 @@
       "
     ></div>
   
-    <canvas></canvas>
+    <canvas id="canvas"></canvas>
 
     <div class="dialog-container">
         <p id="question"></p>
@@ -71,6 +201,21 @@
   
     <div
       id="characterDialogueBox"
+      style="
+        background-color: white;
+        height: 140px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 4px black solid;
+        display: none;
+        padding: 12px;
+      "
+    ></div>
+
+    <div
+      id="tutorialDialogueBox"
       style="
         background-color: white;
         height: 140px;
@@ -173,7 +318,6 @@
             cursor: pointer;
           "
         >
-          sdkfjlsdajl
         </div>
         <div
           id="attacksBox"
@@ -197,6 +341,52 @@
       </div>
     </div>
   </div>
+  
+  <button id="battle" class="Battle">Battle Enemy</button>
+  <button id="enterhouse" class="Battle">Enter House</button>
+  <div class="characterBar">
+    <div class="questLog" onclick="openQuestLog()">
+      <h1>Quest<br>Log<br><img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/book.png" style="width: 75px; height: auto;"></h1>
+    </div>
+    <div class="level">
+      <h1 id="playerLevel"></h1>
+      <div id="xp-bar"></div>
+      <div id="xp-bar-progress"></div>
+    </div>
+    <div class="stats">
+      <h1 id="playerHealth"></h1>
+      <br>
+      <h1 id="playerDamage"></h1>
+    </div>
+  </div>
+  <div id="questLogDialog" class="dialog-container">
+    <h1>Quest Log</h1>
+    <div class="quest" id="quest1">
+        <h2>Quest 1: Journey to the Coding Realm</h2>
+        <p>Description: Embark on a quest to master coding and unlock the secrets of algorithms.</p>
+        <p>Reward: 1000 CSP points</p>
+    </div>
+    <br>
+    <div class="quest" id="quest2">
+        <h2>Quest 2: Defeat the Bugs</h2>
+        <p>Description: Conquer the bugs that plague your code and emerge victorious.</p>
+        <p>Reward: Debugging tool</p>
+    </div>
+    <!-- Add more quest sections as needed -->
+    <button onclick="closeQuestLog()">Close</button>
+  </div>
+  <script>
+    const battleButton = document.getElementById('battle');
+    battleButton.addEventListener('click', function() {
+      window.location.href = '/codemaxxerFrontend/fight';
+    });
+  </script>
+  <script>
+    const enterhouseButton = document.getElementById('enterhouse');
+    enterhouseButton.addEventListener('click', function() {
+      window.location.href = '/codemaxxerFrontend/insidehouse';
+    });
+  </script>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
     integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
@@ -244,7 +434,7 @@
 });
 
 // Function to check the user's answer
-function checkAnswer() {
+  function checkAnswer() {
     const userAnswer = document.getElementById('answer').value;
 
     // Close the dialog box
@@ -268,5 +458,11 @@ function checkAnswer() {
         })
         .catch(error => {
             console.error('Error fetching questions:', error);
-        }); }
+    }); 
+  }
+
+  const characterBar = document.querySelector('.characterBar');
+  characterBar.style.width = (window.innerWidth - 300) + 'px';
+  console.log(characterBar.style.width);
+
   </script>

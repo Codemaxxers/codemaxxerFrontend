@@ -80,6 +80,9 @@ permalink: /map
         <div class="island" style="top: 600px; left: 500px;">
             <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Physics Island</a></div>
         </div>
+        <!-- <div class="island" style="top: px; left: px;">
+            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Cybersecurity Island</a></div>
+        </div> -->
     </div>
 </body>
 </html>
