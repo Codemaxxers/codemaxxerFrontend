@@ -140,17 +140,17 @@
 
     #questLogDialog {
       position: fixed;
-      top: 50%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: white;
       padding: 20px;
-      border: 1px solid black;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      border: 2px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 1);
       z-index: 9999;
       display: none;
       width: 80%;
-      max-width: 600px; /* Adjust max-width as needed */
+      max-width: 1000px; /* Adjust max-width as needed */
       padding: 20px;
     }
 
@@ -164,7 +164,15 @@
     }
 
     .quest p {
-        margin-bottom: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .quest img {
+      width: 50px; /* Adjust size as needed */
+      height: auto;
+      margin-right: 10px;
     }
 
     .questLog button {
@@ -200,6 +208,52 @@
         display: block;
     }
 
+    #mainQuestText {
+      margin-bottom: 10px;
+    }
+
+    #closeQuestButton {
+      margin-top: 10px;
+    }
+
+    #weapon-image,
+    #armor-image {
+      width: 50px;
+      height: auto;
+      display: block;
+      margin: 0 auto; /* Center the image horizontally */
+  }
+
+  .quest {
+    margin-bottom: 20px;
+  }
+
+  .quest h2 {
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+
+  .quest-details {
+    display: flex;
+  }
+
+  .quest-objective,
+  .quest-reward {
+    flex: 1;
+    padding: 0px 20px 20px 20px;
+    background-color: rgb(207, 201, 201);
+    border: 4px solid black;
+  }
+
+  .quest-objective {
+    margin-right: 5px;
+  }
+
+  .quest-reward img {
+    width: 50px; /* Adjust size as needed */
+    height: auto;
+    margin-top: 10px;
+  }
   </style>
   </head>
   
@@ -389,25 +443,45 @@
     </div>
   </div>
   <div id="questLogDialog" class="dialog-container">
-    <h1>Quest Log</h1>
+    <img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/book.png" style="width: 75px; height: auto;"><h1 id="mainQuestText">Quest Log</h1>
     <div class="quest-tabs">
-        <div class="tab active" onclick="openTab(event, 'quest1')">Quest 1</div>
-        <div class="tab" onclick="openTab(event, 'quest2')">Quest 2</div>
-        <!-- Add more tabs as needed -->
+      <div class="tab active" onclick="openTab(event, 'quest1')">Quest 1</div>
+      <div class="tab" onclick="openTab(event, 'quest2')">Quest 2</div>
+      <!-- Add more tabs as needed -->
     </div>
     <div class="tab-content" id="quest1">
-        <h2>Quest 1: Journey to the Coding Realm</h2>
-        <p>Description: Embark on a quest to master coding and unlock the secrets of algorithms.</p>
-        <p>Reward: 1000 CSP points</p>
+      <div class="quest">
+        <h2>Journey to the Coding Realm</h2>
+        <p>Bob needs training for his next fighting tournament.</p>
+        <div class="quest-details">
+          <div class="quest-objective">
+            <p>Your objective: Fight Bob once</p>
+          </div>
+          <div class="quest-reward">
+            <p>Your reward:</p>
+            <img id="weapon-image" src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/weapons/2000.png" alt="Weapon Image">
+          </div>
+        </div>
+      </div>
     </div>
     <div class="tab-content" id="quest2" style="display: none;">
-        <h2>Quest 2: Defeat the Bugs</h2>
-        <p>Description: Conquer the bugs that plague your code and emerge victorious.</p>
-        <p>Reward: Debugging tool</p>
+      <div class="quest">
+        <h2>Journey to the Coding Realm</h2>
+        <p>You should level up before venturing into the other islands</p>
+        <div class="quest-details">
+          <div class="quest-objective">
+            <p>Your objective: Get to level 2</p>
+          </div>
+          <div class="quest-reward">
+            <p>Your reward:</p>
+            <img id="armor-image" src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/armor/1000.png" alt="Armor Image">
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Add more tab-content sections as needed -->
-    <button onclick="closeQuestLog()">Close</button>
-  </div>
+    <button id='closeQuestButton' onclick="closeQuestLog()">Close</button>
+  </div>  
   <script>
     const battleButton = document.getElementById('battle');
     battleButton.addEventListener('click', function() {
