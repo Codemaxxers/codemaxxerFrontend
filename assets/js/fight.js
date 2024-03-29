@@ -1,6 +1,6 @@
 // Define a global array to store enemy IDs
 let enemyIds = []; 
-//Enemy Values
+// Div updates
 var updateHealthEnemy = document.getElementById("EnemyHealth");
 var questionBox = document.getElementById("question-box");
 var updateHealth = document.getElementById("health");
@@ -11,6 +11,9 @@ var controller = document.getElementById("moves");
 var alert = document.getElementById("alert");
 var alertBox = document.getElementById("home-btn");
 var weaponMenu = document.getElementById("weaponMenu");
+var enemyName = document.getElementById("EnemyName");
+var updateHealth = document.getElementById("health");
+var updateDamage = document.getElementById("damage");
 
 var eHealth = 40;
 var eAttack = 0;
@@ -18,6 +21,7 @@ var eDefense = 0;
 var eName = "";
 let userLevel = 1;
 let totalPoints = 0;
+
 
 var baseHTML = `
 <div class="move" id="ChangeATK" onclick="attackMENU()">
@@ -93,8 +97,7 @@ function attackMENU() {
     });
 }
 
-// Define global variables
-let StartingHealth = 10;
+
 let health = 10;
 
 let course = "csp";
@@ -246,6 +249,7 @@ function GetEnemy() {
             eAttack = randomEnemy.attack;
             eDefense = randomEnemy.defense;
             eName = randomEnemy.name;
+            enemyName.innerHTML = `Enemy: ${eName}`;
 
             //Update Img
             enemyIMG.src = enemyIMG.src + `${eName}.png`
@@ -333,32 +337,13 @@ fetch("http://localhost:8032/api/person/jwt", requestOptions)
         })
     .then(data => {
         userLevel = data.accountLevel; // Set the innerHTML to just the numeric value
-        //Changing color of move to show you can use it
-        document.getElementById("move1").style = "background-color: #e0e0e0;";
-        document.getElementById("move1").addEventListener("click", function() {
-            Battle(5);
-        });
-        if (userLevel >= 2) {
-            document.getElementById("move2").style = "background-color: #e0e0e0;";
-            document.getElementById("move2").addEventListener("click", function() {
-                Battle(15);
-            });
-        }
-        if (userLevel >= 5) {
-            document.getElementById("move3").style = "background-color: #e0e0e0;";
-            document.getElementById("move3").addEventListener("click", function() {
-                Battle(25);
-            });
-        }
-        if (userLevel >= 10) {
-            document.getElementById("move4").style = "background-color: #e0e0e0;";
-            document.getElementById("move4").addEventListener("click", function() {
-                Battle(45);
-            });
-        }
+        levelUpdate.innerHTML =  "Player Level: " + userLevel;
         console.log(data.accountLevel);
+        console.log(data.totalHealth);
+        health = data.totalHealth;
+        updateHealth.innerHTML = `Player: ${health}`;
+        updateDamage.innerHTML = `Damage: ${data.totalDamage}`
         console.log(userLevel);
-        levelUpdate.innerHTML = "Player Level:" + userLevel;
         return userLevel;
     })
     .catch(error => console.log('error', error));
