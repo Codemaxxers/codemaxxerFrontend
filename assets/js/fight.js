@@ -22,6 +22,12 @@ var eName = "";
 let userLevel = 1;
 let totalPoints = 0;
 
+let health = 10;
+let damage = 0;
+
+let course = "csp";
+
+GetLevel();
 
 var baseHTML = `
 <div class="move" id="ChangeATK" onclick="attackMENU()">
@@ -84,23 +90,22 @@ function potionMENU() {
 function attackMENU() {
     controller.innerHTML = ATKmove;
     document.getElementById("move1").addEventListener("click", function() {
-        Battle(5)
+        i = 5 + damage;
+        Battle(i);
     });
     document.getElementById("move2").addEventListener("click", function() {
-        Battle(15)
+        i = 15 + damage;
+        Battle(i);
     });
     document.getElementById("move3").addEventListener("click", function() {
-        Battle(25)
+        i = 25 + damage;
+        Battle(i);
     });
     document.getElementById("back").addEventListener("click", function() {
         controller.innerHTML = baseHTML;
     });
 }
 
-
-let health = 10;
-
-let course = "csp";
 console.log(course)
 
 // Call the function to fetch enemies when the script is loaded
@@ -343,6 +348,8 @@ fetch("http://localhost:8032/api/person/jwt", requestOptions)
         health = data.totalHealth;
         updateHealth.innerHTML = `Player: ${health}`;
         updateDamage.innerHTML = `Damage: ${data.totalDamage}`
+        console.log(data.totalDamage);
+        damage = data.totalDamage;
         console.log(userLevel);
         return userLevel;
     })
