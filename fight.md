@@ -51,20 +51,56 @@ permalink: /fight
             <h1>Run Away</h1>
         </div>
     </div>
-    <div id="weaponMenu">
+</div>
+
+<div class="scroll" id="weaponMenu" style="display: none;">
+    <div id="profile-container">
+        <img id="playerImage" src="game/img/player.png">
+        <br>
+        <div id="playerStats">
+            <h1 class="centered">Player Stats</h1><hr/>
+            <h1 id="characterHealth"></h1>
+            <h1 id="characterDamage"></h1>
+            <br>
+            <h1>Equipped Gear</h1>
+            <div id="equipped" class="flex-container">
+            </div>
+        </div>
+        <div id="inventory">
+        <div class="inventoryArmor">
+            <h1>Armor</h1>
+        </div>
+        <br>
+        <div class="inventoryWeapons">
+            <h1>Weapons</h1>
+        </div>
+        <br>
+        <!-- 
+        <div class="inventoryAccessories">
+            <h1>Accessories</h1>
+        </div> -->
+        <div id="equip-spot" ondrop="drop(event)" ondragover="allowDrop(event)">Drop Here to Equip</div>
+    </div>
     </div>
 </div>
 
+
 <script src="{{site.baseurl}}/assets/js/fight.js"></script>
 
+<script src="{{site.baseurl}}/assets/js/character.js"></script>
+
 <style>
-#weaponMenu {
-    background-color: #f7f7f7;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999; /* Adjust z-index as needed */
-    display: none;
+#profile-container {
+    position: absolute;
+    right: 43vw;
+    top: 10%;
+    width: 350px;
+    padding: 40px;
+    background-color: #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+    font-family: "DotGothic16", sans-serif;
+    z-index: 99;
 }
 </style>
