@@ -63,7 +63,7 @@ var comingsoon = `
 `
 
 document.getElementById("alert").addEventListener("click", function() {
-    window.location.pathname = '{{site.baseurl}}/game/index.html'
+    window.location.pathname = '/codemaxxerFrontend/game/index.html'
 });
 
 function inventoryMENU() {
