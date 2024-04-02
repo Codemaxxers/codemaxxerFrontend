@@ -4,6 +4,7 @@ let finishedTutorial;
 let lastXPosition = localStorage.getItem('playerPositionX');
 let lastYPosition = localStorage.getItem('playerPositionY');
 
+
 function finishTutorial() {
   const requestOptions = {
     method: 'POST',
@@ -217,6 +218,17 @@ const boundaries = []
 const offset = {
   x: -735,
   y: -650
+}
+
+const storedXPosition = localStorage.getItem('playerPositionX');
+const storedYPosition = localStorage.getItem('playerPositionY');
+
+if (storedXPosition && storedYPosition) {
+  offset.x = parseFloat(storedXPosition);
+  offset.y = parseFloat(storedYPosition);
+  console.log('Loaded player position from localStorage');
+} else {
+  console.log('No player position found in localStorage, using defaults');
 }
 
 // what is 1025!!
