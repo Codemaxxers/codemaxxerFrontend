@@ -254,6 +254,30 @@
     height: auto;
     margin-top: 10px;
   }
+
+  #menuButton {
+    margin-top: 40px;
+    padding: 6px;
+    text-align: center; /* Center the text inside the button */
+    width: 60%; /* Make the button fill the available width */
+    margin-left: 20%; /* Center the button horizontally */
+    margin-right: 20%; /* Center the button horizontally */
+  }
+
+  #menuPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 2px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+    width: 80%;
+    max-width: 400px; /* Adjust max-width as needed */
+  }
   </style>
   </head>
   
@@ -435,6 +459,7 @@
       <h1 id="playerLevel"></h1>
       <div id="xp-bar"></div>
       <div id="xp-bar-progress"></div>
+      <button id="menuButton" onclick="openMenu()">Menu</button>
     </div>
     <div class="stats">
       <h1 id="playerHealth"></h1>
@@ -481,6 +506,16 @@
     </div>
     <!-- Add more tab-content sections as needed -->
     <button id='closeQuestButton' onclick="closeQuestLog()">Close</button>
+  </div>
+  <div id="menuPopup" class="dialog-container">
+    <!-- Add content for the menu popup here -->
+    <h1>Menu</h1>
+    <ul>
+      <li><a href="#">Option 1</a></li>
+      <li><a href="#">Option 2</a></li>
+      <li><a href="#">Option 3</a></li>
+    </ul>
+    <button id="closeMenuButton" onclick="closeMenu()">Close</button>
   </div>  
   <script>
     const battleButton = document.getElementById('battle');
@@ -567,6 +602,15 @@
             console.error('Error fetching questions:', error);
     }); 
   }
+
+  function openMenu() {
+    document.getElementById('menuPopup').style.display = 'block';
+  }
+
+  function closeMenu() {
+    document.getElementById('menuPopup').style.display = 'none';
+  }
+
 
   const characterBar = document.querySelector('.characterBar');
   characterBar.style.width = (window.innerWidth - 300) + 'px';
