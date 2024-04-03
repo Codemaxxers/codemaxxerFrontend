@@ -283,6 +283,7 @@
       display: flex;
       justify-content: space-around;
       margin: 10px;
+      padding: 20px;
   }
 
   .image-button {
@@ -295,6 +296,10 @@
   .image-button img {
       max-width: 100px; /* Adjust as needed */
       max-height: 100px; /* Adjust as needed */
+  }
+
+  #popupMenuText {
+    margin-bottom: 20px;
   }
 
   </style>
@@ -528,15 +533,15 @@
   </div>
   <div id="menuPopup" class="dialog-container">
     <!-- Add content for the menu popup here -->
-    <h1>Menu</h1>
+    <h1 id="popMenuText">Menu</h1>
       <div class="button-container">
-          <button class="image-button" onclick="goBack()">
+          <button class="image-button" onclick="dashboardLink()">
               <img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/backArrow.png" alt="Back">
               <br>
-              Back
+              Exit<br>Game
           </button>
-          <button class="image-button" onclick="changeGear()">
-              <img src="gear_image_url" alt="Change Gear">
+          <button class="image-button" onclick="gearLink()">
+              <img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/swapArrow.png" alt="Change Gear">
               <br>
               Change<br>Gear
           </button>
@@ -642,4 +647,11 @@
   characterBar.style.width = (window.innerWidth - 300) + 'px';
   console.log(characterBar.style.width);
 
+  function dashboardLink() {
+    window.location.href = '/codemaxxerFrontend/dashboard';
+  }
+
+  function gearLink() {
+    
+  }
   </script>

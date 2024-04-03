@@ -15,6 +15,17 @@ search_exclude: true
     position: absolute;
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
   }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .container-profile,
+  .allBoxes,
+  .container {
+    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+  }
 </style>
 
 <div class="container-profile">
