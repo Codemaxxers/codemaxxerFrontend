@@ -96,8 +96,8 @@
     padding: 10px;
     border-radius: 8px;
     margin-top: 30vh;
-    margin-left: 50px;
-    margin-right: 75vw;
+    margin-left: 3vw;
+    margin-right: 80vw;
     height: 175px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -131,6 +131,7 @@
     background-color: #ccc;
 }
 
+
 h1 {
     margin: 0;
     font-size: 1.2em;
@@ -139,12 +140,12 @@ h1 {
 
 .player-box {
     margin-bottom: 50px; /* Add margin to push it down */
-    transform: translate(-10vw, 20vh); /* Move the player image down */
+    transform: translate(5vw, 50vh); /* Move the player image down */
 }
 
 .enemy-box {
     order: 2; /* Order the enemy box to appear second */
-    transform: translate(10vw, 20vh); /* Move the player image down */
+    transform: translate(1vw, 40vh); /* Move the player image down */
 }
 
 p {

@@ -7,6 +7,7 @@ author: Finn C
 permalink: /fight
 ---
 
+
 <div>
     <div class="alert" id="alert" style="display: none;">
         <div id="home-btn" class="move">
