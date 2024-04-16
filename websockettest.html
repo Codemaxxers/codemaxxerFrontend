@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const connectButton = document.getElementById('connect');
+            const messages = document.getElementById('messages');
+
+            connectButton.addEventListener('click', function() {
+                const ws = new WebSocket('wss://codemaxxerlink.stu.nighthawkcodingsociety.com/myhandler');
+
+                ws.onopen = function() {
+                    console.log('WebSocket connection established');
+                    ws.send('Hello, server!');
+                };
+
+                ws.onmessage = function(event) {
+                    console.log('Message from server ', event.data);
+                    messages.innerText += '\n' + event.data;
+                };
+
+                ws.onerror = function(event) {
+                    console.error('WebSocket error observed:', event);
+                };
+
+                ws.onclose = function(event) {
+                    console.log('WebSocket connection closed: ', event);
+                };
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <button id="connect">Connect WebSocket</button>
+    <p id="messages"></p>
+</body>
+</html>
