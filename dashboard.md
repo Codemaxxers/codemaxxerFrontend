@@ -15,6 +15,17 @@ search_exclude: true
     position: absolute;
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
   }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .container-profile,
+  .allBoxes,
+  .container {
+    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+  }
 </style>
 
 <div class="container-profile">
@@ -35,15 +46,15 @@ search_exclude: true
     <div class="summary-row">
       <div class="summary-card">
         <h2>Account Points</h2>
-        <p id="accountLevelDisplay"></p>
+        <p id="accountPointsDisplay">Loading...</p>
       </div>
       <div class="summary-card">
         <h2>Computer Science A</h2>
-        <p id="csaPointDisplay"></p>
+        <p id="csaPointsDisplay">Loading...</p>
       </div>
       <div class="summary-card">
         <h2>Computer Science P</h2>
-        <p id="cspPointDisplay"></p>
+        <p id="cspPointsDisplay">Loading...</p>
       </div>
     </div>
   </div>
@@ -62,6 +73,15 @@ search_exclude: true
     </div>
   </div>
 </div>
+<div class="container">
+  <div class="summary-row">
+    <div class="summary-card">
+      <h2>Predicted AP Score</h2>
+      <!-- Placeholder for the predicted AP Score -->
+      <p id="predictedAPScoreDisplay">Predicted AP Score will appear here</p>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -70,78 +90,65 @@ search_exclude: true
   };
 
   function fetchUserData() {
-      var requestOptions = {
+    var requestOptions = {
         method: 'GET',
         mode: 'cors',
         cache: 'default',
         credentials: 'include',
-      };
+    };
 
-      // LOCAL TESTING
-      fetch("http://localhost:8032/api/person/jwt", requestOptions)
-      // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
-        .then(response => {
-                if (!response.ok) {
-                    const errorMsg = 'Login error: ' + response.status;
-                    console.log(errorMsg);
+    // LOCAL TESTING
+    fetch("http://localhost:8032/api/person/jwt", requestOptions)
+    .then(response => {
+        if (!response.ok) {
+            const errorMsg = 'Login error: ' + response.status;
+            console.log(errorMsg);
 
-                    switch (response.status) {
-                        case 401:
-                            alert("Please log into or make an account");
-                            window.location.href = "login";
-                            break;
-                        case 403:
-                            alert("Access forbidden. You do not have permission to access this resource.");
-                            break;
-                        case 404:
-                            alert("User not found. Please check your credentials.");
-                            break;
-                        // Add more cases for other status codes as needed
-                        default:
-                            alert("Login failed. Please try again later.");
-                    }
+            switch (response.status) {
+                case 401:
+                    alert("Please log into or make an account");
+                    window.location.href = "login";
+                    break;
+                case 403:
+                    alert("Access forbidden. You do not have permission to access this resource.");
+                    break;
+                case 404:
+                    alert("User not found. Please check your credentials.");
+                    break;
+                // Add more cases for other status codes as needed
+                default:
+                    alert("Login failed. Please try again later.");
+            }
 
-                    return Promise.reject('Login failed');
-                }
-                return response.json();
-                // Success!!!
-            })
-        .then(data => {
+            return Promise.reject('Login failed');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Update the placeholders with actual user data
+        document.getElementById("initName").innerText = data.name;
+        document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
+        document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
+        document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
 
-          const fullNameArray = data.name.split(' ');
-          const firstName = fullNameArray[0];
-          console.log(data.profilePicInt)
+        // Pass the user data to the prediction model
+        predictAPScore(parseInt(data.csaPoints)); // Parse the csaPoints to ensure it's a number
+    })
+    .catch(error => console.log('error', error));
+}
 
-          let profilePictureDiv = document.getElementById("profilePicture");
-          let imgElement = document.createElement("img");
-          imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
-          imgElement.style.width = "60px";
-          imgElement.style.height = "60px";
-          imgElement.style.float = "left";
-          imgElement.style.borderRadius = "5px";
-          var nameForProfile = document.createElement("h3");
-          nameForProfile.innerHTML = data.name;
-          var changeProfileText = document.createElement("p");
-          changeProfileText.innerHTML = "Level " + data.accountLevel;
-          changeProfileText.style.marginBottom = "0px";
+function predictAPScore(csaPoints) {
+    fetch("http://localhost:8032/api/predictAPScore/" + csaPoints)
+    .then(response => response.json())
+    .then(data => {
+        // Round the predicted AP Score to the nearest whole number
+        const predictedAPScore = Math.round(data.predictedAPScore);
+        document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
+    });
+}
 
-          profilePictureDiv.appendChild(imgElement);
-          profilePictureDiv.appendChild(nameForProfile);
-          profilePictureDiv.appendChild(changeProfileText);
-
-          changeProfileText.addEventListener("click", function() {
-            window.location.href = "settings";
-          });
-
-          document.getElementById("initName").innerHTML = "Welcome back, " + firstName;
-          document.getElementById("sidebarName").innerHTML = data.name;
-
-          document.getElementById("cspPointDisplay").innerHTML = data.cspPoints + " Points";
-          document.getElementById("csaPointDisplay").innerHTML = data.csaPoints + " Points";
-          document.getElementById("accountLevelDisplay").innerHTML = data.cspPoints + data.csaPoints + " Points";
-
-          console.log(data);
-        })
-        .catch(error => console.log('error', error));
-  }
 </script>

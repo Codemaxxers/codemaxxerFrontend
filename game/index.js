@@ -1,6 +1,10 @@
 // Declare finishedTutorial outside of the function scope
 let finishedTutorial;
 
+let lastXPosition = localStorage.getItem('playerPositionX');
+let lastYPosition = localStorage.getItem('playerPositionY');
+
+
 function finishTutorial() {
   const requestOptions = {
     method: 'POST',
@@ -15,6 +19,58 @@ function finishTutorial() {
     .catch((error) => console.error(error));
 }
 
+function openTab(event, tabName) {
+    const tabContents = document.querySelectorAll('.tab-content');
+    const tabs = document.querySelectorAll('.tab');
+
+    tabContents.forEach(content => {
+        content.style.display = 'none';
+    });
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    const selectedTabContent = document.getElementById(tabName);
+    selectedTabContent.style.display = 'block';
+    event.currentTarget.classList.add('active');
+}
+
+function closeQuestLog() {
+    document.getElementById('questLogDialog').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const defaultTab = document.querySelector('.tab');
+    if (defaultTab) {
+        defaultTab.classList.add('active');
+        const defaultTabContentId = defaultTab.getAttribute('onclick').split("'")[1];
+        const defaultTabContent = document.getElementById(defaultTabContentId);
+        if (defaultTabContent) {
+            defaultTabContent.style.display = 'block';
+        }
+    }
+});
+
+
+
+// Function to open the quest log pop-up dialog
+function openQuestLog() {
+  // Get the quest log dialog box element
+  const questLogDialog = document.getElementById('questLogDialog');
+
+  // Show the quest log dialog box
+  questLogDialog.style.display = 'block';
+}
+
+// Function to close the quest log pop-up dialog
+function closeQuestLog() {
+  // Get the quest log dialog box element
+  const questLogDialog = document.getElementById('questLogDialog');
+
+  // Hide the quest log dialog box
+  questLogDialog.style.display = 'none';
+}
+
 document.addEventListener("DOMContentLoaded", function(){
   // fetch JWT token for user authentication 
   var requestOptions = {
@@ -24,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(){
     credentials: 'include',
   };
 
-  // LOCAL TESTING
+  savePlayerPosition();
   fetch("http://localhost:8032/api/person/characterData", requestOptions)
   // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
     .then(response => {
@@ -164,6 +220,17 @@ const offset = {
   y: -650
 }
 
+const storedXPosition = localStorage.getItem('playerPositionX');
+const storedYPosition = localStorage.getItem('playerPositionY');
+
+if (storedXPosition && storedYPosition) {
+  offset.x = parseFloat(storedXPosition);
+  offset.y = parseFloat(storedYPosition);
+  console.log('Loaded player position from localStorage');
+} else {
+  console.log('No player position found in localStorage, using defaults');
+}
+
 // what is 1025!!
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
@@ -275,6 +342,8 @@ playerLeftImage.src = './img/playerLeft.png'
 
 const playerRightImage = new Image()
 playerRightImage.src = './img/playerRight.png'
+
+
 
 // initialize player sprite 
 const player = new Sprite({
@@ -644,3 +713,16 @@ addEventListener('click', () => {
     clicked = true
   }
 })
+
+function savePlayerPosition() {
+  localStorage.clear();
+  localStorage.setItem('playerPositionX', background.position.x);
+  localStorage.setItem('playerPositionY', background.position.y);
+}
+
+window.addEventListener('unload', savePlayerPosition);
+
+localStorage.getItem('playerPositionX');
+localStorage.getItem('playerPositionY');
+console.log("last x: " + localStorage.getItem('playerPositionX'),"last y: " + localStorage.getItem('playerPositionY'));
+console.log(offset.x, offset.y);

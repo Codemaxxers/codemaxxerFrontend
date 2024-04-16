@@ -3,6 +3,7 @@ toc: true
 layout: post
 title: Gravity game
 author: Grace
+permalink: /gravity
 ---
 
 <html lang="en">
