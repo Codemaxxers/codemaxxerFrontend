@@ -19,7 +19,7 @@ permalink: /fight
         <div class="move" id="health">Player: </div>
         <div class="move" id="attack">Attack: 10</div>
     </div>
-    <div class="health-box" style="margin-left: 75vw; margin-right: 50px;">
+    <div class="health-box" style="margin-left: 65vw; margin-right: 10vw;margin-top: 30vh;">
         <div class="move" id="EnemyName">Enemy: </div>
         <div class="move" id="EnemyHealth">Enemy Health: </div>
     </div>
