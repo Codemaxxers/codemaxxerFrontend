@@ -41,7 +41,7 @@ permalink: /insidehouse
         background-repeat: no-repeat; /* optional, to prevent image repetition */
         background-position: center; /* optional, to center the image */
         height: 100vh;
-        margin-bottom: 30px;
+        margin-bottom: -40px;
         background-size: 925px;
     }
 
