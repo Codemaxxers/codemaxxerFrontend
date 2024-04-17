@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const connectButton = document.getElementById('connect');
+            const messages = document.getElementById('messages');
+
+            connectButton.addEventListener('click', function() {
+                const wsUrl = 'wss://codemaxxerlink.stu.nighthawkcodingsociety.com/myhandler';
+                const ws = new WebSocket(wsUrl);
+
+                ws.onopen = function() {
+                    console.log('WebSocket connection established');
+                    messages.innerText += 'Connection established.\n';
+                    ws.send('Hello, server!');
+                };
+
+                ws.onmessage = function(event) {
+                    console.log('Message from server: ', event.data);
+                    messages.innerText += 'Message from server: ' + event.data + '\n';
+                };
+
+                ws.onerror = function(event) {
+                    console.error('WebSocket error observed:', event);
+                    messages.innerText += 'WebSocket error observed. Check console for details.\n';
+                    // Provide detailed error description
+                    if (event && event.message) {
+                        console.error('Detailed error message: ', event.message);
+                        messages.innerText += 'Error details: ' + event.message + '\n';
+                    }
+                };
+
+                ws.onclose = function(event) {
+                    console.log('WebSocket connection closed: ', event);
+                    messages.innerText += 'Connection closed. ';
+                    if (!event.wasClean) {
+                        messages.innerText += 'Connection unexpectedly closed. ';
+                    }
+                    messages.innerText += 'Code: ' + event.code + ', Reason: ' + event.reason + '\n';
+                    // Provide details based on the close code
+                    switch (event.code) {
+                        case 1000:
+                            messages.innerText += 'Normal closure.\n';
+                            break;
+                        case 1006:
+                            messages.innerText += 'Abnormal closure, no close frame received. Possible termination by server or network issue.\n';
+                            break;
+                        default:
+                            messages.innerText += 'Closed with code: ' + event.code + '\n';
+                            break;
+                    }
+                };
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <button id="connect">Connect WebSocket</button>
+    <p id="messages"></p>
+</body>
+</html>

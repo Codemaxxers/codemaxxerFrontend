@@ -95,9 +95,9 @@
     background-color: #f7f7f7;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 30vh;
-    margin-left: 3vw;
-    margin-right: 80vw;
+    margin-top: 40vh;
+    margin-left: 1vw;
+    margin-right: 82vw;
     height: 175px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -185,9 +185,9 @@ b {
     position: absolute;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 10vh;
-    margin-left: 50px;
-    margin-right: 75vw;
+    margin-top: 40vh;
+    margin-left: 18vw;
+    margin-right: 52vw;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-gap: 10px;
