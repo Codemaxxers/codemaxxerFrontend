@@ -17,7 +17,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        fetch("http://localhost:8032/api/person/jwt", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
@@ -99,7 +99,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
@@ -130,7 +130,7 @@ search_exclude: true
             };
             console.log(requestBody);
             // Making the POST request LOCAL TESTING
-            // fetch(`http://localhost:8032/api/person/updatePerson/${id}`, {
+            // fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
             fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
             method: 'POST',
             headers: {
@@ -160,7 +160,7 @@ search_exclude: true
     };
 
     // LOCAL TESTING
-    fetch("http://localhost:8032/signout", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
     // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
       .then(response => response.text())
       .then(result => {

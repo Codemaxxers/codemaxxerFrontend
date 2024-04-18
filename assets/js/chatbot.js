@@ -6,9 +6,9 @@ const deleteChat = getById("delete_chat");
 const retieveChatHistory = getById("retieve_chat_history");
 
 //const url = "http://192.168.68.99:11434/api/generate";
-const chatUrl = "http://localhost:8032/aichatbot/chat?message=";
-const clearHistUrl = "http://localhost:8032/aichatbot/chat/history/clear";
-const retrieveHistUrl = "http://localhost:8032/aichatbot/chat/history";
+const chatUrl = "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=";
+const clearHistUrl = "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear";
+const retrieveHistUrl = "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history";
 
 const BOT_IMG = "assets/icons/icons8-chat-bot-64.png";
 const PERSON_IMG = "assets/icons/icons8-person-94.png";

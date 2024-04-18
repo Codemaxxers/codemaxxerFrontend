@@ -12,7 +12,7 @@ function finishTutorial() {
     redirect: 'follow'
   };
   
-  fetch("http://localhost:8032/api/person/finishedTutorial", requestOptions)
+  fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
   // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   savePlayerPosition();
-  fetch("http://localhost:8032/api/person/characterData", requestOptions)
+  fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
   // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
     .then(response => {
             if (!response.ok) {
@@ -741,7 +741,7 @@ function savePlayerPositionToBackend(x, y) {
     })
   };
 
-  fetch("http://localhost:8032/api/savePlayerPosition", requestOptions)
+  fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/savePlayerPosition", requestOptions)
     .then(response => {
       if (!response.ok) {
         throw new Error('Failed to save player position');

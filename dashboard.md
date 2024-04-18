@@ -153,7 +153,7 @@ search_exclude: true
       credentials: 'include',
     };
 
-    fetch("http://localhost:8032/api/person/jwt", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
       .then(response => {
         if (!response.ok) {
           const errorMsg = 'Login error: ' + response.status;
@@ -191,7 +191,7 @@ search_exclude: true
 
   function predictAndDisplayAPScore(csaPoints) {
     console.log("Sending request with csaPoints:", csaPoints);
-    fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/predictAPScore?csaPoints=" + csaPoints)
       .then(response => {
         console.log("Received response:", response);
         if (!response.ok) {

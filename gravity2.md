@@ -60,7 +60,7 @@ permalink: /gravity2
         cache: 'default',
         credentials: 'include',
         };
-        fetch('http://localhost:8032/api/terms/randomTerm/csp')
+        fetch('https://codemaxxers.stu.nighthawkcodingsociety.com/api/terms/randomTerm/csp')
         .then(response => {
             // Check if the response is successful
             if (!response.ok) {
