@@ -129,17 +129,19 @@ search_exclude: true
 </div>
 
 <!-- Slider Container -->
+<!-- Slider Container -->
 <div class="slider-container">
   <label for="csaPointsSlider">CSA Points</label>
-  <input type="range" id="csaPointsSlider" min="0" max="100" step="1" value="50">
+  <input type="range" id="csaPointsSlider" min="0" max="1000" step="1" value="100">
+  <span id="csaPointsValue">100</span>
 </div>
+
 
 <!-- Bar Chart Container -->
 <div>
   <canvas id="pointsChart" width="400" height="200"></canvas>
 </div>
 
-<!-- Script for dynamic functionality -->
 <script>
   window.onload = function () {
     fetchUserData();
@@ -212,52 +214,12 @@ search_exclude: true
   }
 
   // Event listener for CSA Points slider
-  document.getElementById('csaPointsSlider').addEventListener('input', function (event) {
-    const csaPoints = parseInt(event.target.value);
-    predictAndDisplayAPScore(csaPoints);
+  const csaPointsSlider = document.getElementById('csaPointsSlider');
+  const csaPointsValue = document.getElementById('csaPointsValue');
+  
+  csaPointsSlider.addEventListener('input', function (event) {
+    const value = parseInt(event.target.value);
+    csaPointsValue.innerText = value;
+    predictAndDisplayAPScore(value);
   });
-</script>
-
-<script>
-  // Dummy data for initial points
-  let accountPoints = 0;
-  let csaPoints = 100;
-  let cspPoints = 0;
-
-  // Initialize Chart.js bar chart
-  let ctx = document.getElementById('pointsChart').getContext('2d');
-  let pointsChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Account Points', 'CSA Points', 'CSP Points'],
-      datasets: [{
-        label: 'Points',
-        data: [accountPoints, csaPoints, cspPoints],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-
-  // Function to update the bar chart with new points
-  function updatePointsChart() {
-    pointsChart.data.datasets[0].data[1] = csaPoints;
-    pointsChart.update();
-  }
 </script>
