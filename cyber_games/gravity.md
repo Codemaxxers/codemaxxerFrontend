@@ -48,6 +48,50 @@ permalink: /gravity
         <div id="inputHistory"></div>
     </div>
     <script>
+        //test
+        window.onload = function () {
+        fetchTerm();
+    };
+    function fetchTerm() {
+        var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+        };
+        fetch('http://localhost:8032/api/terms/randomTerm/csp')
+        .then(response => {
+            // Check if the response is successful
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            // Parse the JSON response
+            return response.json();
+        })
+        .then(data => {
+            // Extract term and definition from the data
+            const term = data.term;
+            const definition = data.definition;
+            // Now you can use term and definition variables as needed
+            console.log('Term:', term);
+            console.log('Definition:', definition);
+            // Example: Save term and definition to variables
+            const termAndDefinition = {
+            term: term,
+            definition: definition
+            };
+            // Do whatever you need with termAndDefinition
+            // console.log('Term and Definition:', termAndDefinition);
+            return term;
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+        //
+        //
+        //
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         const userInput = document.getElementById("userInput");
@@ -59,7 +103,7 @@ permalink: /gravity
             { term: "Malware", definition: "Malicious software designed to harm or exploit computers, networks, and users." },
             { term: "Cybersecurity", definition: "The practice of protecting systems, networks, and programs from digital attacks, theft, and damage." },
             { term: "Zero-day Exploit", definition: "An attack that targets a previously unknown vulnerability in a computer application or operating system, exploiting it before the vendor releases a patch." },
-            { term: "Denial-of-Service", definition: "An attack that aims to make a machine or network resource unavailable to its intended users by overwhelming it with traffic or other forms of disruption." },
+            { term: "DOS", definition: "An attack that aims to make a machine or network resource unavailable to its intended users by overwhelming it with traffic or other forms of disruption." },
             { term: "VPN", definition: "A secure and encrypted connection established over the internet, providing a private network-like environment for communication and data exchange." },
             { term: "Two-Factor Authentication", definition: "A security process in which a user provides two different authentication factors to verify their identity, usually something they know (password) and something they have (security code from a mobile app)." },
             { term: "Social Engineering", definition: "The manipulation of individuals to divulge confidential information or perform actions that may compromise security." },
@@ -67,8 +111,8 @@ permalink: /gravity
             { term: "Cryptography", definition: "The practice and study of techniques for securing communication and data from adversaries." },
             { term: "Virus", definition: "A type of malicious software that self-replicates and spreads to other computers, often causing damage to data or disrupting system functionality." },
             { term: "Patch", definition: "A piece of software designed to update or fix problems with a computer program or its supporting data." },
-            { term: "IoT (Internet of Things)", definition: "A network of interconnected devices embedded with sensors, software, and network connectivity, enabling them to collect and exchange data." },
-            { term: "DDoS (Distributed Denial of Service)", definition: "A type of cyber attack that disrupts the normal functioning of a network or website by overwhelming it with a flood of internet traffic from multiple sources." },
+            { term: "IoT", definition: "A network of interconnected devices embedded with sensors, software, and network connectivity, enabling them to collect and exchange data." },
+            { term: "DDoS", definition: "A type of cyber attack that disrupts the normal functioning of a network or website by overwhelming it with a flood of internet traffic from multiple sources." },
             { term: "Hashing", definition: "The process of converting input data (such as passwords) into a fixed-size string of characters, typically for secure storage or verification purposes." },
             { term: "Endpoint Security", definition: "The practice of protecting computer networks accessed by remote devices such as laptops, smartphones, and tablets." },
             { term: "Cyber Threat Intelligence", definition: "Information that provides an organization with insights into potential cyber threats, helping them make informed decisions to protect against cyber attacks." },
@@ -89,14 +133,14 @@ permalink: /gravity
                 definition: termDefinitionPair.definition,
                 x: newX,
                 y: newY,
-                speed: (Math.random()) / 10
+                speed: .1
             };
             rocks.push(rock);
         }
         function isOverlapping(newX, newY) {
             for (const rock of rocks) {
                 const distance = Math.sqrt((newX - rock.x) ** 2 + (newY - rock.y) ** 2);
-                if (distance < 200) { // Adjust the distance as needed
+                if (distance < 200) {
                     return true; // Overlapping
                 }
             }
