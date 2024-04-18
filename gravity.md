@@ -83,9 +83,8 @@ permalink: /gravity
             };
             // Do whatever you need with termAndDefinition
             // console.log('Term and Definition:', termAndDefinition);
-            return term;
         })
-        .catch(error => {
+          .catch(error => {
             // Handle errors
             console.error('There was a problem with the fetch operation:', error);
         });

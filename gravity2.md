@@ -3,7 +3,7 @@ toc: true
 layout: post
 title: Gravity game
 author: Grace
-permalink: /gravity
+permalink: /gravity2
 ---
 
 <html lang="en">
@@ -90,8 +90,6 @@ permalink: /gravity
             console.error('There was a problem with the fetch operation:', error);
         });
     }
-        //
-        //
         //
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
