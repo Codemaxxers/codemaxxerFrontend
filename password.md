@@ -70,7 +70,7 @@ display: none;
 }
 
 h2 {
-    color: rgb(218, 165, 32); /* Golden yellow */
+    color: rgb(218, 165, 32); /* golden yellow color!*/
 }
 
 .container {
