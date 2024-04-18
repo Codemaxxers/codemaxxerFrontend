@@ -134,9 +134,9 @@ search_exclude: true
     </div>
 
   <div>
-        <input type="range" id="csaPointsSlider" min="0" max="100" step="1" value="50">
         <label for="csaPointsSlider">CSA Points</label>
-  </div>
+        <input type="range" id="csaPointsSlider" min="0" max="100" step="1" value="50">
+    </div>
 
 <!-- Script for dynamic functionality -->
 <script>
@@ -215,9 +215,9 @@ search_exclude: true
 
   <script>
         // Dummy data for initial points
-        let accountPoints = 0;
+        let accountPoints = 70;
         let csaPoints = 50;
-        let cspPoints = 0;
+        let cspPoints = 80;
 
         // Initialize Chart.js bar chart
         let ctx = document.getElementById('pointsChart').getContext('2d');
