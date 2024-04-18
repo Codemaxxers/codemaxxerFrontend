@@ -176,6 +176,7 @@ search_exclude: true
                 })
                 .catch(error => console.log('error', error));
         }
+        // Ignore
 
         function predictAPScore(csaPoints) {
             console.log("Sending request with csaPoints:", csaPoints);
