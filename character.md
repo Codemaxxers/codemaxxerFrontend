@@ -131,7 +131,8 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch("http://localhost:8032/api/person/characterData", requestOptions)
+        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
+        // fetch("http://localhost:8032/api/person/characterData", requestOptions)
             .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -346,7 +347,8 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
+        fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
+        // fetch(`http://localhost:8032/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Weapon equipped successfully.");
@@ -366,7 +368,8 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/unequipWeapon`, requestOptions)
+        fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/unequipWeapon`, requestOptions)
+        // fetch(`http://localhost:8032/api/person/unequipWeapon`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Gear change successful.");
@@ -386,7 +389,8 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/equipArmor?armorID=${gearID}`, requestOptions)
+        fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/equipArmor?armorID=${gearID}`, requestOptions)
+        // fetch(`http://localhost:8032/api/person/equipArmor?armorID=${gearID}`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Gear change successful.");
@@ -421,7 +425,8 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/unequipArmor`, requestOptions)
+        fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/unequipArmor`, requestOptions)
+        // fetch(`http://localhost:8032/api/person/unequipArmor`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Gear change successful.");
