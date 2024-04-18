@@ -179,23 +179,25 @@ search_exclude: true
         // Ignore
 
         function predictAPScore(csaPoints) {
-            console.log("Sending request with csaPoints:", csaPoints);
-            fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
-                .then(response => {
-                    console.log("Received response:", response);
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("Received data:", data);
-                    const predictedAPScore = Math.round(data);
-                    document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                    document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
-                });
-        }
+    console.log("Sending request with csaPoints:", csaPoints);
+    fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
+        .then(response => {
+            console.log("Received response:", response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received data:", data);
+            // Ensure the predicted AP score is between 1 and 5
+            const predictedAPScore = Math.min(Math.max(Math.round(data), 1), 5);
+            document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
+        });
+}
+
     </script>
