@@ -101,23 +101,11 @@ search_exclude: true
     fetchUserData();
   };
 
-  function fetchUserData() {
-    var requestOptions = {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'include',
-    };
-
-      <script>
-        window.onload = function () {
-            fetchUserData();
-        };
 
         function fetchUserData() {
             var requestOptions = {
                 method: 'GET',
-                mode: 'no-cors',
+                mode: 'cors',
                 cache: 'default',
                 credentials: 'include',
             };
