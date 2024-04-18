@@ -13,10 +13,10 @@ const retrieveHistUrl = "http://localhost:8032/aichatbot/chat/history";
 const BOT_IMG = "assets/icons/icons8-chat-bot-64.png";
 const PERSON_IMG = "assets/icons/icons8-person-94.png";
 const BOT_NAME = "Chat Bot";
-const PERSON_NAME = "Shivansh";
+const PERSON_NAME = "You";
 
 const BOT_TITLE = "AI Bot";
-const PERSON_TITLE = "Shivansh";
+const PERSON_TITLE = "You";
 
 deleteChat.addEventListener("click", async (event) => {
 	event.preventDefault();

@@ -66,7 +66,7 @@ search_exclude: true
     }
 
     .image:hover {
-        transform: scale(1.1); /* Adjust scale factor as desired */
+        transform: scale(1.05); /* Adjust scale factor as desired */
     }
 
     .account-card {
@@ -87,6 +87,24 @@ search_exclude: true
         background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
     }
 
+    .imageContainer {
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.5); /* Default semi-transparent background */
+        transition: background-color 0.3s ease; /* Added background-color transition */
+    }
+
+    .imageContainer:hover {
+        background-color: rgba(0, 0, 0, 0.8); /* Solid background on hover */
+    }
+
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .imageDiv {
+        animation: fade-in 1s ease-in-out;
+    }
 </style>
 
 
@@ -97,11 +115,13 @@ search_exclude: true
 
 <div class="imageDiv">
     <div class="imageContainer">
-        <a href="game/index.html"><img src="images/pixelRoadUpscaled.png" class="image" id="singleImage"></a>
+        <!-- <a href="game/index.html"><img src="images/pixelRoadUpscaled.png" class="image" id="singleImage"></a> -->
+        <a href="game/index.html"><img src="game/img/player.png" class="image" id="singleImage" style="height:640px; width:520px; background:grey; padding: 50px;"></a>
         <div class="gameModeLabel">Single Player</div>
     </div>
     <div class="imageContainer">
-        <a href="multiplayer"><img src="images/battle2.jpeg" class="image"></a>
+        <!-- <a href="multiplayer"><img src="images/battle2.jpeg" class="image"></a> -->
+        <a href="multiplayer"><img src="game/img/twoPlayer.png" class="image" id="singleImage" style="height:640px; width:520px; background:grey; padding: 50px;"></a>
         <div class="gameModeLabel">Multiplayer</div>
     </div>
 </div>

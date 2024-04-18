@@ -64,4 +64,6 @@ permalink: /insidehouse
             top: 23.8%;
             left: 28%;
     }
+
+
 </style>
