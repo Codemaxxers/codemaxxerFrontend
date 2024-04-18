@@ -88,7 +88,8 @@ search_exclude: true
   <div class="summary-row">
     <div class="sumText">
       <h1 id="initName"></h1>
-      <h3 id="detailText">Here are your gaming stats!</h3>
+      <h3 id="detailText">Game Statistics</h3>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </div>
     <div class="account-card">
       <div id="profilePicture">
@@ -126,6 +127,16 @@ search_exclude: true
     </div>
   </div>
 </div>
+
+
+ <div>
+        <canvas id="pointsChart" width="400" height="200"></canvas>
+    </div>
+
+  <div>
+        <input type="range" id="csaPointsSlider" min="0" max="100" step="1" value="50">
+        <label for="csaPointsSlider">CSA Points</label>
+  </div>
 
 <!-- Script for dynamic functionality -->
 <script>
@@ -200,4 +211,65 @@ search_exclude: true
         });
 }
 
+    </script>
+
+  <script>
+        // Dummy data for initial points
+        let accountPoints = 0;
+        let csaPoints = 50;
+        let cspPoints = 0;
+
+        // Initialize Chart.js bar chart
+        let ctx = document.getElementById('pointsChart').getContext('2d');
+        let pointsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Account Points', 'CSA Points', 'CSP Points'],
+                datasets: [{
+                    label: 'Points',
+                    data: [accountPoints, csaPoints, cspPoints],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Event listener for CSA Points slider
+        document.getElementById('csaPointsSlider').addEventListener('input', function(event) {
+            csaPoints = parseInt(event.target.value);
+            updatePointsChart();
+            predictAPScore();
+        });
+
+        // Function to update the bar chart with new points
+        function updatePointsChart() {
+            pointsChart.data.datasets[0].data[1] = csaPoints;
+            pointsChart.update();
+        }
+
+        // Function to predict AP Score
+        function predictAPScore() {
+            // Dummy logic for predicting AP score based on CSA points
+            let predictedAPScore = Math.max(Math.min(Math.round(csaPoints / 10), 5), 1);
+            console.log('Predicted AP Score:', predictedAPScore);
+        }
+
+        // Initial prediction of AP score
+        predictAPScore();
     </script>
