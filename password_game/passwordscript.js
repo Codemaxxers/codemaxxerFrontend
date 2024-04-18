@@ -1,9 +1,12 @@
+const passcanvas = document.getElementById("passgameCanvas");
+const ctx = passcanvas.getContext("2d");
+
 var timeSet;
 var constant = 0;
 var seconds = 0;
 var minutes = 0;
 
-    function incrementTime() {
+function incrementTime() {
     constant++; //constant second count separate from seconds
     seconds++;
     if (seconds == 60) {
@@ -12,7 +15,7 @@ var minutes = 0;
     }
     // update time display on page
     document.getElementById("timerDisplay").innerText = minutes + ":" +(seconds < 10 ? "0":"") + seconds;
-};
+}
 
 function startTimer() {
     seconds = 0;

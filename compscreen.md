@@ -81,6 +81,7 @@ permalink: /compscreen
             </div>
         </body>
         <button class ="closePassBtn" id="closePassModal"> Close </button>
+        <canvas id="passgameCanvas" width="1200" height="800"></canvas>
     </div>
 </div>
 </body>
@@ -245,6 +246,10 @@ permalink: /compscreen
         position: absolute; top: 100px; left: 30%;
         text-align: center;
         font-size: 60px;
+    }
+
+    h2 {
+        color: black;
     }
 
     .closeGBtn, .closePassBtn, .closePhishBtn{
