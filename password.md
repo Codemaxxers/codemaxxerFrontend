@@ -6,9 +6,10 @@ permalink: /password
 <html>
 <body>
     <div class="container">
+        <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
         <h2>Password Game</h2>
         <br>
-        <button id="start_button" class="select_button" onclick="startGame()">Start</button>
+        <button id="startBtn" class="startBtn" onclick="startGame()">Start</button>
         <div id="play_container" class="play_container" style="display:none">
             <input type="text" id="passwordInput" placeholder="Enter your password">
             <br><br>
@@ -43,29 +44,60 @@ font-family: "DotGothic16", sans-serif;
 box-sizing: border-box;
 }
 
+:root {
+      --pastel-pink: #ffb6c1;
+      --dark-pink: #ff69b4;
+      --purple: #9b30ff;
+      --blue: #4169e1;
+      --black: #000000;
+      --green: #90EE90;
+      --red: #ffb6c1;
+      --gray: #A9A9A9;
+      --yellow: #FFD700;
+      --font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+.startBtn,
+.check_button {
+    border: 2px solid black;
+}
+.startBtn {
+    background-color: var(--pastel-pink);
+}
+
 #play_container {
 display: none;
+}
+
+h2 {
+    color: rgb(218, 165, 32); /* Golden yellow */
 }
 
 .container {
     width: 300px;
     margin: 0 auto;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center content vertically */
+    height: 100vh; /* Set height to full viewport height */
 }
+
 .container input {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    margin: 0 auto;
+    text-align: center; /* Center align the content */
+    /* padding: 10px;
+    margin-top: 10px; */
 }
 
 .container button {
     width: fit-content;
-    padding: 0.7rem;
+    padding: .4rem 1rem;
     font-size: 1.2rem;
     white-space: nowrap;
     background-color: var(--primary-color);
     color: var(--white);
     outline: none;
-    border: none;
     border-radius: 10px; 
     transition: .3s;
     cursor:pointer;
@@ -108,9 +140,28 @@ display: none;
     text-decoration: none;
     cursor: pointer;
 }
+.backBtn:hover {
+        background-color: #ddd;
+    }
+    .backBtn{
+        border: 3px solid black;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
+        position: absolute; left: 20px; top: 10px;
+    }
+
+.passwordInput {
+    padding: 10px;
+}
 </style>
 
+
 <script>
+    var backBtn = document.getElementById("back-btn");
+    function goBack() {
+        window.location.href = '{{site.baseurl}}/compscreen';
+    }
     var timeSet;
     var constant = 0;
     var seconds = 0;
@@ -160,7 +211,7 @@ display: none;
 
         // UI elements
         document.getElementById("play_container").style.display = "none";
-        document.getElementById("start_button").style.display = "block"; 
+        document.getElementById("startBtn").style.display = "block"; 
         document.getElementById("restart_button").style.display = "none";
 
         // result displays
@@ -229,7 +280,7 @@ display: none;
     function startGame() {
         startTimer();
         playContainer.style = "display:block;";
-        startButton.style = "display:none;";
+        startBtn.style = "display:none;";
     }
 
     function checkPassword() {
