@@ -88,7 +88,8 @@ search_exclude: true
   <div class="summary-row">
     <div class="sumText">
       <h1 id="initName"></h1>
-      <h3 id="detailText">Here are your gaming stats!</h3>
+      <h3 id="detailText">Game Statistics</h3>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </div>
     <div class="account-card">
       <div id="profilePicture">
@@ -127,77 +128,131 @@ search_exclude: true
   </div>
 </div>
 
-<!-- Script for dynamic functionality -->
+<!-- Slider Container -->
+<div class="slider-container">
+  <label for="csaPointsSlider">CSA Points</label>
+  <input type="range" id="csaPointsSlider" min="0" max="1000" step="1" value="100">
+  <span id="csaPointsValue">100</span>
+</div>
+
+<!-- Bar Chart Container -->
+<div>
+  <canvas id="pointsChart" width="400" height="200"></canvas>
+</div>
+
 <script>
-        window.onload = function () {
-            fetchUserData();
-        };
+  window.onload = function () {
+    fetchUserData();
+  };
 
-        function fetchUserData() {
-            var requestOptions = {
-                method: 'GET',
-                mode: 'cors',
-                cache: 'default',
-                credentials: 'include',
-            };
+  function fetchUserData() {
+    var requestOptions = {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include',
+    };
 
-            fetch("http://localhost:8032/api/person/jwt", requestOptions)
-                .then(response => {
-                    if (!response.ok) {
-                        const errorMsg = 'Login error: ' + response.status;
-                        console.log(errorMsg);
+    fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          const errorMsg = 'Login error: ' + response.status;
+          console.log(errorMsg);
 
-                        switch (response.status) {
-                            case 401:
-                                alert("Please log into or make an account");
-                                window.location.href = "login";
-                                break;
-                            case 403:
-                                alert("Access forbidden. You do not have permission to access this resource.");
-                                break;
-                            case 404:
-                                alert("User not found. Please check your credentials.");
-                                break;
-                            default:
-                                alert("Login failed. Please try again later.");
-                        }
+          switch (response.status) {
+            case 401:
+              alert("Please log into or make an account");
+              window.location.href = "login";
+              break;
+            case 403:
+              alert("Access forbidden. You do not have permission to access this resource.");
+              break;
+            case 404:
+              alert("User not found. Please check your credentials.");
+              break;
+            default:
+              alert("Login failed. Please try again later.");
+          }
 
-                        return Promise.reject('Login failed');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById("initName").innerText = data.name;
-                    document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
-                    document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
-                    document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
-
-                    predictAPScore(data.csaPoints);
-                })
-                .catch(error => console.log('error', error));
+          return Promise.reject('Login failed');
         }
-        // Ignore
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById("initName").innerText = data.name;
+        document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
+        document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
+        document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
 
-        function predictAPScore(csaPoints) {
+        predictAndDisplayAPScore(data.csaPoints);
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  function predictAndDisplayAPScore(csaPoints) {
     console.log("Sending request with csaPoints:", csaPoints);
     fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
-        .then(response => {
-            console.log("Received response:", response);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Received data:", data);
-            // Ensure the predicted AP score is between 1 and 5
-            const predictedAPScore = Math.min(Math.max(Math.round(data), 1), 5);
-            document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-            document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
-        });
-}
+      .then(response => {
+        console.log("Received response:", response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Received data:", data);
+        // Ensure the predicted AP score is between 1 and 5
+        const predictedAPScore = Math.min(Math.max(Math.round(data), 1), 5);
+        document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
+      });
+  }
 
-    </script>
+  // Event listener for CSA Points slider
+  const csaPointsSlider = document.getElementById('csaPointsSlider');
+  const csaPointsValue = document.getElementById('csaPointsValue');
+  
+  csaPointsSlider.addEventListener('input', function (event) {
+    const value = parseInt(event.target.value);
+    csaPointsValue.innerText = value;
+    predictAndDisplayAPScore(value);
+  });
+
+  // Initialize Chart.js bar chart
+  let accountPoints = 0;
+  let csaPoints = 100;
+  let cspPoints = 0;
+
+  let ctx = document.getElementById('pointsChart').getContext('2d');
+  let pointsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Account Points', 'CSA Points', 'CSP Points'],
+      datasets: [{
+        label: 'Points',
+        data: [accountPoints, csaPoints, cspPoints],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
