@@ -123,7 +123,7 @@ function fetchQuestion(attackValue) {
         redirect: 'follow'
     };
     
-    var api = `http://localhost:8032/api/questions/randomQuestion/${course}`;
+    var api = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/randomQuestion/${course}`;
     fetch(api, requestOptions)
     .then(response => response.json())
     .then(result => {
@@ -195,7 +195,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
             credentials: 'include'
         };
         //Adding points to the account
-        fetch(`http://localhost:8032/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+        fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -228,7 +228,7 @@ function GetEnemy() {
         redirect: 'follow'
     };
 
-    var api = "http://localhost:8032/api/enemies"
+    var api = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/enemies"
     fetch(api, requestOptions)
     .then(response => response.json()) // Convert response to JSON format
     .then(result => {
@@ -292,7 +292,7 @@ function Battle(attack) {
             credentials: 'include'
         };
         //Adding points to the account
-        fetch(`http://localhost:8032/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+        fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
