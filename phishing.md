@@ -9,6 +9,11 @@ permalink: /phishing
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+      @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+    * {
+        font-family: "DotGothic16", sans-serif;
+        box-sizing: border-box;
+    }
     :root {
       --pastel-pink: #ffb6c1;
       --dark-pink: #ff69b4;
@@ -68,9 +73,20 @@ permalink: /phishing
      .button-phishing:hover {
       background-color: var(--blue);
     }
+    .backBtn:hover {
+        background-color: #ddd;
+    }
+    .backBtn{
+        border: 3px solid black;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
+        position: absolute; left: 20px; top: 10px;
+    }
   </style>
 </head>
 <body id="body">
+<button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
 <div id="game-container" style="border: none; border-radius: 20px; padding: 20px; background-color: white;">
   <div id="content-container">
     <h1>Email Phishing Game</h1>
@@ -89,6 +105,10 @@ permalink: /phishing
 
 
 <script>
+      var backBtn = document.getElementById("back-btn");
+    function goBack() {
+        window.location.href = '{{site.baseurl}}/compscreen';
+    }
   const emails = [
     {
       text: "Dear Beloved Friend, I know this message will come to you as surprised but permit me of my desire to go into business relationship with you. I am Miss Naomi Surugaba a daughter to late Al-badari Surugaba of Libya whom was murdered during the recent civil war in Libya in March 2011, before his death my late father was a strong supporter and a member of late Moammar Gadhafi Government in Tripoli. Meanwhile before the incident, my late Father came to Cotonou Benin republic with the sum of USD4, 200,000.00 (US$4.2M) which he deposited in a Bank here in Cotonou Benin Republic West Africa for safe keeping. I am here seeking for an avenue to transfer the fund to you in only you're reliable and trustworthy person to Investment the fund. I am here in Benin Republic because of the death of my parent's and I want you to help me transfer the fund into your bank account for investment purpose. Please I will offer you 20% of the total sum of USD4.2M for your assistance. Please I wish to transfer the fund urgently without delay into your account and also wish to relocate to your country due to the poor condition in Benin, as to enable me continue my education as I was a medical student before the sudden death of my parent's. Reply to my alternative email:missnaomisurugaba2@hotmail.com, Your immediate response would be appreciated.",

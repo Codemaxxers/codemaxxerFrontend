@@ -37,7 +37,11 @@ permalink: /password
 </html>
 
 <style>
-
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+* {
+font-family: "DotGothic16", sans-serif;
+box-sizing: border-box;
+}
 
 #play_container {
 display: none;
