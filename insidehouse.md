@@ -41,8 +41,8 @@ permalink: /insidehouse
         background-repeat: no-repeat; /* optional, to prevent image repetition */
         background-position: center; /* optional, to center the image */
         height: 100vh;
-        margin-bottom: -40px;
-        background-size: 925px;
+        background-size: 60%
+        /* background-size: 925px; */
     }
 
     .homeBtn{
@@ -60,9 +60,8 @@ permalink: /insidehouse
     .computerBtn {
         width: 97px;
         height: 97px;
-        left: 200px;
-        position:absolute;
-            top:23.8%;
-            left:28%;
+        position:relative;
+            bottom:-238px;
+            left:27%;
     }
 </style>
