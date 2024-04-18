@@ -1,6 +1,3 @@
-const passcanvas = document.getElementById("passgameCanvas");
-const ctx = passcanvas.getContext("2d");
-
 var timeSet;
 var constant = 0;
 var seconds = 0;
@@ -117,6 +114,7 @@ const checkButton = document.getElementById("check_button");
 const timerDisplay = document.getElementById("timerDisplay");
 
 function startGame() {
+    console.log("Game started hihihi")
     startTimer();
     playContainer.style = "display:block;";
     startButton.style = "display:none;";

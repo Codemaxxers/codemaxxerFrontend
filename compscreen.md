@@ -50,7 +50,6 @@ permalink: /compscreen
     <div class="modal-inner">
         <link rel="stylesheet" href="password_game/passwordstyle.css">
         <body>
-            <script src="password_game/passwordscript.js"></script>
             <div class="container">
                 <h2>Password Game</h2>
                 <br>
@@ -60,7 +59,6 @@ permalink: /compscreen
                     <br><br>
                     <button id="check_button" class="check_button" onclick="checkPassword()">Check</button>
                     <ul id="requirements">
-                        <br>
                         <li id="length">At least 8 characters</li>
                         <li id="uppercase" style="display:none;">At least one uppercase letter</li>
                         <li id="lowercase" style="display:none;">At least one lowercase letter</li>
@@ -79,9 +77,9 @@ permalink: /compscreen
                     <p id="crackTimeResult">-</p>
                 </div>
             </div>
+            <script src="password_game/passwordscript.js"></script>
         </body>
         <button class ="closePassBtn" id="closePassModal"> Close </button>
-        <canvas id="passgameCanvas" width="1200" height="800"></canvas>
     </div>
 </div>
 </body>
@@ -248,7 +246,7 @@ permalink: /compscreen
         font-size: 60px;
     }
 
-    h2 {
+    h2, h3, p {
         color: black;
     }
 
