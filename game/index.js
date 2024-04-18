@@ -726,3 +726,32 @@ localStorage.getItem('playerPositionX');
 localStorage.getItem('playerPositionY');
 console.log("last x: " + localStorage.getItem('playerPositionX'),"last y: " + localStorage.getItem('playerPositionY'));
 console.log(offset.x, offset.y);
+
+
+function savePlayerPositionToBackend(x, y) {
+  const requestOptions = {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+      
+    },
+    body: JSON.stringify({
+      playerPositionX: x,
+      playerPositionY: y
+    })
+  };
+
+  fetch("http://localhost:8032/api/savePlayerPosition", requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to save player position');
+      }
+      console.log('Player position saved successfully');
+    })
+    .catch(error => {
+      console.error('Error saving player position:', error);
+    });
+}
+
+
+savePlayerPositionToBackend(localStorage.getItem('playerPositionX'), localStorage.getItem('playerPositionY'));

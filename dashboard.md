@@ -47,13 +47,16 @@ search_exclude: true
       <div class="summary-card">
         <h2>Account Points</h2>
         <p id="accountPointsDisplay">Loading...</p>
+        <p id="accountPointsDisplay">Loading...</p>
       </div>
       <div class="summary-card">
         <h2>Computer Science A</h2>
         <p id="csaPointsDisplay">Loading...</p>
+        <p id="csaPointsDisplay">Loading...</p>
       </div>
       <div class="summary-card">
         <h2>Computer Science P</h2>
+        <p id="cspPointsDisplay">Loading...</p>
         <p id="cspPointsDisplay">Loading...</p>
       </div>
     </div>
@@ -82,6 +85,15 @@ search_exclude: true
     </div>
   </div>
 </div>
+<div class="container">
+  <div class="summary-row">
+    <div class="summary-card">
+      <h2>Predicted AP Score</h2>
+      <!-- Placeholder for the predicted AP Score -->
+      <p id="predictedAPScoreDisplay">Predicted AP Score will appear here</p>
+    </div>
+  </div>
+</div>
 
 
 <script>
@@ -91,64 +103,84 @@ search_exclude: true
 
   function fetchUserData() {
     var requestOptions = {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'default',
-        credentials: 'include',
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include',
     };
 
-    // LOCAL TESTING
-    fetch("http://localhost:8032/api/person/jwt", requestOptions)
-    .then(response => {
-        if (!response.ok) {
-            const errorMsg = 'Login error: ' + response.status;
-            console.log(errorMsg);
+      <script>
+        window.onload = function () {
+            fetchUserData();
+        };
 
-            switch (response.status) {
-                case 401:
-                    alert("Please log into or make an account");
-                    window.location.href = "login";
-                    break;
-                case 403:
-                    alert("Access forbidden. You do not have permission to access this resource.");
-                    break;
-                case 404:
-                    alert("User not found. Please check your credentials.");
-                    break;
-                // Add more cases for other status codes as needed
-                default:
-                    alert("Login failed. Please try again later.");
-            }
+        function fetchUserData() {
+            var requestOptions = {
+                method: 'GET',
+                mode: 'no-cors',
+                cache: 'default',
+                credentials: 'include',
+            };
 
-            return Promise.reject('Login failed');
+            fetch("http://localhost:8032/api/person/jwt", requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        const errorMsg = 'Login error: ' + response.status;
+                        console.log(errorMsg);
+
+                        switch (response.status) {
+                            case 401:
+                                alert("Please log into or make an account");
+                                window.location.href = "login";
+                                break;
+                            case 403:
+                                alert("Access forbidden. You do not have permission to access this resource.");
+                                break;
+                            case 404:
+                                alert("User not found. Please check your credentials.");
+                                break;
+                            default:
+                                alert("Login failed. Please try again later.");
+                        }
+
+                        return Promise.reject('Login failed');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("initName").innerText = data.name;
+                    document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
+                    document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
+                    document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
+
+                    predictAPScore(data.csaPoints);
+                })
+                .catch(error => console.log('error', error));
         }
-        return response.json();
-    })
-    .then(data => {
-        // Update the placeholders with actual user data
-        document.getElementById("initName").innerText = data.name;
-        document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
-        document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
-        document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
 
-        // Pass the user data to the prediction model
-        predictAPScore(parseInt(data.csaPoints)); // Parse the csaPoints to ensure it's a number
-    })
-    .catch(error => console.log('error', error));
-}
+        function predictAPScore(csaPoints) {
+            console.log("Sending request with csaPoints:", csaPoints);
+            fetch("http://localhost:8032/api/predictAPScore?csaPoints=" + csaPoints)
+                .then(response => {
+                    console.log("Received response:", response);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Received data:", data);
+                    const predictedAPScore = Math.round(data);
+                    document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
+                });
+        }
+    </script>
+</body>
+</html>
 
-function predictAPScore(csaPoints) {
-    fetch("http://localhost:8032/api/predictAPScore/" + csaPoints)
-    .then(response => response.json())
-    .then(data => {
-        // Round the predicted AP Score to the nearest whole number
-        const predictedAPScore = Math.round(data.predictedAPScore);
-        document.getElementById("predictedAPScoreDisplay").innerText = `Predicted AP Score: ${predictedAPScore}`;
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        document.getElementById("predictedAPScoreDisplay").innerText = 'Failed to fetch prediction result.';
-    });
-}
 
 </script>
