@@ -1,8 +1,9 @@
 ---
 toc: true
 layout: post
-title: Gravity game 2
+title: Gravity game
 author: Grace
+permalink: /gravity
 ---
 
 <html lang="en">
@@ -49,6 +50,49 @@ author: Grace
     </div>
     <script>
         //test
+        window.onload = function () {
+        fetchTerm();
+    };
+    function fetchTerm() {
+        var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+        };
+        fetch('http://localhost:8032/api/terms/randomTerm/csp')
+        .then(response => {
+            // Check if the response is successful
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            // Parse the JSON response
+            return response.json();
+        })
+        .then(data => {
+            // Extract term and definition from the data
+            const term = data.term;
+            const definition = data.definition;
+            // Now you can use term and definition variables as needed
+            console.log('Term:', term);
+            console.log('Definition:', definition);
+            // Example: Save term and definition to variables
+            const termAndDefinition = {
+            term: term,
+            definition: definition
+            };
+            // Do whatever you need with termAndDefinition
+            // console.log('Term and Definition:', termAndDefinition);
+            return term;
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+        //
+        //
+        //
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         const userInput = document.getElementById("userInput");
