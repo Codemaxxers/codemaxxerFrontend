@@ -181,6 +181,7 @@ search_exclude: true
         return response.json();
       })
       .then(data => {
+        // ACCOUNT CARD
         let profilePictureDiv = document.getElementById("profilePicture");
         let imgElement = document.createElement("img");
         imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
@@ -193,10 +194,10 @@ search_exclude: true
         var changeProfileText = document.createElement("p");
         changeProfileText.innerHTML = "Level " + data.accountLevel;
         changeProfileText.style.marginBottom = "0px";
-
         profilePictureDiv.appendChild(imgElement);
         profilePictureDiv.appendChild(nameForProfile);
         profilePictureDiv.appendChild(changeProfileText);
+        // ACCOUNT CARD
 
         document.getElementById("initName").innerText = data.name;
         document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
