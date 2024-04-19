@@ -201,7 +201,7 @@ const c = canvas.getContext('2d')
 
 // adjust canvas size to window dimensions 
 canvas.width = window.innerWidth - 120;
-canvas.height = 600
+canvas.height = 540;
 
 //process collision maps, battle zones, and characters' positions
 const collisionsMap = []
@@ -355,8 +355,8 @@ playerRightImage.src = './img/playerRight.png'
 // initialize player sprite 
 const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4,
-    y: canvas.height / 2 - 68 / 2 + 100
+    x: (canvas.width - 192 / 4) / 2, // Centering the player horizontally
+    y: (canvas.height - 68 / 2 + 100) / 2 // Centering the player vertically
   },
   image: playerDownImage,
   frames: {
