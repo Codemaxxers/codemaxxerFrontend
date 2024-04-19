@@ -3,6 +3,8 @@ layout: menulayout
 search_exclude: true
 ---
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap">
+<script src="uri.js"></script>
+
 
 <style>
     #backIcon {
@@ -139,9 +141,7 @@ search_exclude: true
         credentials: 'include',
       };
 
-      // LOCAL TESTING
-      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
-      // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+      fetch(uri + "/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;

@@ -4,6 +4,15 @@ let finishedTutorial;
 let lastXPosition = localStorage.getItem('playerPositionX');
 let lastYPosition = localStorage.getItem('playerPositionY');
 
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://127.0.0.1:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
 
 function finishTutorial() {
   const requestOptions = {
@@ -12,8 +21,7 @@ function finishTutorial() {
     redirect: 'follow'
   };
   
-  fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
+  fetch(uri + "/api/person/finishedTutorial", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
@@ -81,8 +89,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   savePlayerPosition();
-  fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
+  fetch(uri + "/api/person/characterData", requestOptions)
     .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -741,7 +748,7 @@ function savePlayerPositionToBackend(x, y) {
     })
   };
 
-  fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/savePlayerPosition", requestOptions)
+  fetch(uri + "/api/savePlayerPosition", requestOptions)
     .then(response => {
       if (!response.ok) {
         throw new Error('Failed to save player position');

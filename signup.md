@@ -4,6 +4,8 @@ search_exclude: true
 permalink: signup
 --- 
 
+<script src="uri.js"></script>
+
 <div id="popup-modal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -59,8 +61,7 @@ permalink: signup
         };
 
         // LOCAL TESTING
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
-        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+        fetch(uri + "/signout", requestOptions)
         .then(response => response.text())
         .then(result => {
                 console.log(result);
@@ -92,12 +93,10 @@ permalink: signup
         let usernameInput = document.getElementById("username").value;
         let passwordInput = document.getElementById("password").value;
 
-        let local = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/post?email=${emailInput}&password=${passwordInput}&name=${usernameInput}`;
-        let live = `https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/post?email=${emailInput}&password=${passwordInput}&name=${usernameInput}`;
+
 
         // LOCAL TESTING
-        fetch(local, requestOptions)
-        // fetch(liveURL, requestOptions)
+        fetch(uri + `/api/person/post?email=${emailInput}&password=${passwordInput}&name=${usernameInput}` , requestOptions)
         .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Signup error: ' + response.status;

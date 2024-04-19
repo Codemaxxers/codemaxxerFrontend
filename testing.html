@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="uri.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,7 +95,7 @@
                 credentials: 'include',
             };
 
-            fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+            fetch(uri + "/api/person/jwt", requestOptions)
                 .then(response => {
                     if (!response.ok) {
                         const errorMsg = 'Login error: ' + response.status;
@@ -132,7 +133,7 @@
 
         function predictAPScore(csaPoints) {
             console.log("Sending request with csaPoints:", csaPoints);
-            fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/predictAPScore?csaPoints=" + csaPoints)
+            fetch(uri + "/api/predictAPScore?csaPoints=" + csaPoints)
                 .then(response => {
                     console.log("Received response:", response);
                     if (!response.ok) {
