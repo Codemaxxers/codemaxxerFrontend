@@ -181,6 +181,23 @@ search_exclude: true
         return response.json();
       })
       .then(data => {
+        let profilePictureDiv = document.getElementById("profilePicture");
+        let imgElement = document.createElement("img");
+        imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
+        imgElement.style.width = "60px";
+        imgElement.style.height = "60px";
+        imgElement.style.float = "left";
+        imgElement.style.borderRadius = "5px";
+        var nameForProfile = document.createElement("h3");
+        nameForProfile.innerHTML = data.name;
+        var changeProfileText = document.createElement("p");
+        changeProfileText.innerHTML = "Level " + data.accountLevel;
+        changeProfileText.style.marginBottom = "0px";
+
+        profilePictureDiv.appendChild(imgElement);
+        profilePictureDiv.appendChild(nameForProfile);
+        profilePictureDiv.appendChild(changeProfileText);
+
         document.getElementById("initName").innerText = data.name;
         document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
         document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
