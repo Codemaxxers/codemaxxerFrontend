@@ -3,6 +3,8 @@ layout: profile
 search_exclude: true
 --- 
 
+<script src="uri.js"></script>
+
 <style>
   .account-card {
     width: 300px; /* Adjust width as needed */
@@ -153,7 +155,7 @@ search_exclude: true
       credentials: 'include',
     };
 
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+    fetch(uri + "/api/person/jwt", requestOptions)
       .then(response => {
         if (!response.ok) {
           const errorMsg = 'Login error: ' + response.status;
@@ -191,7 +193,7 @@ search_exclude: true
 
   function predictAndDisplayAPScore(csaPoints) {
     console.log("Sending request with csaPoints:", csaPoints);
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/predictAPScore?csaPoints=" + csaPoints)
+    fetch(uri + "/api/predictAPScore?csaPoints=" + csaPoints)
       .then(response => {
         console.log("Received response:", response);
         if (!response.ok) {

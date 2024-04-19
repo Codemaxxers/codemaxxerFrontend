@@ -5,6 +5,7 @@ title: Gravity game
 author: Grace
 permalink: /gravity
 ---
+<script src="uri.js"></script>
 
 <html lang="en">
 <head>
@@ -60,7 +61,7 @@ permalink: /gravity
         cache: 'default',
         credentials: 'include',
         };
-        fetch('https://codemaxxers.stu.nighthawkcodingsociety.com/api/terms/randomTerm/csp')
+        fetch(uri + '/api/terms/randomTerm/csp')
         .then(response => {
             // Check if the response is successful
             if (!response.ok) {

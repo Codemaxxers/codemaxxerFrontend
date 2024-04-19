@@ -3,6 +3,8 @@ layout: profile
 search_exclude: true
 --- 
 
+<script src="uri.js"></script>
+
 <script>
     window.onload = function () {
         fetchUserData();
@@ -16,9 +18,7 @@ search_exclude: true
         credentials: 'include',
         };
 
-        // LOCAL TESTING
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
-        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+        fetch(uri + "/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -99,8 +99,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
-        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        fetch(uri + "/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
                 // If the response is successful, reload the window
@@ -130,8 +129,7 @@ search_exclude: true
             };
             console.log(requestBody);
             // Making the POST request LOCAL TESTING
-            // fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
-            fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
+            fetch(uri + `/api/person/updatePerson/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -160,8 +158,7 @@ search_exclude: true
     };
 
     // LOCAL TESTING
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
-    // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+    fetch(uri + "/signout", requestOptions)
       .then(response => response.text())
       .then(result => {
             console.log(result);

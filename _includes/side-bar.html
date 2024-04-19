@@ -1,3 +1,5 @@
+<script src="uri.js"></script>
+
 <div class="container">
 <nav class="sidebar locked">
     <div class="logo_items flex">
@@ -106,8 +108,7 @@
     };
 
     // LOCAL TESTING
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
-    // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+    fetch(uri + "/signout", requestOptions)
       .then(response => response.text())
       .then(result => {
             console.log(result);
