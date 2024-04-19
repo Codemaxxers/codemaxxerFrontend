@@ -140,7 +140,7 @@ search_exclude: true
       };
 
       // LOCAL TESTING
-      fetch("http://localhost:8032/api/person/jwt", requestOptions)
+      fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
       // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {

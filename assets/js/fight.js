@@ -312,7 +312,7 @@ function GetLevel() {
         credentials: 'include',
     };
 
-fetch("http://localhost:8032/api/person/jwt", requestOptions)
+fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
 //fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
     .then(response => {
             if (!response.ok) {
@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
         credentials: "include"
     };
 
-    fetch("http://localhost:8032/api/person/getWeaponInventory", requestOptions)
+    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/getWeaponInventory", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
