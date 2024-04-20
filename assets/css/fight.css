@@ -106,7 +106,7 @@
 }
 
 .move {
-    background-color: #e0e0e0;
+    /* background-color: #e0e0e0; */
     color: #333;
     text-align: center;
     padding: 10px;
@@ -193,3 +193,13 @@ b {
     grid-gap: 10px;
 }
 
+.backgroundStyle {
+    background-color: #e0e0e0;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "DotGothic16", sans-serif;
+}

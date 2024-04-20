@@ -4,6 +4,15 @@ let finishedTutorial;
 let lastXPosition = localStorage.getItem('playerPositionX');
 let lastYPosition = localStorage.getItem('playerPositionY');
 
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://127.0.0.1:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
 
 function finishTutorial() {
   const requestOptions = {
@@ -12,8 +21,7 @@ function finishTutorial() {
     redirect: 'follow'
   };
   
-  fetch("http://localhost:8032/api/person/finishedTutorial", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
+  fetch(uri + "/api/person/finishedTutorial", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
@@ -81,8 +89,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   savePlayerPosition();
-  fetch("http://localhost:8032/api/person/characterData", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
+  fetch(uri + "/api/person/characterData", requestOptions)
     .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -91,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 switch (response.status) {
                     case 401:
                         alert("Please log into or make an account");
-                        window.location.href = "/codemaxxerFrontend/login";
+                        // window.location.href = "/codemaxxerFrontend/login";
                         break;
                     case 403:
                         alert("Access forbidden. You do not have permission to access this resource.");
@@ -231,6 +238,8 @@ if (storedXPosition && storedYPosition) {
   console.log('No player position found in localStorage, using defaults');
 }
 
+const characters = []
+
 // what is 1025!!
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
@@ -265,6 +274,9 @@ battleZonesMap.forEach((row, i) => {
 // initialize background and foreground images
 const image = new Image()
 image.src = './img/map.png'
+
+const foregroundImage = new Image()
+foregroundImage.src = './img/foregroundObjects.png'
 
 // player sprites for diff directions
 const playerDownImage = new Image()
