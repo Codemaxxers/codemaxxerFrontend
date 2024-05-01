@@ -116,6 +116,10 @@ search_exclude: true
         <h2>Computer Science P</h2>
         <p id="cspPointsDisplay">Loading...</p>
       </div>
+      <div class="summary-card">
+        <h2>Cyber</h2>
+        <p id="cyberPointsDisplay">Loading...</p>
+      </div>
     </div>
   </div>
 </div>
@@ -185,6 +189,8 @@ search_exclude: true
         document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
         document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
         document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
+        document.getElementById("cyberPointsDisplay").innerText = data.cyberPoints + " Points";
+
 
         predictAndDisplayAPScore(data.csaPoints);
       })
@@ -227,6 +233,7 @@ search_exclude: true
   let accountPoints = 0;
   let csaPoints = 100;
   let cspPoints = 0;
+  let cyberPoints = 0;
 
   let ctx = document.getElementById('pointsChart').getContext('2d');
   let pointsChart = new Chart(ctx, {
