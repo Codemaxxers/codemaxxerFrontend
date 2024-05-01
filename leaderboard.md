@@ -10,6 +10,7 @@ search_exclude: true
         <div class="name">Name</div>
         <div class="email">Email</div>
         <div class="csaPoints">CSA Points</div>
+        <div class="cyberPoints">Cyber Points</div>
     </div>
 </div>
 
