@@ -3,6 +3,8 @@ layout: profile
 search_exclude: true
 ---
 
+<script src="uri.js"></script>
+
 <div id="player-cards-container" class="profilePicturesShown">
     <div class="account-card header">
         <div class="name">Name</div>
@@ -28,9 +30,7 @@ search_exclude: true
         };
 
         // Fetch the top 5 players with highest CSA points
-        // LOCAL TESTING
-        fetch("http://localhost:8032/api/person/leaderboardCSA", requestOptions)
-        // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/leaderboardCSA", requestOptions)
+        fetch(uri + "/api/person/leaderboardCSA", requestOptions)
             .then(response => response.json())
             .then(data => {
                 // Call function to generate player cards

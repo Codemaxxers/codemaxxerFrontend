@@ -2,6 +2,9 @@
 layout: profile
 search_exclude: true
 --- 
+
+<script src="uri.js"></script>
+
 <div class="scroll">
     <div id="profile-container">
         <img id="playerImage" src="game/img/player.png">
@@ -131,7 +134,7 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch("http://localhost:8032/api/person/characterData", requestOptions)
+        fetch(uri + "/api/person/characterData", requestOptions)
             .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -346,7 +349,7 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
+        fetch(uri + `/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Weapon equipped successfully.");
@@ -366,7 +369,7 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/unequipWeapon`, requestOptions)
+        fetch(uri + `/api/person/unequipWeapon`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Gear change successful.");
@@ -386,7 +389,7 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/equipArmor?armorID=${gearID}`, requestOptions)
+        fetch(uri + `/api/person/equipArmor?armorID=${gearID}`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Gear change successful.");
@@ -421,7 +424,7 @@ search_exclude: true
             credentials: "include"
         };
 
-        fetch(`http://localhost:8032/api/person/unequipArmor`, requestOptions)
+        fetch(uri + `/api/person/unequipArmor`, requestOptions)
             .then(response => {
                 if (response.ok) {
                     console.log("Gear change successful.");

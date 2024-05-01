@@ -1,3 +1,12 @@
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://127.0.0.1:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
 // Define a global array to store enemy IDs
 let enemyIds = []; 
 // Div updates
@@ -123,8 +132,7 @@ function fetchQuestion(attackValue) {
         redirect: 'follow'
     };
     
-    var api = `http://localhost:8032/api/questions/randomQuestion/${course}`;
-    fetch(api, requestOptions)
+    fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result); // For debugging
@@ -195,7 +203,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
             credentials: 'include'
         };
         //Adding points to the account
-        fetch(`http://localhost:8032/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+        fetch(uri + `/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -228,8 +236,7 @@ function GetEnemy() {
         redirect: 'follow'
     };
 
-    var api = "http://localhost:8032/api/enemies"
-    fetch(api, requestOptions)
+    fetch(uri + "/api/enemies", requestOptions)
     .then(response => response.json()) // Convert response to JSON format
     .then(result => {
         console.log(result); // Log the result for debugging purposes
@@ -292,7 +299,7 @@ function Battle(attack) {
             credentials: 'include'
         };
         //Adding points to the account
-        fetch(`http://localhost:8032/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+        fetch(uri + `/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -312,8 +319,7 @@ function GetLevel() {
         credentials: 'include',
     };
 
-fetch("http://localhost:8032/api/person/jwt", requestOptions)
-//fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+fetch(uri + "/api/person/jwt", requestOptions)
     .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -364,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
         credentials: "include"
     };
 
-    fetch("http://localhost:8032/api/person/getWeaponInventory", requestOptions)
+    fetch(uri + "/api/person/getWeaponInventory", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
