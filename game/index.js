@@ -4,6 +4,15 @@ let finishedTutorial;
 let lastXPosition = localStorage.getItem('playerPositionX');
 let lastYPosition = localStorage.getItem('playerPositionY');
 
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://127.0.0.1:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
 
 function finishTutorial() {
   const requestOptions = {
@@ -12,8 +21,7 @@ function finishTutorial() {
     redirect: 'follow'
   };
   
-  fetch("http://localhost:8032/api/person/finishedTutorial", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/finishedTutorial", requestOptions)
+  fetch(uri + "/api/person/finishedTutorial", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
@@ -81,8 +89,7 @@ document.addEventListener("DOMContentLoaded", function(){
   };
 
   savePlayerPosition();
-  fetch("http://localhost:8032/api/person/characterData", requestOptions)
-  // fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/characterData", requestOptions)
+  fetch(uri + "/api/person/characterData", requestOptions)
     .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -194,7 +201,7 @@ const c = canvas.getContext('2d')
 
 // adjust canvas size to window dimensions 
 canvas.width = window.innerWidth - 120;
-canvas.height = 600
+canvas.height = 540;
 
 //process collision maps, battle zones, and characters' positions
 const collisionsMap = []
@@ -348,8 +355,8 @@ playerRightImage.src = './img/playerRight.png'
 // initialize player sprite 
 const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4,
-    y: canvas.height / 2 - 68 / 2 + 100
+    x: (canvas.width - 192 / 4) / 2, // Centering the player horizontally
+    y: (canvas.height - 68 / 2 + 100) / 2 // Centering the player vertically
   },
   image: playerDownImage,
   frames: {
@@ -726,3 +733,32 @@ localStorage.getItem('playerPositionX');
 localStorage.getItem('playerPositionY');
 console.log("last x: " + localStorage.getItem('playerPositionX'),"last y: " + localStorage.getItem('playerPositionY'));
 console.log(offset.x, offset.y);
+
+
+function savePlayerPositionToBackend(x, y) {
+  const requestOptions = {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+      
+    },
+    body: JSON.stringify({
+      playerPositionX: x,
+      playerPositionY: y
+    })
+  };
+
+  fetch(uri + "/api/savePlayerPosition", requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to save player position');
+      }
+      console.log('Player position saved successfully');
+    })
+    .catch(error => {
+      console.error('Error saving player position:', error);
+    });
+}
+
+
+savePlayerPositionToBackend(localStorage.getItem('playerPositionX'), localStorage.getItem('playerPositionY'));

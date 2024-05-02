@@ -3,8 +3,9 @@ toc: true
 layout: post
 title: Gravity game
 author: Grace
-permalink: /gravity
+permalink: /gravity2
 ---
+<script src="uri.js"></script>
 
 <html lang="en">
 <head>
@@ -60,7 +61,7 @@ permalink: /gravity
         cache: 'default',
         credentials: 'include',
         };
-        fetch('http://localhost:8032/api/terms/randomTerm/csp')
+        fetch(uri + '/api/terms/randomTerm/csp')
         .then(response => {
             // Check if the response is successful
             if (!response.ok) {
@@ -90,8 +91,6 @@ permalink: /gravity
             console.error('There was a problem with the fetch operation:', error);
         });
     }
-        //
-        //
         //
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");

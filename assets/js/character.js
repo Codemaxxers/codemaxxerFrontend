@@ -1,3 +1,12 @@
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://127.0.0.1:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
 window.onload = function() {
     var requestOptions = {
         method: 'GET',
@@ -5,7 +14,7 @@ window.onload = function() {
         credentials: "include"
     };
 
-    fetch("http://localhost:8032/api/person/characterData", requestOptions)
+    fetch(uri + "/api/person/characterData", requestOptions)
         .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
@@ -218,7 +227,7 @@ function equipWeapon(gearID) {
         credentials: "include"
     };
 
-    fetch(`http://localhost:8032/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
+    fetch(uri + `/api/person/equipWeapon?weaponID=${gearID}`, requestOptions)
         .then(response => {
             if (response.ok) {
                 console.log("Weapon equipped successfully.");
@@ -238,7 +247,7 @@ function unequipWeapon() {
         credentials: "include"
     };
 
-    fetch(`http://localhost:8032/api/person/unequipWeapon`, requestOptions)
+    fetch(uri + `/api/person/unequipWeapon`, requestOptions)
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
@@ -258,7 +267,7 @@ function equipArmor(gearID) {
         credentials: "include"
     };
 
-    fetch(`http://localhost:8032/api/person/equipArmor?armorID=${gearID}`, requestOptions)
+    fetch(uri + `/api/person/equipArmor?armorID=${gearID}`, requestOptions)
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
@@ -293,7 +302,7 @@ function unequipArmor() {
         credentials: "include"
     };
 
-    fetch(`http://localhost:8032/api/person/unequipArmor`, requestOptions)
+    fetch(uri + `/api/person/unequipArmor`, requestOptions)
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");

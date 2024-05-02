@@ -34,7 +34,7 @@ permalink: /chat
             ]
         };
         // Send the POST request
-        fetch('https://codemaxxers.stu.nighthawkcodingsociety.com/api/chat', {
+        fetch(uri + '/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

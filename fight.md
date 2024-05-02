@@ -15,11 +15,16 @@ permalink: /fight
         </div>
     </div>
     <div class="health-box">
-        <div class="move" id="level">Player Level: </div>
-        <div class="move" id="health">Player: </div>
-        <div class="move" id="attack">Attack: 10</div>
+        <div class="topRow">
+            <div class="move" id="userName">name</div>
+            <div class="move" id="level">Player Level</div>
+        </div>
+        <div class="bottomRow">
+            <!-- <div class="move" id="damage">Damage</div> -->
+            <div class="move" id="health">Health</div>
+        </div>
     </div>
-    <div class="health-box" style="margin-left: 65vw; margin-right: 10vw;margin-top: 30vh;">
+    <div class="health-box" style="margin-left: 65vw; margin-right: 10vw;margin-top: 25vh;">
         <div class="move" id="EnemyName">Enemy: </div>
         <div class="move" id="EnemyHealth">Enemy Health: </div>
     </div>
@@ -39,16 +44,16 @@ permalink: /fight
         </div>
     </div>
     <div id="moves" class="controller">
-        <div class="move" id="ChangeATK" onclick="attackMENU()">
+        <div class="move" class="backgroundStyle" id="ChangeATK" onclick="attackMENU()">
             <h1>Attack</h1>
         </div>
-        <div class="move" id="ChangePT" onclick="potionMENU()">
+        <div class="move" class="backgroundStyle" id="ChangePT" onclick="potionMENU()">
             <h1>Potions</h1>
         </div>
-        <div class="move" id="ChangeInv" onclick="inventoryMENU()">
+        <div class="move" class="backgroundStyle" id="ChangeInv" onclick="inventoryMENU()">
             <h1>Inventory</h1>
         </div>
-        <div class="move" id="run" onclick="Leave()">
+        <div class="move" class="backgroundStyle" id="run" onclick="Leave()">
             <h1>Run Away</h1>
         </div>
     </div>
@@ -103,5 +108,33 @@ permalink: /fight
     color: black;
     font-family: "DotGothic16", sans-serif;
     z-index: 99;
+}
+
+.controller {
+    bottom: 100px;
+    position: absolute;
+    left: 10px;
+}
+
+#level {
+    background-color: #71b9e2;
+}
+
+.health-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35vh;
+    width: 15vw;
+}
+
+.topRow, .bottomRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#userName {
+    font-size: 1.2em;
 }
 </style>

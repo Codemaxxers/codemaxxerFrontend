@@ -10,7 +10,7 @@
             const messages = document.getElementById('messages');
 
             connectButton.addEventListener('click', function() {
-                const wsUrl = 'wss://codemaxxerlink.stu.nighthawkcodingsociety.com/myhandler';
+                const wsUrl = 'ws://localhost:8033/myhandler'; // CHANGE THIS
                 const ws = new WebSocket(wsUrl);
 
                 ws.onopen = function() {
