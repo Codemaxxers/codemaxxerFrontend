@@ -10,6 +10,7 @@ search_exclude: true
         <div class="name">Name</div>
         <div class="email">Email</div>
         <div class="csaPoints">CSA Points</div>
+        <div class="cyberPoints">Cyber Points</div>
     </div>
 </div>
 
@@ -66,10 +67,15 @@ search_exclude: true
             csaPoints.textContent = player.csaPoints;
             csaPoints.classList.add('csaPoints');
 
+            var cyberPoints = document.createElement('p');
+            cyberPoints.textContent = player.cyberPoints;
+            cyberPoints.classList.add('cyberPoints');
+
             // Append elements to the card
             card.appendChild(name);
             card.appendChild(email);
             card.appendChild(csaPoints);
+            car.appendChild(cyberPoints);
 
             // Append the card to the container
             container.appendChild(card);
@@ -273,7 +279,8 @@ search_exclude: true
 
     .name,
     .email,
-    .csaPoints {
+    .csaPoints,
+    .cyberPoints {
         flex: 1;
         font-family: "DotGothic16", sans-serif;
         text-align: center;
