@@ -55,16 +55,16 @@
         border:  10px solid black;
       }
 
-      .characterBar {
-        position: absolute;
-        top: calc(50px * 0.9); /* Adjusted top position after scaling */
-        left: 50%;
-        transform: translateX(-50%) scale(0.9); /* Apply scale transformation with translation */
-        border: 10px solid black;
-        padding: 10px;
-        background-color: rgb(202, 197, 197);
-        margin-top: 570px; /* Adjusted margin-top after scaling */
-      }
+    .characterBar {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 10px solid black;
+      padding: 20px;
+      background-color: rgb(202, 197, 197);
+      margin-top: 650px;
+    }
 
 
     .characterBar {
@@ -505,14 +505,13 @@
   <button id="battle" class="Battle">Battle Enemy</button>
   <button id="enterhouse" class="Battle">Enter House</button>
   <div class="characterBar">
-    <div class="questLog" onclick="openQuestLog()">
+    <div class="questLog">
       <h1>Quest<br>Log<br><img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/book.png" style="width: 75px; height: auto;"></h1>
     </div>
     <div class="level">
       <h1 id="playerLevel"></h1>
       <div id="xp-bar"></div>
       <div id="xp-bar-progress"></div>
-      <button id="menuButton" onclick="openMenu()">Menu</button>
     </div>
     <div class="stats">
       <h1 id="playerHealth"></h1>
@@ -547,7 +546,7 @@
     <div class="tab-content" id="quest2" style="display: none;">
       <div class="quest">
         <h2>Journey to the Coding Realm</h2>
-        <p>Get stronger!</p>
+        <p>You should level up before venturing into the other islands</p>
         <div class="quest-details">
           <div class="quest-objective">
             <p id="questTwoObjective">Your objective: Get to level 2</p>
@@ -584,13 +583,13 @@
   <script>
     const battleButton = document.getElementById('battle');
     battleButton.addEventListener('click', function() {
-      window.location.href = '/codemaxxerFrontend/fight';
+      window.location.href = 'https://codemaxxers.github.io/codemaxxerFrontend/fight';
     });
   </script>
   <script>
     const enterhouseButton = document.getElementById('enterhouse');
     enterhouseButton.addEventListener('click', function() {
-      window.location.href = '/codemaxxerFrontend/insidehouse';
+      window.location.href = '{{site.baseurl}}/insidehouse';
     });
   </script>
   <script
@@ -667,15 +666,6 @@
             console.error('Error fetching questions:', error);
     }); 
   }
-
-  function openMenu() {
-    document.getElementById('menuPopup').style.display = 'block';
-  }
-
-  function closeMenu() {
-    document.getElementById('menuPopup').style.display = 'none';
-  }
-
 
   const characterBar = document.querySelector('.characterBar');
   characterBar.style.width = (window.innerWidth - 300) + 'px';
