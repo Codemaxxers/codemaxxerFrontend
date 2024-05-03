@@ -53,7 +53,7 @@ permalink: /fight
         <div class="move" class="backgroundStyle" id="ChangeInv" onclick="inventoryMENU()">
             <h1>Inventory</h1>
         </div>
-        <div class="move" class="backgroundStyle" id="run" onclick="Leave()">
+        <div class="move" class="backgroundStyle" id="run" onclick="leave()">
             <h1>Run Away</h1>
         </div>
     </div>
@@ -94,6 +94,12 @@ permalink: /fight
 <script src="{{site.baseurl}}/assets/js/fight.js"></script>
 
 <script src="{{site.baseurl}}/assets/js/character.js"></script>
+
+<script>
+    function leave() {
+        window.location.href = "/codemaxxerFrontend/game/index.html";
+    }
+</script>
 
 <style>
 #profile-container {

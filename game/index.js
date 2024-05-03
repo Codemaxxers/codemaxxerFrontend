@@ -711,6 +711,7 @@ window.addEventListener('keydown', (e) => {
 
         break
     }
+    window.location.href = "/codemaxxerFrontend/fight";
     return
   }
 
