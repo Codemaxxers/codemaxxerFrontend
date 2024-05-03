@@ -189,14 +189,14 @@
     .tab {
         cursor: pointer;
         padding: 10px;
-        background-color: #ddd;
+        background-color: white;
         border: 1px solid black;
         border-radius: 5px 5px 0 0;
         margin-right: 5px;
     }
 
     .tab.active {
-        background-color: white;
+        background-color: #ddd;
     }
 
     .tab-content {
@@ -304,6 +304,33 @@
     margin-bottom: 20px;
   }
 
+  #questOneClaim {
+    width: 10%;
+    margin-left: 45%;
+    background-color: green;
+    padding: 5px;
+    display: none;
+  }
+
+  #questTwoClaim {
+    width: 10%;
+    margin-left: 45%;
+    background-color: green;
+    padding: 5px;
+    display: none;
+  }
+
+  #confirmClaimTextOne {
+    display: none;
+    width: 70%;
+    margin-left: 15%
+  }
+
+  #confirmClaimTextTwo {
+    display: none;
+    width: 70%;
+    margin-left: 15%
+  }
   </style>
   </head>
   
@@ -496,17 +523,17 @@
   <div id="questLogDialog" class="dialog-container">
     <img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/book.png" style="width: 75px; height: auto;"><h1 id="mainQuestText">Quest Log</h1>
     <div class="quest-tabs">
-      <div class="tab active" onclick="openTab(event, 'quest1')">Quest 1</div>
-      <div class="tab" onclick="openTab(event, 'quest2')">Quest 2</div>
+      <div class="tab active" onclick="openTab(event, 'quest1')"><s>Quest 1</s></div>
+      <div class="tab" id="questTwoTabText" onclick="openTab(event, 'quest2')">Quest 2</div>
       <!-- Add more tabs as needed -->
     </div>
     <div class="tab-content" id="quest1">
       <div class="quest">
         <h2>Journey to the Coding Realm</h2>
-        <p>This ones on us</p>
+        <p>Enjoy your gift!</p>
         <div class="quest-details">
           <div class="quest-objective">
-            <p>Your objective: Open the quest log</p>
+            <s><p>Your objective: Open the quest log</p></s>
           </div>
           <div class="quest-reward">
             <p>Your reward:</p>
@@ -514,6 +541,8 @@
           </div>
         </div>
       </div>
+      <button id="questOneClaim" onclick="claimQuestOne()">Claim</button>
+      <h3 id="confirmClaimTextOne">You've already claimed this item.</h3>
     </div>
     <div class="tab-content" id="quest2" style="display: none;">
       <div class="quest">
@@ -521,7 +550,7 @@
         <p>Get stronger!</p>
         <div class="quest-details">
           <div class="quest-objective">
-            <p>Your objective: Get to level 2</p>
+            <p id="questTwoObjective">Your objective: Get to level 2</p>
           </div>
           <div class="quest-reward">
             <p>Your reward:</p>
@@ -529,6 +558,8 @@
           </div>
         </div>
       </div>
+      <button id="questTwoClaim" onclick="claimQuestTwo()">Claim</button>
+      <h3 id="confirmClaimTextTwo">You've already claimed this item.</h3>
     </div>
     <!-- Add more tab-content sections as needed -->
     <button id='closeQuestButton' onclick="closeQuestLog()">Close</button>
@@ -586,6 +617,7 @@
   <script src="battlescene.js"></script>
 
   <script>
+
     canvas.addEventListener('click', function(event) {
     // Check if the click occurred in the top half of the canvas
     if (event.clientY < canvas.height / 2) {
@@ -655,5 +687,51 @@
 
   function gearLink() {
     
+  }
+
+  function claimQuestOne() {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+      credentials: "include"
+    };
+
+    fetch(uri + "/api/person/appendInventory?gearID=2000", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+          if (result.includes("Gear with ID of 2000 is already in this account's inventory")) {
+              alert("You've already claimed this!");
+          } else {
+              console.log(result);
+              window.location.reload(); // Trigger page refresh after successful claim
+          }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  function claimQuestTwo() {
+    const myHeaders = new Headers();
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+      credentials: "include"
+    };
+
+    fetch(uri + "/api/person/appendInventory?gearID=1000", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+          if (result.includes("Gear with ID of 1000 is already in this account's inventory")) {
+              alert("You've already claimed this!");
+          } else {
+              console.log(result);
+              window.location.reload();
+          }
+      })
+      .catch((error) => console.error(error));
   }
   </script>
