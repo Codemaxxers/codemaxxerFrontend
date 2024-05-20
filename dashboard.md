@@ -84,6 +84,11 @@ search_exclude: true
     line-height: 30px;
     color: white;
   }
+
+  .summary-card {
+    width: 250px;
+  }
+  
 </style>
 
 <div class="container-profile">
