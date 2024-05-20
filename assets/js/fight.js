@@ -2,7 +2,7 @@ var uri;
 if (location.hostname === "localhost") {
     uri = "http://localhost:8032";
 } else if (location.hostname === "127.0.0.1") {
-    uri = "http://127.0.0.1:8032";
+    uri = "http://localhost:8032";
 } else {
     uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
 }
@@ -33,7 +33,7 @@ let userLevel = 1;
 let totalPoints = 0;
 
 let health = 10;
-let damage = 0;
+let damage = 100;
 
 let course = "csp";
 
@@ -56,16 +56,8 @@ var baseHTML = `
 
 var ATKmove = `
     <div class="move" id="move1">
-        <h1>Scratch</h1>
-        <p><b>5 Damage</b></p>
-    </div>
-    <div class="move" id="move2">
-        <h1>Thunderbolt</h1>
-        <p><b>15 Damage</b></p>
-    </div>
-    <div class="move" id="move3">
-        <h1>Fireball</h1>
-        <p><b>25 Damage</b></p>
+        <h1>Attack</h1>
+        <p id="damage"><b></b></p>
     </div>
     <div class="move" id="back">
         <h1>Back</h1>
@@ -99,17 +91,12 @@ function potionMENU() {
 
 function attackMENU() {
     controller.innerHTML = ATKmove;
+    damage = GetDamage();
+    weapon = getWeapon();
     document.getElementById("move1").addEventListener("click", function() {
-        i = 5 + damage;
-        Battle(i);
-    });
-    document.getElementById("move2").addEventListener("click", function() {
-        i = 15 + damage;
-        Battle(i);
-    });
-    document.getElementById("move3").addEventListener("click", function() {
-        i = 25 + damage;
-        Battle(i);
+        var moveDamage = document.getElementById("damage");
+        moveDamage.innerHTML = `<b>Damage: ${damage}</b>`;
+        Battle(damage);
     });
     document.getElementById("back").addEventListener("click", function() {
         controller.innerHTML = baseHTML;
@@ -363,6 +350,123 @@ fetch(uri + "/api/person/jwt", requestOptions)
         return userLevel;
     })
     .catch(error => console.log('error', error));
+}
+
+function GetDamage() {
+    var d = 0;
+
+    var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+    };
+
+fetch(uri + "/api/person/jwt", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        // window.location.href = "login";
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    // Add more cases for other status codes as needed
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.json();
+            // Success!!!
+        })
+    .then(data => {
+        d = data.totalDamage;
+    })
+    .catch(error => console.log('error', error));
+    return d;
+}
+
+function getWeapon() {
+    var w = 0;
+
+    var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+    };
+
+fetch(uri + "/api/person/getWeaponInventory", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        // window.location.href = "login";
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    // Add more cases for other status codes as needed
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.json();
+            // Success!!!
+        })
+    .then(data => {
+        if (data.weaponGearIdEquipped.length === 0) {
+            return;
+        }
+        fetchWeaponStats(data.weaponGearIdEquipped[0])
+            .then(weapon => {
+                stats.textContent = `${weapon.name} - ${weapon.damageAdded} Damage`;
+                w = weapon.name;
+            })
+            .catch(error => {
+                stats.textContent = "[Insert Weapon Stats Here]";
+                console.log('error', error);
+            });
+    })
+    .catch(error => console.log('error', error));
+    return w;
+}
+
+function fetchWeaponStats(weaponID) {
+    return fetch('gear.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch weapon stats');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Find weapon stats by weaponID
+            const weaponStats = data.items.find(item => item.gearID === weaponID);
+            if (!weaponStats) {
+                throw new Error('Weapon stats not found ');
+            }
+            return weaponStats;
+        });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
