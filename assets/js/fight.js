@@ -23,6 +23,7 @@ var weaponMenu = document.getElementById("weaponMenu");
 var enemyName = document.getElementById("EnemyName");
 var updateHealth = document.getElementById("health");
 var updateDamage = document.getElementById("damage");
+var username = document.getElementById("userName");
 
 var eHealth = 40;
 var eAttack = 0;
@@ -162,7 +163,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
     if (selectedAnswer === correctAnswer) {
         console.log("Correct! You attack the enemy.");
         eHealth -= attackValue;
-        updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+        updateHealthEnemy.innerHTML = `Health: ${eHealth}`;
         // When an image gets hurt, you can add the flashing class to it
         enemyIMG.classList.add('flashing');
 
@@ -173,7 +174,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
     } else {
         console.log("Incorrect. The enemy attacks you!");
         health -= eAttack;
-        updateHealth.innerHTML = `Player: ${health}`;
+        updateHealth.innerHTML = `Health: ${health}`;
         // When an image gets hurt, you can add the flashing class to it
         playerIMG.classList.add('flashing');
 
@@ -192,7 +193,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
         playerIMG.classList = "death";
         alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
     } else if (eHealth < 1) {
-        updateHealthEnemy.innerHTML = `Enemy: Defeated`;
+        updateHealthEnemy.innerHTML = `Health: Defeated`;
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -269,7 +270,7 @@ function GetEnemy() {
                 enemyIMG.classList.add('visible');
             }, 100);
 
-            updateHealthEnemy.innerHTML = `Enemy: ${eHealth}`;
+            updateHealthEnemy.innerHTML = `Health: ${eHealth}`;
 
         } else {
             console.log("No enemies found at or below user's level.");
@@ -348,14 +349,16 @@ fetch(uri + "/api/person/jwt", requestOptions)
         })
     .then(data => {
         userLevel = data.accountLevel; // Set the innerHTML to just the numeric value
-        levelUpdate.innerHTML =  "Player Level: " + userLevel;
+        username.innerHTML = data.name;
+        levelUpdate.innerHTML =  "Lv. " + userLevel;
         console.log(data.accountLevel);
+
         console.log(data.totalHealth);
-        health = data.totalHealth;
-        updateHealth.innerHTML = `Player: ${health}`;
-        updateDamage.innerHTML = `Damage: ${data.totalDamage}`
-        console.log(data.totalDamage);
-        damage = data.totalDamage;
+        updateHealth.innerHTML = `Health: ${data.totalHealth}`;
+
+        // updateDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 20px; height: auto; margin-right: 5px;">' + data.totalDamage;
+        // console.log(data.totalDamage);
+        // damage = data.totalDamage;
         console.log(userLevel);
         return userLevel;
     })

@@ -122,7 +122,7 @@ search_exclude: true
         <p id="cspPointsDisplay">Loading...</p>
       </div>
       <div class="summary-card">
-        <h2>Cyber</h2>
+        <h2>Cyber Security</h2>
         <p id="cyberPointsDisplay">Loading...</p>
       </div>
     </div>
@@ -190,12 +190,28 @@ search_exclude: true
         return response.json();
       })
       .then(data => {
+        // ACCOUNT CARD
+        let profilePictureDiv = document.getElementById("profilePicture");
+        let imgElement = document.createElement("img");
+        imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
+        imgElement.style.width = "60px";
+        imgElement.style.height = "60px";
+        imgElement.style.float = "left";
+        imgElement.style.borderRadius = "5px";
+        var nameForProfile = document.createElement("h3");
+        nameForProfile.innerHTML = data.name;
+        var changeProfileText = document.createElement("p");
+        changeProfileText.innerHTML = "Level " + data.accountLevel;
+        changeProfileText.style.marginBottom = "0px";
+        profilePictureDiv.appendChild(imgElement);
+        profilePictureDiv.appendChild(nameForProfile);
+        profilePictureDiv.appendChild(changeProfileText);
+        // ACCOUNT CARD
+
         document.getElementById("initName").innerText = data.name;
         document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
         document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
         document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
-        document.getElementById("cyberPointsDisplay").innerText = data.cyberPoints + " Points";
-
 
         predictAndDisplayAPScore(data.csaPoints);
       })
@@ -244,10 +260,10 @@ search_exclude: true
   let pointsChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Account Points', 'CSA Points', 'CSP Points'],
+      labels: ['Account Points', 'CSA Points', 'CSP Points', 'Cyber Points'],
       datasets: [{
         label: 'Points',
-        data: [accountPoints, csaPoints, cspPoints],
+        data: [accountPoints, csaPoints, cspPoints, cyberPoints],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',

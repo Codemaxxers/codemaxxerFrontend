@@ -68,6 +68,36 @@ function openQuestLog() {
 
   // Show the quest log dialog box
   questLogDialog.style.display = 'block';
+
+    // is player level2?
+    const playerLevel = localStorage.getItem("playerLevel");
+    if (playerLevel >= 2) {
+      console.log("PLAYER LEVEL IS 2 OR GREATER")
+
+      var text = document.getElementById("questTwoObjective");
+      text.style.textDecoration = "line-through";
+
+      var text = document.getElementById("questTwoTabText");
+      questTwoTabText.style.textDecoration = "line-through"
+
+      document.getElementById("questTwoClaim").style.display="block";
+    }
+
+  // QUEST ONE IS DONE
+  if (localStorage.getItem("completedQuestOne") == "yes") {
+    document.getElementById("questOneClaim").style.display="none";
+    document.getElementById("confirmClaimTextOne").style.display="block";
+  }
+
+  if (localStorage.getItem("completedQuestOne") == "no") {
+    document.getElementById("questOneClaim").style.display="block";
+    document.getElementById("confirmClaimTextOne").style.display="none";
+  }
+
+  if (localStorage.getItem("completedQuestTwo") == "yes") {
+    document.getElementById("questTwoClaim").style.display="none";
+    document.getElementById("confirmClaimTextTwo").style.display="block";
+  }
 }
 
 // Function to close the quest log pop-up dialog
@@ -88,7 +118,6 @@ document.addEventListener("DOMContentLoaded", function(){
     credentials: 'include',
   };
 
-  savePlayerPosition();
   fetch(uri + "/api/person/characterData", requestOptions)
     .then(response => {
             if (!response.ok) {
@@ -138,7 +167,30 @@ document.addEventListener("DOMContentLoaded", function(){
       // PLAYER LEVEL
       const playerLevel = document.querySelector('#playerLevel');
       playerLevel.innerHTML = 'Level ' + data.accountLevel;
+        // SAVE AS LOCAL STROAGE FOR QUEST CHECKING
+        localStorage.setItem("playerLevel", data.accountLevel);
+        console.log("player level: " + localStorage.getItem("playerLevel"));
       // PLAYER LEVEL
+
+      // QUEST LOG CHECKING IF QUEST ONE IS CLAIMED
+        if (data.inventory.includes(2000)) {
+            console.log("ID 2000 is in the inventory.");
+            localStorage.setItem("completedQuestOne", "yes")
+        } else {
+            console.log("ID 2000 is not in the inventory.");
+            localStorage.setItem("completedQuestOne", "no")
+        }
+      // QUEST LOG CHECKING IF QUEST ONE IS CLAIMED
+    
+      // QUEST LOG CHECKING IF QUEST TWO IS CLAIMED
+      if (data.inventory.includes(1000)) {
+        console.log("ID 1000 is in the inventory.");
+        localStorage.setItem("completedQuestTwo", "yes")
+      } else {
+        console.log("ID 1000 is not in the inventory.");
+        localStorage.setItem("completedQuestTwo", "no")
+      }
+      // QUEST LOG CHECKING IF QUEST TWO IS CLAIMED
 
       // PLAYER XP BAR
       const currentXP = data.accountPoints;
@@ -201,7 +253,7 @@ const c = canvas.getContext('2d')
 
 // adjust canvas size to window dimensions 
 canvas.width = window.innerWidth - 120;
-canvas.height = 600
+canvas.height = 540;
 
 //process collision maps, battle zones, and characters' positions
 const collisionsMap = []
@@ -223,7 +275,7 @@ console.log(charactersMap)
 // initialize boundary objects based on collision map
 const boundaries = []
 const offset = {
-  x: -735,
+  x: -715,
   y: -650
 }
 
@@ -355,8 +407,8 @@ playerRightImage.src = './img/playerRight.png'
 // initialize player sprite 
 const player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4,
-    y: canvas.height / 2 - 68 / 2 + 100
+    x: (canvas.width - 192 / 4) / 2, // Centering the player horizontally
+    y: (canvas.height - 68 / 2 + 100) / 2 // Centering the player vertically
   },
   image: playerDownImage,
   frames: {
@@ -659,6 +711,7 @@ window.addEventListener('keydown', (e) => {
 
         break
     }
+    window.location.href = "/codemaxxerFrontend/fight";
     return
   }
 

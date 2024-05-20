@@ -67,15 +67,12 @@ search_exclude: true
             csaPoints.textContent = player.csaPoints;
             csaPoints.classList.add('csaPoints');
 
-            var cyberPoints = document.createElement('p');
-            //cyberPoints.textContent = player.cyberPoints;
-            cyberPoints.classList.add('cyberPoints');
-
             // Append elements to the card
             card.appendChild(name);
             card.appendChild(email);
             card.appendChild(cyberPoints);
             card.appendChild(csaPoints);
+            car.appendChild(cyberPoints);
 
             // Append the card to the container
             container.appendChild(card);
@@ -279,7 +276,7 @@ search_exclude: true
 
     .name,
     .email,
-    .csaPoints, .cyberPoints{
+    .csaPoints {
         flex: 1;
         font-family: "DotGothic16", sans-serif;
         text-align: center;
