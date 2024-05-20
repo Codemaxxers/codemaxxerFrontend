@@ -36,12 +36,14 @@ permalink: /insidehouse
     }
 
     body {
-        background-image: url("{{site.baseurl}}/images/indoorRoom.png");
-        background-repeat: no-repeat; /* optional, to prevent image repetition */
+        /*background-image: url("{{site.baseurl}}/images/indoorRoom.png");*/
+        background-image: url("https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/pb2.jpeg");
+        background-repeat: repeat;
+        background-size: auto;
         background-position: center; /* optional, to center the image */
-        height: 100vh;
+        height: 25vh;
         margin-bottom: 30px;
-        background-size: 925px;
+        background-size: 300px;
     }
 
     .homeBtn{
