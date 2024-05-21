@@ -277,27 +277,27 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 9999;
     display: none;
-    width: 80%;
-    max-width: 400px; /* Adjust max-width as needed */
+    width: 100%;
+    max-width: 500px; /* Adjust max-width as needed */
   }
 
   .button-container {
-      display: flex;
-      justify-content: space-around;
-      margin: 10px;
-      padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
   }
 
   .image-button {
-      border: none;
-      background: none;
-      cursor: pointer;
-      text-align: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: center;
+    padding: 20px;
   }
 
   .image-button img {
-      max-width: 100px; /* Adjust as needed */
-      max-height: 100px; /* Adjust as needed */
+    max-width: 100px; /* Adjust as needed */
+    max-height: 100px; /* Adjust as needed */
   }
 
   #popupMenuText {
@@ -578,6 +578,12 @@
               <br>
               Change<br>Gear
           </button>
+          <button class="image-button" onclick="resetPosition()">
+            <img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/downArrow.png" alt="Reset Position">
+            <br>
+            Reset<br>Area
+          </button>
+          <br>
       </div>
     <button id="closeMenuButton" onclick="closeMenu()">Close</button>
   </div>  
@@ -687,6 +693,10 @@
 
   function gearLink() {
     
+  }
+
+  function resetPosition() {
+    localStorage.setItem("resetPosition", "false");
   }
 
   function claimQuestOne() {
