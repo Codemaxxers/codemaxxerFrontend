@@ -272,7 +272,7 @@ console.log(charactersMap)
 // initialize boundary objects based on collision map
 const boundaries = []
 const offset = {
-  x: -735,
+  x: -715,
   y: -650
 }
 

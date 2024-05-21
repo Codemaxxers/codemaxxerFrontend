@@ -8,7 +8,8 @@ permalink: /insidehouse
 <div>
     <button onclick="goHome()" id="homeBtn" class="homeBtn">Go Homepage</button>
     <div class="inside-container">
-        <a id="computerBtn" href="{{site.baseurl}}/compscreen"> <img class="computerBtn" src="images/homeComputer.png"></a>
+        <img src="{{site.baseurl}}/images/indoorRoom.png" class="houseImg"> 
+        <a id="computerBtn" href="{{site.baseurl}}/compscreen"> <img class="computerBtn" ></a>
     </div>
 </div>
 </body>
@@ -36,12 +37,13 @@ permalink: /insidehouse
     }
 
     body {
-        background-image: url("{{site.baseurl}}/images/indoorRoom.png");
-        background-repeat: no-repeat; /* optional, to prevent image repetition */
+        background-image: url("https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/pb2.jpeg");
+        background-repeat: repeat;
+        background-size: auto;
         background-position: center; /* optional, to center the image */
-        height: 100vh;
+        height: 25vh;
         margin-bottom: 30px;
-        background-size: 925px;
+        background-size: 300px;
     }
 
     .homeBtn{
@@ -57,13 +59,18 @@ permalink: /insidehouse
     }
 
     .computerBtn {
-        width: 97px;
-        height: 97px;
-        /* left: 200px; */
-        position:absolute;
-            top: 23.8%;
-            left: 28%;
+        height: 97;
+        width: 100;
+        position: absolute;
+            top: 27%;
+            left: 28.3%;
     }
 
+    .houseImg{
+        width: 1100;
+        position: absolute;
+            top: 7%;
+            left: 21%;
+    }
 
 </style>
