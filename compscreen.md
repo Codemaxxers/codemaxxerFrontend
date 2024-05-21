@@ -6,7 +6,7 @@ permalink: /compscreen
 ---
 
 <body>
-<img src="{{site.baseurl}}/images/blankScreenWide.png">
+<img class = "screen_img" src="{{site.baseurl}}/images/blankScreenWide.png">
 <div class="container"> 
     <h1>Become a Cyber Wizard!</h1>
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
@@ -190,6 +190,14 @@ permalink: /compscreen
         z-index: 999;
     }
 
+    .screen_img {
+        border: 5px solid black;
+        width: 1100;
+        position: absolute;
+            top: 40%;
+            left: 21%;
+    }
+
     .pass-modal.open {
         opacity: 1;
         z-index: 999;
@@ -244,7 +252,9 @@ permalink: /compscreen
     }
     
     h1 {
-        position: absolute; top: 100px; left: 30%;
+        position: absolute; 
+            top: 40%;
+            left: 30%;
         text-align: center;
         font-size: 60px;
     }
