@@ -6,7 +6,7 @@ permalink: /compscreen
 ---
 
 <body>
-
+<img src="{{site.baseurl}}/images/blankScreenWide.png">
 <div class="container"> 
     <h1>Become a Cyber Wizard!</h1>
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
@@ -159,12 +159,15 @@ permalink: /compscreen
     }
 
     body {
-        background-image: url("{{site.baseurl}}/images/blankScreenWide.png");
-        background-size: contain;
-        background-repeat: no-repeat; 
-        background-position: center; 
-        margin: 0;
-        padding: 0;
+        /*
+        background-image: url("{{site.baseurl}}/images/blankScreenWide.png");*/
+        background-image: url("https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/pb2.jpeg");
+        background-repeat: repeat;
+        background-size: auto;
+        background-position: center; /* optional, to center the image */
+        height: 25vh;
+        margin-bottom: 30px;
+        background-size: 300px;
     }
 
     .g-modal, .pass-modal, .phish-modal {

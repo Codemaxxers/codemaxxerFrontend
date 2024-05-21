@@ -1,14 +1,11 @@
 // Declare finishedTutorial outside of the function scope
 let finishedTutorial;
 
-let lastXPosition = localStorage.getItem('playerPositionX');
-let lastYPosition = localStorage.getItem('playerPositionY');
-
 var uri;
 if (location.hostname === "localhost") {
     uri = "http://localhost:8032";
 } else if (location.hostname === "127.0.0.1") {
-    uri = "http://127.0.0.1:8032";
+    uri = "http://localhost:8032";
 } else {
     uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
 }
@@ -281,7 +278,12 @@ const offset = {
 
 const storedXPosition = localStorage.getItem('playerPositionX');
 const storedYPosition = localStorage.getItem('playerPositionY');
+let resetOriginalPosition = localStorage.getItem('resetPosition');
 
+
+if (resetOriginalPosition == "true") {
+  console.log('YAYAYAY')
+}
 if (storedXPosition && storedYPosition) {
   offset.x = parseFloat(storedXPosition);
   offset.y = parseFloat(storedYPosition);
@@ -781,11 +783,6 @@ function savePlayerPosition() {
 }
 
 window.addEventListener('unload', savePlayerPosition);
-
-localStorage.getItem('playerPositionX');
-localStorage.getItem('playerPositionY');
-console.log("last x: " + localStorage.getItem('playerPositionX'),"last y: " + localStorage.getItem('playerPositionY'));
-console.log(offset.x, offset.y);
 
 
 function savePlayerPositionToBackend(x, y) {

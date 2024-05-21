@@ -2,7 +2,7 @@ var uri;
 if (location.hostname === "localhost") {
     uri = "http://localhost:8032";
 } else if (location.hostname === "127.0.0.1") {
-    uri = "http://127.0.0.1:8032";
+    uri = "http://localhost:8032";
 } else {
     uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
 }
@@ -32,12 +32,13 @@ var eName = "";
 let userLevel = 1;
 let totalPoints = 0;
 
-let health = 10;
-let damage = 0;
-
-let course = "csp";
+let health = 100;
+let damage = 100;
+let weapon = "";
+let course = "CSA";
 
 GetLevel();
+getDamage();
 
 var baseHTML = `
 <div class="move" id="ChangeATK" onclick="attackMENU()">
@@ -52,31 +53,23 @@ var baseHTML = `
     <div class="move" id="run" onclick="Leave()">
         <h1>Run Away</h1>
     </div>
-`
+`;
 
 var ATKmove = `
     <div class="move" id="move1">
-        <h1>Scratch</h1>
-        <p><b>5 Damage</b></p>
-    </div>
-    <div class="move" id="move2">
-        <h1>Thunderbolt</h1>
-        <p><b>15 Damage</b></p>
-    </div>
-    <div class="move" id="move3">
-        <h1>Fireball</h1>
-        <p><b>25 Damage</b></p>
+        <h1 id ="weaponName">Attack: <span id="weaponNameValue"></span></h1>
+        <p id="damage"><b></b></p>
     </div>
     <div class="move" id="back">
         <h1>Back</h1>
     </div>
-    `
+`;
 
 var comingsoon = `
     <div class="move" id="back">
         <h1>Back</h1>
     </div>
-`
+`;
 
 document.getElementById("alert").addEventListener("click", function() {
     window.location.pathname = '/codemaxxerFrontend/game/index.html'
@@ -99,17 +92,14 @@ function potionMENU() {
 
 function attackMENU() {
     controller.innerHTML = ATKmove;
+    getDamage();
+    getWeapon(); // Call this function to update weapon name
+
+    var moveDamage = document.getElementById("damage");
+    moveDamage.innerHTML = `<b>Damage: ${damage}</b>`;
+
     document.getElementById("move1").addEventListener("click", function() {
-        i = 5 + damage;
-        Battle(i);
-    });
-    document.getElementById("move2").addEventListener("click", function() {
-        i = 15 + damage;
-        Battle(i);
-    });
-    document.getElementById("move3").addEventListener("click", function() {
-        i = 25 + damage;
-        Battle(i);
+        Battle(damage);
     });
     document.getElementById("back").addEventListener("click", function() {
         controller.innerHTML = baseHTML;
@@ -204,7 +194,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
             credentials: 'include'
         };
         //Adding points to the account
-        fetch(uri + `/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+        fetch(uri + `/api/person/addPoints${course}?points=${totalPoints}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -223,8 +213,6 @@ function Leave() {
 }
 
 function GetEnemy() {
-    // Fetch the Users Account Points First
-    // Hard Coded Value for now
     console.log(userLevel);
 
     var myHeaders = new Headers();
@@ -281,8 +269,7 @@ function GetEnemy() {
 
 function Battle(attack) {
     questionBox.style = "";
-    fetchQuestion(attack); // Call fetchQuestion with the attack
-    value
+    fetchQuestion(attack); // Call fetchQuestion with the attack value
     // Check if the player or enemy has been defeated
     if (health <= 0) {
         alert.style = "";
@@ -353,7 +340,7 @@ fetch(uri + "/api/person/jwt", requestOptions)
         levelUpdate.innerHTML =  "Lv. " + userLevel;
         console.log(data.accountLevel);
 
-        console.log(data.totalHealth);
+        health = data.totalHealth;
         updateHealth.innerHTML = `Health: ${data.totalHealth}`;
 
         // updateDamage.innerHTML = '<img src="https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/game/img/sword.png" style="width: 20px; height: auto; margin-right: 5px;">' + data.totalDamage;
@@ -363,6 +350,94 @@ fetch(uri + "/api/person/jwt", requestOptions)
         return userLevel;
     })
     .catch(error => console.log('error', error));
+}
+
+function getDamage() {
+    var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+    };
+    
+    fetch(uri + "/api/person/jwt", requestOptions)
+        .then(response => response.json()) // Convert response to JSON format
+        .then(data => {
+            damage = data.totalDamage;
+            console.log("Fetched damage:", damage); // For debugging
+            // If the element needs to be updated immediately after fetching
+            updateDamage.innerHTML = `<b>Damage: ${damage}</b>`;
+        })
+        .catch(error => console.log('error', error));
+}
+
+function getWeapon() {
+    var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+    };
+
+    fetch(uri + "/api/person/getWeaponInventory", requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.weaponGearIdEquipped == null || data.weaponGearIdEquipped == 0) {
+                return;
+            }
+            fetchWeaponStats(data.weaponGearIdEquipped[0])
+                .then(weapon => {
+                    var weaponNameElement = document.getElementById("weaponNameValue");
+                    weapon = weapon.name;
+                    weaponNameElement.innerHTML = `<b>${weapon}</b>`;
+                    var moveDamage = document.getElementById("damage");
+                    moveDamage.innerHTML = `<b>Damage: ${weapon.damageAdded}</b>`;
+                    damage = weapon.damageAdded;
+                })
+                .catch(error => {
+                    console.log('error', error);
+                });
+        })
+        .catch(error => console.log('error', error));
+}
+
+function fetchWeaponStats(weaponID) {
+    return fetch('gear.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch weapon stats');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const weaponStats = data.items.find(item => item.gearID === weaponID);
+            if (!weaponStats) {
+                throw new Error('Weapon stats not found');
+            }
+            return weaponStats;
+        });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
