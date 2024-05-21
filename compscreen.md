@@ -8,7 +8,6 @@ permalink: /compscreen
 <body>
 <img class = "screen_img" src="{{site.baseurl}}/images/blankScreenWide.png">
 <div class="container"> 
-    <h1>Become a Cyber Wizard!</h1>
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
     <div class="inside-container">
         <a id="gravityBtn" href="#"> <img class="gravityBtn" src="images/gravityicon.png"></a>
