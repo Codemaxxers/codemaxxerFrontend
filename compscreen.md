@@ -191,7 +191,7 @@ permalink: /compscreen
 
     .screen_img {
         border: 5px solid black;
-        width: 1100;
+        width: 1200;
         position: absolute;
             top: 40%;
             left: 21%;
@@ -248,14 +248,6 @@ permalink: /compscreen
         width: 200px;
         height: 200px;
         position: absolute; left: 950px; bottom: 300px; 
-    }
-    
-    h1 {
-        position: absolute; 
-            top: 40%;
-            left: 30%;
-        text-align: center;
-        font-size: 60px;
     }
 
     h2, h3, p {
