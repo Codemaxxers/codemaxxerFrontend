@@ -11,13 +11,13 @@ permalink: /compscreen
     <h1>Become a Cyber Wizard!</h1>
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
     <div class="inside-container">
-        <a id="gravityBtn" href="#"> <img class="gravityBtn" src="images/gravityicon.png"></a>
+        <a id="gravityBtn" href="#"> <img class="gravityBtn"></a>
     </div>
     <div class="inside-container">
-        <a id="phishingBtn" href="#"> <img class="phishingBtn" src="images/phishingicon.png"></a>
+        <a id="phishingBtn" href="#"> <img class="phishingBtn"></a>
     </div>
     <div class="inside-container">
-        <a id="passwordBtn" href="#"> <img class="passwordBtn" src="images/passwordicon.png"></a>
+        <a id="passwordBtn" href="#"> <img class="passwordBtn"></a>
     </div>
 </div>
 
