@@ -61,7 +61,6 @@ permalink: /fight
 
 <div class="scroll" id="weaponMenu" style="display: none;">
     <div id="profile-container">
-        <img id="playerImage" src="game/img/player.png">
         <br>
         <div id="playerStats">
             <h1 class="centered">Player Stats</h1><hr/>
@@ -106,7 +105,7 @@ permalink: /fight
     position: absolute;
     right: 43vw;
     top: 10%;
-    width: 350px;
+    width: 550px;
     padding: 40px;
     background-color: #ccc;
     border-radius: 8px;
