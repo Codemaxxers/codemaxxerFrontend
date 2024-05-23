@@ -8,7 +8,7 @@ permalink: /compscreen
 <body>
 <img src="{{site.baseurl}}/images/blankScreenWide.png">
 <div class="container"> 
-    <h1>Become a Cyber Wizard!</h1>
+    <!--<h1>Become a Cyber Wizard!</h1>-->
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
     <div class="inside-container">
         <a id="gravityBtn" href="#"> <img class="gravityBtn"></a>
@@ -27,7 +27,7 @@ permalink: /compscreen
         <link rel="stylesheet" href="gravity_game/gravitystyle.css">
         <body>
             <button class ="closeGBtn" id="closeGModal"> Close </button>
-            <canvas id="gameCanvas" width="1200" height="800"></canvas>
+            <canvas id="gameCanvas" width="1200" height="900"></canvas>
             <div id="typingBar">
                 <input type="text" id="userInput" placeholder="Type the definition">
                 <div id="inputHistory"></div>
@@ -37,11 +37,35 @@ permalink: /compscreen
     </div>
 </div>
 
+<!-- phishing game modal 
+<div class="phish-modal" id="phish-modal">
+    <div class="modal-inner">
+        <button class ="closePhishBtn" id="closePhishModal"> Close </button>
+    </div>
+</div>
+-->
+
 <!-- phishing game modal -->
 <div class="phish-modal" id="phish-modal">
     <div class="modal-inner">
         <link rel="stylesheet" href="phishing_game/phishingstyle.css">
-        <button class ="closePhishBtn" id="closePhishModal"> Close </button>
+        <body>
+            <button class ="closePhishBtn" id="closePhishModal"> Close </button>
+            <canvas id="gameCanvas" width="1200" height="900"></canvas>
+            <div id="game-container">
+                <h1>Email Phishing Game</h1>
+                <br>
+                <br>
+                <p id="email-text"></p>
+                <br>
+                <br>
+                <button class="button" onclick="checkAnswer(true)">Legitimate Email</button>
+                <button class="button" onclick="checkAnswer(false)">Phishing Email</button>
+                <br>
+                <br>
+            </div>
+            <script src="phishing_game/phishingscript.js"></script>
+        </body>
     </div>
 </div>
 
@@ -170,6 +194,7 @@ permalink: /compscreen
         background-size: 300px;
     }
 
+    /* pop up change positioning*/
     .g-modal, .pass-modal, .phish-modal {
         background-color: none;
         opacity: 0;
@@ -177,7 +202,7 @@ permalink: /compscreen
         top:0px;
         left: 9px;
         right: 0;
-        bottom: 186px;
+        bottom: 450px;
         transition: all 0.3s ease-in-out;
         z-index: -1;
         display: flex;
@@ -200,19 +225,20 @@ permalink: /compscreen
         z-index: 999;
     }
 
+    /* pop up change size*/
     .modal-inner {
         background-color: white;
         border-radius: 2px;
         padding: 40px 25px;
         text-align: center;
-        width: 785px;
-        height: 407px;
+        width: 814px;
+        height: 417px;
     }
 
     #popup-window {
         position: fixed;
         width: 70%;
-        height: 50%;
+        height: 70%;
         background: white;
         border: 1px solid black;
         padding: 10px;
@@ -225,15 +251,16 @@ permalink: /compscreen
         display: none;
     }  
 
+    /* the invisible button*/
     .gravityBtn {
-        width: 550px;
-        height: 500px;
-        position: absolute; left: 300px; top: 120px; 
+        width: 250px;
+        height: 260px;
+        position: absolute; left: 530px; top: 200px; 
     }
 
     .phishingBtn {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 260px;
         position: absolute; left: 720px; bottom: 300px; 
     }
 
@@ -247,6 +274,7 @@ permalink: /compscreen
         position: absolute; top: 100px; left: 30%;
         text-align: center;
         font-size: 60px;
+        color: black; 
     }
 
     h2, h3, p {
