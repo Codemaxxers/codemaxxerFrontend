@@ -30,7 +30,7 @@ permalink: /compscreen
             <canvas id="gameCanvas" width="1200" height="900"></canvas>
             <div id="typingBar">
                 <input type="text" id="userInput" placeholder="Type the definition">
-                <div id="inputHistory"></div>
+                <div id="inputHistory" style="color: black;"></div>
             </div>
             <script src="gravity_game/gravityscript.js"></script>
         </body>
@@ -283,8 +283,8 @@ permalink: /compscreen
 
     .closeGBtn, .closePassBtn, .closePhishBtn{
         position: absolute;
-            top: 100px;
-            left: 70%;
+            top: 120px;
+            left: 68%;
     }
 </style>
 

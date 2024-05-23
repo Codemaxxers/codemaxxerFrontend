@@ -1,50 +1,37 @@
-
-//test
 window.onload = function () {
     fetchTerm();
 };
 
 function fetchTerm() {
     var requestOptions = {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-    credentials: 'include',
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
     };
 
     fetch('http://localhost:8032/api/terms/randomTerm/csp')
     .then(response => {
-        // Check if the response is successful
         if (!response.ok) {
-        throw new Error('Network response was not ok');
+            throw new Error('Network response was not ok');
         }
-        // Parse the JSON response
         return response.json();
     })
     .then(data => {
-        // Extract term and definition from the data
         const term = data.term;
         const definition = data.definition;
-        // Now you can use term and definition variables as needed
         console.log('Term:', term);
         console.log('Definition:', definition);
-        // Example: Save term and definition to variables
         const termAndDefinition = {
-        term: term,
-        definition: definition
+            term: term,
+            definition: definition
         };
-        // Do whatever you need with termAndDefinition
-        // console.log('Term and Definition:', termAndDefinition);
         return term;
     })
     .catch(error => {
-        // Handle errors
         console.error('There was a problem with the fetch operation:', error);
     });
-}
-//
-//
-//
+};
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -75,37 +62,52 @@ const termsAndDefinitions = [
 ];
 let rocks = [];
 let score = 0;
+
 function newRock() {
     const termDefinitionPair = termsAndDefinitions[Math.floor(Math.random() * termsAndDefinitions.length)];
     let newX, newY;
+    let attempts = 0;
+    const maxAttempts = 100;
+
     do {
-        newX = Math.random() * (canvas.width - 200) + 50;
-        newY = 0
-    } while (isOverlapping(newX, newY));
+        newX = Math.random() * (canvas.width - 2);
+        newY = 0;
+        attempts++;
+    } while (attempts < maxAttempts && isOverlapping(newX, newY, termDefinitionPair.definition));
+
+    if (attempts >= maxAttempts) {
+        console.error('Could not place a new rock without overlapping.');
+        return;
+    }
+
     const rock = {
         term: termDefinitionPair.term,
         definition: termDefinitionPair.definition,
         x: newX,
         y: newY,
-        speed: .1
+        speed: 0.5
     };
     rocks.push(rock);
 }
 
-function isOverlapping(newX, newY) {
+function isOverlapping(newX, newY, newText) {
+    const newTextHeight = drawText(newText, newX, newY, true);
     for (const rock of rocks) {
-        const distance = Math.sqrt((newX - rock.x) ** 2 + (newY - rock.y) ** 2);
-        if (distance < 200) {
+        const existingTextHeight = drawText(rock.definition, rock.x, rock.y, true);
+        const xOverlap = Math.abs(newX - rock.x) < 350; // Adjust based on the width
+        const yOverlap = Math.abs(newY - rock.y) < (existingTextHeight + newTextHeight);
+
+        if (xOverlap && yOverlap) {
             return true; // Overlapping
         }
     }
     return false; // Not overlapping
 }
 
-function drawText(text, x, y, width = 200, height = 200, fontSize = 40) {
+function drawText(text, x, y, measureOnly = false, width = 350, fontSize = 45) {
     ctx.font = `${fontSize}px Arial`;
     ctx.fillStyle = "black";
-    // Split the text into lines that fit within the specified width
+
     const lines = [];
     let currentLine = "";
     const words = text.split(' ');
@@ -120,28 +122,30 @@ function drawText(text, x, y, width = 200, height = 200, fontSize = 40) {
         }
     }
     lines.push(currentLine);
-    // Draw each line on a new line
+
+    if (measureOnly) {
+        return lines.length * fontSize; // Return the height of the text block
+    }
+
     for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], x, y + i * fontSize);
     }
+
+    return lines.length * fontSize; // Return the height of the text block
 }
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Draw rocks
     for (const rock of rocks) {
         drawText(rock.definition, rock.x, rock.y);
         rock.y += rock.speed;
-        // Check if the rock reaches the bottom
         if (rock.y > canvas.height) {
             const index = rocks.indexOf(rock);
             rocks.splice(index, 1);
             score -= 1;
         }
     }
-    // Draw user input
-    drawText(`Score: ${score}`, 50, 75);
-    // Display input history
+    drawText(`Score: ${score}`, 0, 100);
     inputHistory.textContent = "Input History: " + userInput.value;
     requestAnimationFrame(draw);
 }

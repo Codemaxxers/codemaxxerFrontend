@@ -6,10 +6,11 @@ body {
     text-align: center;
     position: relative;
 }
+/* make text terms appear normal size now*/
 canvas {
     display: block;
-    height: 50%;
-    width: 70%;
+    height: 80%;
+    width: 60%;
     background-color: none;
 }
 #typingBar {
