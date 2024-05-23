@@ -2,15 +2,15 @@ body {
     margin: 0;
     overflow: hidden;
     color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: "DotGothic16", sans-serif;
     text-align: center;
     position: relative;
 }
-/* make text terms appear normal size now*/
+/* make text terms appear normal size now, but text can't appear on right size*/
 canvas {
     display: block;
     height: 90%;
-    width: 70%;
+    width: 100%;
     background-color: none;
 }
 #typingBar {

@@ -70,7 +70,7 @@ function newRock() {
     const maxAttempts = 100;
 
     do {
-        newX = Math.random() * (canvas.width - 2);
+        newX = Math.random() * (canvas.width - 350) + 175; // Adjusted to ensure the term is within canvas boundaries
         newY = 0;
         attempts++;
     } while (attempts < maxAttempts && isOverlapping(newX, newY, termDefinitionPair.definition));
@@ -106,8 +106,8 @@ function isOverlapping(newX, newY, newText) {
     return false; // Not overlapping
 }
 
-function drawText(text, x, y, measureOnly = false, width = 350, fontSize = 45) {
-    ctx.font = `${fontSize}px Arial`;
+function drawText(text, x, y, measureOnly = false, width = 350, fontSize = 40) {
+    ctx.font = `${fontSize}px Arial Narrow`; // Use Arial Narrow or any other condensed font
     ctx.fillStyle = "black";
 
     const lines = [];
