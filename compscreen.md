@@ -191,10 +191,10 @@ permalink: /compscreen
 
     .screen_img {
         border: 5px solid black;
-        width: 1200;
+        width: 1550;
         position: absolute;
-            top: 40%;
-            left: 21%;
+            top: 10%;
+            left: 9%;
     }
 
     .pass-modal.open {
@@ -210,10 +210,13 @@ permalink: /compscreen
     .modal-inner {
         background-color: white;
         border-radius: 2px;
-        padding: 40px 25px;
+        padding: 20px 25px;
         text-align: center;
-        width: 785px;
-        height: 407px;
+        width: 700px;
+        height: 550px;
+        position: absolute; 
+            left: 710px; 
+            top: 410px; 
     }
 
     #popup-window {
@@ -233,21 +236,21 @@ permalink: /compscreen
     }  
 
     .gravityBtn {
-        width: 550px;
-        height: 500px;
-        position: absolute; left: 300px; top: 120px; 
+        width: 120px;
+        height: 120px;
+        position: absolute; left: 710px; top: 410px; 
     }
 
     .phishingBtn {
-        width: 200px;
-        height: 200px;
-        position: absolute; left: 720px; bottom: 300px; 
+        width: 130px;
+        height: 100px;
+        position: absolute; left: 935px; top: 428px; 
     }
 
     .passwordBtn {
-        width: 200px;
-        height: 200px;
-        position: absolute; left: 950px; bottom: 300px; 
+        width: 110px;
+        height: 145px;
+        position: absolute; left: 1190px; top: 395px; 
     }
 
     h2, h3, p {
