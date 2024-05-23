@@ -27,10 +27,12 @@ permalink: /compscreen
         <link rel="stylesheet" href="gravity_game/gravitystyle.css">
         <body>
             <button class ="closeGBtn" id="closeGModal"> Close </button>
-            <canvas id="gameCanvas" width="1200" height="900"></canvas>
+            <div id="gameCanvasContainer">
+                <canvas id="gameCanvas" width="1200" height="900"></canvas>
+            </div>
             <div id="typingBar">
                 <input type="text" id="userInput" placeholder="Type the definition">
-                <div id="inputHistory" style="color: black;"></div>
+                <div id="inputHistory"></div>
             </div>
             <script src="gravity_game/gravityscript.js"></script>
         </body>

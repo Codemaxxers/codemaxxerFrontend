@@ -9,23 +9,26 @@ body {
 /* make text terms appear normal size now*/
 canvas {
     display: block;
-    height: 80%;
-    width: 60%;
+    height: 90%;
+    width: 70%;
     background-color: none;
 }
 #typingBar {
     position: absolute;
-    bottom: 100px;
+    bottom: 75px;
     left: 50%;
     transform: translateX(-50%);
 }
 input {
+    position: relative; 
     font-size: 16px;
     width: 300px;
     padding: 10px;
-    margin-top: 20px;
+    margin-bottom: 30px;
 }
+/*
 #inputHistory {
     font-size: 16px;
     margin-top: 20px;
 }
+*/

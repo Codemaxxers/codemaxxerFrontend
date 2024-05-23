@@ -36,7 +36,7 @@ function fetchTerm() {
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const userInput = document.getElementById("userInput");
-const inputHistory = document.getElementById("inputHistory");
+const inputHistory = document.getElementById("inputHistory"); 
 const termsAndDefinitions = [
     { term: "Firewall", definition: "A network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules." },
     { term: "Encryption", definition: "The process of converting information into a code to prevent unauthorized access." },
@@ -88,6 +88,8 @@ function newRock() {
         speed: 0.5
     };
     rocks.push(rock);
+    console.log("New rock position:", newX, newY);
+
 }
 
 function isOverlapping(newX, newY, newText) {
@@ -146,8 +148,10 @@ function draw() {
         }
     }
     drawText(`Score: ${score}`, 0, 100);
-    inputHistory.textContent = "Input History: " + userInput.value;
+    // inputHistory.textContent = "Input History: " + userInput.value;
     requestAnimationFrame(draw);
+    console.log("Canvas size:", canvas.width, canvas.height);
+    console.log("Rocks:", rocks);
 }
 
 function checkInput() {
