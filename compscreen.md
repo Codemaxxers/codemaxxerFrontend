@@ -6,9 +6,8 @@ permalink: /compscreen
 ---
 
 <body>
-<img src="{{site.baseurl}}/images/blankScreenWide.png">
+<img class = "screen_img" src="{{site.baseurl}}/images/blankScreenWide.png">
 <div class="container"> 
-    <!--<h1>Become a Cyber Wizard!</h1>-->
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
     <div class="inside-container">
         <a id="gravityBtn" href="#"> <img class="gravityBtn"></a>
@@ -217,6 +216,14 @@ permalink: /compscreen
         z-index: 999;
     }
 
+    .screen_img {
+        border: 5px solid black;
+        width: 1550;
+        position: absolute;
+            top: 10%;
+            left: 9%;
+    }
+
     .pass-modal.open {
         opacity: 1;
         z-index: 999;
@@ -231,10 +238,10 @@ permalink: /compscreen
     .modal-inner {
         background-color: white;
         border-radius: 2px;
-        padding: 40px 25px;
+        padding: 20px 25px;
         text-align: center;
-        width: 814px;
-        height: 417px;
+        width: 785px;
+        height: 407px;
     }
 
     #popup-window {
@@ -255,14 +262,14 @@ permalink: /compscreen
 
     /* the invisible button*/
     .gravityBtn {
-        width: 250px;
-        height: 260px;
-        position: absolute; left: 530px; top: 200px; 
+        width: 550px;
+        height: 500px;
+        position: absolute; left: 300px; top: 120px; 
     }
 
     .phishingBtn {
-        width: 250px;
-        height: 260px;
+        width: 200px;
+        height: 200px;
         position: absolute; left: 720px; bottom: 300px; 
     }
 
@@ -276,7 +283,6 @@ permalink: /compscreen
         position: absolute; top: 100px; left: 30%;
         text-align: center;
         font-size: 60px;
-        color: black; 
     }
 
     h2, h3, p {
