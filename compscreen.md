@@ -241,7 +241,7 @@ permalink: /compscreen
         padding: 40px 25px;
         text-align: center;
         width: 1002px;
-        height: 520px;
+        height: 521px;
     }
 
     #popup-window {
