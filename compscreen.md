@@ -201,9 +201,9 @@ permalink: /compscreen
         opacity: 0;
         position: fixed;
         top:0px;
-        left: 9px;
+        left: 55px;
         right: 0;
-        bottom: 450px;
+        bottom: 250px;
         transition: all 0.3s ease-in-out;
         z-index: -1;
         display: flex;
@@ -238,10 +238,10 @@ permalink: /compscreen
     .modal-inner {
         background-color: white;
         border-radius: 2px;
-        padding: 20px 25px;
+        padding: 40px 25px;
         text-align: center;
-        width: 785px;
-        height: 407px;
+        width: 1002px;
+        height: 520px;
     }
 
     #popup-window {
@@ -262,9 +262,9 @@ permalink: /compscreen
 
     /* the invisible button*/
     .gravityBtn {
-        width: 550px;
-        height: 500px;
-        position: absolute; left: 300px; top: 120px; 
+        width: 300px;
+        height: 300px;
+        position: absolute; left: 500px; top: 300px; 
     }
 
     .phishingBtn {
@@ -291,8 +291,8 @@ permalink: /compscreen
 
     .closeGBtn, .closePassBtn, .closePhishBtn{
         position: absolute;
-            top: 120px;
-            left: 68%;
+            top: 140px;
+            left: 75%;
     }
 </style>
 

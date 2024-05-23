@@ -70,7 +70,7 @@ function newRock() {
     const maxAttempts = 100;
 
     do {
-        newX = Math.random() * (canvas.width - 420) + 175; // Adjusted to ensure the term is within canvas boundaries
+        newX = Math.random() * (canvas.width - 450) + 105; // Adjusted to ensure the term is within canvas boundaries
         newY = 0;
         attempts++;
     } while (attempts < maxAttempts && isOverlapping(newX, newY, termDefinitionPair.definition));
