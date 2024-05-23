@@ -7,7 +7,41 @@ if (location.hostname === "localhost") {
     uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
 }
 
-window.onload = function() {
+html = `
+<div id="profile-container">
+    <br>
+    <div id="playerStats">
+        <h1 class="centered">Player Stats</h1><hr/>
+        <h1 id="characterHealth"></h1>
+        <h1 id="characterDamage"></h1>
+        <br>
+        <h1>Equipped Gear</h1>
+        <div id="equipped" class="flex-container">
+        </div>
+    </div>
+    <div id="inventory">
+    <div class="inventoryArmor">
+        <h1>Armor</h1>
+    </div>
+    <br>
+    <div class="inventoryWeapons">
+        <h1>Weapons</h1>
+    </div>
+    <br>
+    <!-- 
+    <div class="inventoryAccessories">
+        <h1>Accessories</h1>
+    </div> -->
+    <div id="equip-spot" ondrop="drop(event)" ondragover="allowDrop(event)">Drop Here to Equip</div>
+</div>
+</div>
+`;
+
+
+function innitFetch() {
+    var weaponMenu = document.getElementById('weaponMenu');
+    weaponMenu.innerHTML = html;
+
     var requestOptions = {
         method: 'GET',
         redirect: 'follow',
@@ -231,7 +265,7 @@ function equipWeapon(gearID) {
         .then(response => {
             if (response.ok) {
                 console.log("Weapon equipped successfully.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 throw new Error('Network response was not ok.');
             }
@@ -251,7 +285,7 @@ function unequipWeapon() {
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 throw new Error('Network response was not ok.');
             }
@@ -271,7 +305,7 @@ function equipArmor(gearID) {
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 switch (response.status) {
                     case 401:
@@ -306,7 +340,7 @@ function unequipArmor() {
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 throw new Error('Network response was not ok.');
             }
@@ -350,3 +384,5 @@ function fetchArmorStats(armorID) {
             return armorStats;
         });
 }
+
+innitFetch();
