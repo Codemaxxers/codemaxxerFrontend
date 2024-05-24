@@ -515,7 +515,9 @@
       <div id="xp-bar"></div>
       <div id="xp-bar-progress"></div>
       <button id="menuButton" onclick="openMenu()">Menu</button>
-      <div id="keys"></div>
+      <div id="keys">
+        <h1 id = "key_num"></h1>
+      </div>
     </div>
     <div class="stats">
       <h1 id="playerHealth"></h1>
@@ -748,43 +750,70 @@
       .catch((error) => console.error(error));
   }
 
-  function getNumKeys(){
-    const myHeaders =  new Headers();
-    
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-      credentials: "include"
-    };
+  let numOfKeys = document.getElementById('key_num');
+  window.onload = function () {
+    fetchUserData();
+    showKeys(numOfKeys);
+  };
 
-    fetch(uri + "/api/person/keysCollected", requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                 console.log("data is coming though!")
-                 console.log(data);
-                 showKeys(data);
-            })
-            .catch(error => console.log('error', error));
+  function fetchUserData() {
+      var requestOptions = {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include',
+      };
+
+      fetch(uri + "/api/person/jwt", requestOptions)
+      .then(response => {
+              if (!response.ok) {
+                  const errorMsg = 'Login error: ' + response.status;
+                  console.log(errorMsg);
+
+                      switch (response.status) {
+                          case 401:
+                              alert("Please log into or make an account");
+                              window.location.href = "login";
+                              break;
+                          case 403:
+                              alert("Access forbidden. You do not have permission to access this resource.");
+                              break;
+                          case 404:
+                              alert("User not found. Please check your credentials.");
+                              break;
+                          // Add more cases for other status codes as needed
+                          default:
+                              alert("Login failed. Please try again later.");
+                      }
+
+                      return Promise.reject('Login failed');
+                  }
+                  return response.json();
+                  // Success!!!
+              })
+          .then(data => {
+              console.log(data); 
+              console.log("keys collected:" + data.keysCollected);
+              document.getElementById('key_num').innerText = 1;
+              //document.getElementById('key_num').innerText = data.keysCollected;
+              //return data.keysCollected bruh;
+              //let keys = 1;
+          })
   }
 
-  function showKeys(persons){
+  function showKeys(numKeys){
+    console.log("test" + numKeys);
     const key_div = document.getElementById('keys');
-    persons.forEach(person=> {
-      console.log("key num");
-      console.log(person.keysCollected);
-    });
-
-    for(let i = 0; i < num; i++){
-        const key =  document.createElement('img');
-        //key.className = "key_img"
-        img.src = "{{site.baseurl}}/images/key.png";
-        img.width = "50";
-        img.width = "100";
-        console.log(key.src);
-        key.appendChild(keys);
+    for (let i=0; i < numKeys; i++){
+      const key =  document.createElement('img');
+      //key.className = "key_img"
+      img.src = "{{site.baseurl}}/images/key.png";
+      img.width = "50";
+      img.width = "100";
+      console.log(key.src);
+      key.appendChild(key_div);
     }
   }
 
-  getNumKeys();
+
   </script>
