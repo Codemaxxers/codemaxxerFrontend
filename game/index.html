@@ -515,6 +515,9 @@
       <div id="xp-bar"></div>
       <div id="xp-bar-progress"></div>
       <button id="menuButton" onclick="openMenu()">Menu</button>
+      <div id="keys">
+        <h1 id = "key_num"></h1>
+      </div>
     </div>
     <div class="stats">
       <h1 id="playerHealth"></h1>
@@ -746,4 +749,71 @@
       })
       .catch((error) => console.error(error));
   }
+
+  let numOfKeys = document.getElementById('key_num');
+  window.onload = function () {
+    fetchUserData();
+    showKeys(numOfKeys);
+  };
+
+  function fetchUserData() {
+      var requestOptions = {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'include',
+      };
+
+      fetch(uri + "/api/person/jwt", requestOptions)
+      .then(response => {
+              if (!response.ok) {
+                  const errorMsg = 'Login error: ' + response.status;
+                  console.log(errorMsg);
+
+                      switch (response.status) {
+                          case 401:
+                              alert("Please log into or make an account");
+                              window.location.href = "login";
+                              break;
+                          case 403:
+                              alert("Access forbidden. You do not have permission to access this resource.");
+                              break;
+                          case 404:
+                              alert("User not found. Please check your credentials.");
+                              break;
+                          // Add more cases for other status codes as needed
+                          default:
+                              alert("Login failed. Please try again later.");
+                      }
+
+                      return Promise.reject('Login failed');
+                  }
+                  return response.json();
+                  // Success!!!
+              })
+          .then(data => {
+              console.log(data); 
+              console.log("keys collected:" + data.keysCollected);
+              document.getElementById('key_num').innerText = 1;
+              //document.getElementById('key_num').innerText = data.keysCollected;
+              //return data.keysCollected bruh;
+              //let keys = 1;
+          })
+  }
+
+  function showKeys(numKeys){
+    console.log("test" + numKeys);
+    const key_div = document.getElementById('keys');
+    for (let i=0; i < numKeys; i++){
+      const key =  document.createElement('img');
+      //key.className = "key_img"
+      img.src = "{{site.baseurl}}/images/key.png";
+      img.width = "50";
+      img.width = "100";
+      console.log(key.src);
+      key.appendChild(key_div);
+    }
+  }
+
+
   </script>
