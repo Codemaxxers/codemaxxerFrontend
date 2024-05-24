@@ -262,21 +262,21 @@ permalink: /compscreen
 
     /* the invisible button*/
     .gravityBtn {
-        width: 300px;
-        height: 300px;
-        position: absolute; left: 500px; top: 300px; 
+        width: 135px;
+        height: 135px;
+        position: absolute; left: 31%; top:190%; 
     }
 
     .phishingBtn {
-        width: 200px;
-        height: 200px;
-        position: absolute; left: 720px; bottom: 300px; 
+        width: 175px;
+        height: 120px;
+        position: absolute; left: 47%; top:190%; 
     }
 
     .passwordBtn {
-        width: 200px;
-        height: 200px;
-        position: absolute; left: 950px; bottom: 300px; 
+        width: 140px;
+        height: 180px;
+        position: absolute; left: 65.7%; top:170%; 
     }
     
     h1 {
