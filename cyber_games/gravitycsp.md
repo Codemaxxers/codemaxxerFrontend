@@ -2,7 +2,7 @@
 layout: none
 title: Gravity game
 author: Grace
-permalink: /gravity
+permalink: /gravitycsp
 ---
 <script src="uri.js"></script>
 
@@ -81,7 +81,7 @@ permalink: /gravity
             }
         }
         let rocks = [];
-        let score = 0;
+        let score = 10;
         async function newRock() {
             const termData = await fetchTerm();
             if (!termData) {
