@@ -2,7 +2,7 @@
 layout: none
 title: Gravity game
 author: Grace
-permalink: /gravitytest
+permalink: /gravitycsp
 ---
 <script src="uri.js"></script>
 
