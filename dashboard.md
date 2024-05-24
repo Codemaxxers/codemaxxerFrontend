@@ -84,6 +84,11 @@ search_exclude: true
     line-height: 30px;
     color: white;
   }
+
+  .summary-card {
+    width: 250px;
+  }
+  
 </style>
 
 <div class="container-profile">
@@ -207,7 +212,6 @@ search_exclude: true
         document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
         document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
         document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
-        document.getElementById("cyberPointsDisplay").innerText = data.cyberPoints + " Points";
 
         predictAndDisplayAPScore(data.csaPoints);
       })
