@@ -2,10 +2,11 @@
 layout: none
 title: Gravity game
 author: Grace
-permalink: /gravitytest
+permalink: /gravity
 ---
 <script src="uri.js"></script>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +31,7 @@ permalink: /gravitytest
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
+            display: none; /* Hide initially */
         }
         input {
             font-size: 16px;
@@ -41,11 +43,47 @@ permalink: /gravitytest
             font-size: 16px;
             margin-top: 20px;
         }
+        #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+        #startScreen button {
+            padding: 20px;
+            font-size: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #endScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* Hide initially */
+            color: white;
+        }
+        #endScreen button {
+            padding: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
     </style>
-    <script src="uri.js"></script>
 </head>
 <body>
-    <canvas id="gameCanvas" width="1200" height="800"></canvas>
+    <div id="startScreen">
+        <h1>Gravity Game</h1>
+        <button id="startCSP">Start CSP</button>
+        <button id="startCSA">Start CSA</button>
+        <button id="startCyber">Start Cyber</button>
+    </div>
+    <div id="endScreen">
+        <h1>Game Over</h1>
+        <p>Your score is: <span id="finalScore"></span></p>
+        <button id="restartButton">Restart</button>
+    </div>
+    <canvas id="gameCanvas" width="1200" height="800" style="display: none;"></canvas>
     <div id="typingBar">
         <input type="text" id="userInput" placeholder="Type the definition">
         <div id="inputHistory"></div>
@@ -55,16 +93,30 @@ permalink: /gravitytest
         const ctx = canvas.getContext("2d");
         const userInput = document.getElementById("userInput");
         const inputHistory = document.getElementById("inputHistory");
+        const startScreen = document.getElementById("startScreen");
+        const endScreen = document.getElementById("endScreen");
+        const restartButton = document.getElementById("restartButton");
+        const typingBar = document.getElementById("typingBar");
+        const startCSP = document.getElementById("startCSP");
+        const startCSA = document.getElementById("startCSA");
+        const startCyber = document.getElementById("startCyber");
+        const finalScore = document.getElementById("finalScore");
+
+        let rocks = [];
+        let score = 10;
+        let topic = "";
+        let gameRunning = false;
+
         // Fetches new term from bank
-        async function fetchTerm() {
-            var requestOptions = {
+        async function fetchTerm(topic) {
+            const requestOptions = {
                 method: 'GET',
                 mode: 'cors',
                 cache: 'default',
                 credentials: 'include',
             };
             try {
-                const response = await fetch(uri + '/api/terms/randomTerm/csp', requestOptions);
+                const response = await fetch(uri + '/api/terms/randomTerm/' + topic, requestOptions);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -73,17 +125,16 @@ permalink: /gravitytest
                     term: data.term,
                     definition: data.definition
                 };
-                console.log('Term and Definition:', termAndDefinition);
+                console.log(termAndDefinition);
                 return termAndDefinition;
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
                 return null;
             }
         }
-        let rocks = [];
-        let score = 10;
+
         async function newRock() {
-            const termData = await fetchTerm();
+            const termData = await fetchTerm(topic);
             if (!termData) {
                 return;
             }
@@ -102,6 +153,7 @@ permalink: /gravitytest
             };
             rocks.push(rock);
         }
+
         function isOverlapping(newX, newY) {
             for (const rock of rocks) {
                 const distance = Math.sqrt((newX - rock.x) ** 2 + (newY - rock.y) ** 2);
@@ -111,10 +163,10 @@ permalink: /gravitytest
             }
             return false;
         }
+
         function drawText(text, x, y, width = 200, height = 200, fontSize = 18) {
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "black";
-            // Split the text into lines that fit within the specified width
             const lines = [];
             let currentLine = "";
             const words = text.split(' ');
@@ -129,30 +181,32 @@ permalink: /gravitytest
                 }
             }
             lines.push(currentLine);
-            // Draw each line on a new line
             for (let i = 0; i < lines.length; i++) {
                 ctx.fillText(lines[i], x, y + i * fontSize);
             }
         }
+
         function draw() {
+            if (!gameRunning) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Draw rocks
             for (const rock of rocks) {
                 drawText(rock.definition, rock.x, rock.y);
                 rock.y += rock.speed;
-                // Check if the rock reaches the bottom
                 if (rock.y > canvas.height) {
                     const index = rocks.indexOf(rock);
                     rocks.splice(index, 1);
                     score -= 1;
+                    if (score <= 0) {
+                        endGame();
+                        return;
+                    }
                 }
             }
-            // Draw user input
-            drawText(`Score: ${score}`, 50, 600);
-            // Display input history
+            drawText(`Score: ${score}`, 50, 750);
             inputHistory.textContent = "Input History: " + userInput.value;
             requestAnimationFrame(draw);
         }
+
         function checkInput() {
             const userTyped = userInput.value.trim().toLowerCase();
             for (const rock of rocks) {
@@ -165,14 +219,42 @@ permalink: /gravitytest
                 }
             }
         }
+
         async function gameLoop() {
+            if (!gameRunning) return;
             await newRock();
             checkInput();
             setTimeout(gameLoop, 10000);
         }
+
+        function startGame(selectedTopic) {
+            startScreen.style.display = "none";
+            endScreen.style.display = "none";
+            canvas.style.display = "block";
+            typingBar.style.display = "block";
+            topic = selectedTopic;
+            score = 10;
+            rocks = [];
+            gameRunning = true;
+            gameLoop();
+            draw();
+        }
+
+        function endGame() {
+            gameRunning = false;
+            finalScore.textContent = score;
+            endScreen.style.display = "block";
+            canvas.style.display = "none";
+            typingBar.style.display = "none";
+        }
+
         userInput.addEventListener("input", checkInput);
-        gameLoop();
-        draw();
+
+        startCSP.addEventListener("click", () => startGame("csp"));
+        startCSA.addEventListener("click", () => startGame("csa"));
+        startCyber.addEventListener("click", () => startGame("cyber"));
+        restartButton.addEventListener("click", () => startGame(topic));
     </script>
 </body>
 </html>
+
