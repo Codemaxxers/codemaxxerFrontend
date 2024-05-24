@@ -94,11 +94,11 @@
 
 .controller {
     background-color: #f7f7f7;
-    padding: 10px;
+    padding: 20px;
     border-radius: 8px;
     margin-top: 40vh;
-    margin-left: 1vw;
-    margin-right: 82vw;
+    margin-left: 3vw;
+    margin-right: 80vw;
     height: 175px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -110,7 +110,7 @@
     /* background-color: #e0e0e0; */
     color: #333;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -121,7 +121,7 @@
     background-color: #1e1e1e;
     color: #333;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     border-radius: 8px;
     width: 150px;
     cursor: pointer;
