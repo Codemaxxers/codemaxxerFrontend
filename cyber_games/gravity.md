@@ -6,7 +6,6 @@ permalink: /gravity
 ---
 <script src="uri.js"></script>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -101,12 +100,10 @@ permalink: /gravity
         const startCSA = document.getElementById("startCSA");
         const startCyber = document.getElementById("startCyber");
         const finalScore = document.getElementById("finalScore");
-
         let rocks = [];
         let score = 10;
         let topic = "";
         let gameRunning = false;
-
         // Fetches new term from bank
         async function fetchTerm(topic) {
             const requestOptions = {
@@ -132,7 +129,6 @@ permalink: /gravity
                 return null;
             }
         }
-
         async function newRock() {
             const termData = await fetchTerm(topic);
             if (!termData) {
@@ -141,7 +137,7 @@ permalink: /gravity
             const { term, definition } = termData;
             let newX, newY;
             do {
-                newX = Math.random() * (canvas.width - 200) + 50;
+                newX = Math.random() * (canvas.width - 300) + 100;
                 newY = 0;
             } while (isOverlapping(newX, newY));
             const rock = {
@@ -153,7 +149,6 @@ permalink: /gravity
             };
             rocks.push(rock);
         }
-
         function isOverlapping(newX, newY) {
             for (const rock of rocks) {
                 const distance = Math.sqrt((newX - rock.x) ** 2 + (newY - rock.y) ** 2);
@@ -163,7 +158,6 @@ permalink: /gravity
             }
             return false;
         }
-
         function drawText(text, x, y, width = 200, height = 200, fontSize = 18) {
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "black";
@@ -185,7 +179,6 @@ permalink: /gravity
                 ctx.fillText(lines[i], x, y + i * fontSize);
             }
         }
-
         function draw() {
             if (!gameRunning) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -206,7 +199,6 @@ permalink: /gravity
             inputHistory.textContent = "Input History: " + userInput.value;
             requestAnimationFrame(draw);
         }
-
         function checkInput() {
             const userTyped = userInput.value.trim().toLowerCase();
             for (const rock of rocks) {
@@ -219,14 +211,12 @@ permalink: /gravity
                 }
             }
         }
-
         async function gameLoop() {
             if (!gameRunning) return;
             await newRock();
             checkInput();
             setTimeout(gameLoop, 10000);
         }
-
         function startGame(selectedTopic) {
             startScreen.style.display = "none";
             endScreen.style.display = "none";
@@ -239,7 +229,6 @@ permalink: /gravity
             gameLoop();
             draw();
         }
-
         function endGame() {
             gameRunning = false;
             finalScore.textContent = score;
@@ -247,9 +236,7 @@ permalink: /gravity
             canvas.style.display = "none";
             typingBar.style.display = "none";
         }
-
         userInput.addEventListener("input", checkInput);
-
         startCSP.addEventListener("click", () => startGame("csp"));
         startCSA.addEventListener("click", () => startGame("csa"));
         startCyber.addEventListener("click", () => startGame("cyber"));
