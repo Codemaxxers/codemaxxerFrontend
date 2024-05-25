@@ -36,8 +36,10 @@ function fetchTerm() {
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const userInput = document.getElementById("userInput");
-const inputHistory = document.getElementById("inputHistory"); 
-const termsAndDefinitions = [
+const inputHistory = document.getElementById("inputHistory");
+const closeButton = document.getElementById("closeGModal");
+
+let termsAndDefinitions = [
     { term: "Firewall", definition: "A network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules." },
     { term: "Encryption", definition: "The process of converting information into a code to prevent unauthorized access." },
     { term: "Phishing", definition: "A fraudulent attempt to obtain sensitive information, such as usernames, passwords, and credit card details, by disguising as a trustworthy entity in an electronic communication." },
@@ -60,8 +62,10 @@ const termsAndDefinitions = [
     { term: "Biometric Authentication", definition: "A security process that uses unique biological features (such as fingerprints or facial recognition) to verify an individual's identity." },
     { term: "Incident Response", definition: "The process of responding to and managing a cybersecurity incident, including identification, containment, eradication, recovery, and lessons learned." },
 ];
+
 let rocks = [];
 let score = 0;
+let gamePaused = false; // Flag to control game state
 
 function newRock() {
     const termDefinitionPair = termsAndDefinitions[Math.floor(Math.random() * termsAndDefinitions.length)];
@@ -70,7 +74,7 @@ function newRock() {
     const maxAttempts = 100;
 
     do {
-        newX = Math.random() * (canvas.width - 450) + 105; // Adjusted to ensure the term is within canvas boundaries
+        newX = Math.random() * (canvas.width - 450) + 105;
         newY = 0;
         attempts++;
     } while (attempts < maxAttempts && isOverlapping(newX, newY, termDefinitionPair.definition));
@@ -89,25 +93,24 @@ function newRock() {
     };
     rocks.push(rock);
     console.log("New rock position:", newX, newY);
-
 }
 
 function isOverlapping(newX, newY, newText) {
     const newTextHeight = drawText(newText, newX, newY, true);
     for (const rock of rocks) {
         const existingTextHeight = drawText(rock.definition, rock.x, rock.y, true);
-        const xOverlap = Math.abs(newX - rock.x) < 350; // Adjust based on the width
+        const xOverlap = Math.abs(newX - rock.x) < 350;
         const yOverlap = Math.abs(newY - rock.y) < (existingTextHeight + newTextHeight);
 
         if (xOverlap && yOverlap) {
-            return true; // Overlapping
+            return true;
         }
     }
-    return false; // Not overlapping
+    return false;
 }
 
 function drawText(text, x, y, measureOnly = false, width = 350, fontSize = 40) {
-    ctx.font = `${fontSize}px Arial Narrow`; // Use Arial Narrow or any other condensed font
+    ctx.font = `${fontSize}px Arial Narrow`;
     ctx.fillStyle = "black";
 
     const lines = [];
@@ -126,17 +129,18 @@ function drawText(text, x, y, measureOnly = false, width = 350, fontSize = 40) {
     lines.push(currentLine);
 
     if (measureOnly) {
-        return lines.length * fontSize; // Return the height of the text block
+        return lines.length * fontSize;
     }
 
     for (let i = 0; i < lines.length; i++) {
         ctx.fillText(lines[i], x, y + i * fontSize);
     }
 
-    return lines.length * fontSize; // Return the height of the text block
+    return lines.length * fontSize;
 }
 
 function draw() {
+    if (gamePaused) return; // Skip drawing if game is paused
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const rock of rocks) {
         drawText(rock.definition, rock.x, rock.y);
@@ -148,10 +152,7 @@ function draw() {
         }
     }
     drawText(`Score: ${score}`, 0, 100);
-    // inputHistory.textContent = "Input History: " + userInput.value;
     requestAnimationFrame(draw);
-    console.log("Canvas size:", canvas.width, canvas.height);
-    console.log("Rocks:", rocks);
 }
 
 function checkInput() {
@@ -168,11 +169,41 @@ function checkInput() {
 }
 
 function gameLoop() {
+    if (gamePaused) return; // Skip game loop if game is paused
     newRock();
     checkInput();
     setTimeout(gameLoop, 10000);
 }
 
+function resetGame() {
+    rocks = [];
+    score = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    userInput.value = '';
+    inputHistory.textContent = '';
+    console.log("Game reset.");
+}
+
 userInput.addEventListener("input", checkInput);
+canvas.addEventListener("click", () => {
+    gamePaused = !gamePaused; // Toggle game pause state on canvas click
+    if (!gamePaused) {
+        gameLoop();
+        draw();
+    }
+});
+
+closeButton.addEventListener("click", () => {
+    gamePaused = true; // Pause the game when close button is clicked
+});
+
 gameLoop();
 draw();
+
+
+
+
+
+
+
+
