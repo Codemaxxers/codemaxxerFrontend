@@ -333,6 +333,15 @@
     width: 70%;
     margin-left: 15%
   }
+
+  .key_img {
+    z-index: 9999;
+  }
+
+  .hidden {
+    display: none;
+  }
+
   </style>
   </head>
   
@@ -516,7 +525,7 @@
       <div id="xp-bar-progress"></div>
       <button id="menuButton" onclick="openMenu()">Menu</button>
       <div id="keys">
-        <h1 id = "key_num"></h1>
+        <h1 class="hidden" id="key_num"></h1>
       </div>
     </div>
     <div class="stats">
@@ -750,10 +759,8 @@
       .catch((error) => console.error(error));
   }
 
-  let numOfKeys = document.getElementById('key_num');
   window.onload = function () {
     fetchUserData();
-    showKeys(numOfKeys);
   };
 
   function fetchUserData() {
@@ -792,28 +799,34 @@
                   // Success!!!
               })
           .then(data => {
-              console.log(data); 
-              console.log("keys collected:" + data.keysCollected);
-              document.getElementById('key_num').innerText = 1;
-              //document.getElementById('key_num').innerText = data.keysCollected;
-              //return data.keysCollected bruh;
-              //let keys = 1;
-          })
+            console.log(data); 
+            console.log("keys collected:" + data.keysCollected);
+            document.getElementById('key_num').innerText = 1;
+            //document.getElementById('key_num').innerText = data.keysCollected;
+
+            //call showKeys with the updated number of keys
+            //const numOfKeys = parseInt(data.keysCollected, 10);
+            const numOfKeys = 1;
+            console.log("Parsed number of keys:", numOfKeys);
+            showKeys(numOfKeys);
+        })
+        .catch(error => {
+            console.log('Fetch error:', error);
+        });
   }
 
   function showKeys(numKeys){
-    console.log("test" + numKeys);
+    console.log("test: " + numKeys);
     const key_div = document.getElementById('keys');
     for (let i=0; i < numKeys; i++){
       const key =  document.createElement('img');
-      //key.className = "key_img"
-      img.src = "{{site.baseurl}}/images/key.png";
-      img.width = "50";
-      img.width = "100";
+      key.className = "key_img"
+      key.src = "https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/images/key.png";
+      key.width = "10";
+      key.width = "40";
       console.log(key.src);
-      key.appendChild(key_div);
+      key_div.appendChild(key);
     }
   }
-
 
   </script>
