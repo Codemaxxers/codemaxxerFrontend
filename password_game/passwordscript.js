@@ -191,19 +191,9 @@ function checkPassword() {
     }
 }
 
-<<<<<<< HEAD
-//add game session time to backend database 
-var deployURL = "http://localhost:8013";
-function updateTime() {
-    var gameId = 1;
-    var payload = {
-        gameId: gameId,
-        timeScore: minutes*60 + seconds,
-=======
 window.onload = function () {
     fetchUserData();
 };
-
 
 function fetchUserData() {
 
@@ -212,7 +202,6 @@ function fetchUserData() {
     mode: 'cors',
     cache: 'default',
     credentials: 'include',
->>>>>>> a8c09d5b10a30d0cae6b4843276c77ee40007ffd
     };
 
     fetch(uri + "/api/person/jwt", requestOptions)
