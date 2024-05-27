@@ -243,7 +243,7 @@ function fetchUserData() {
       });
 }
 
-let plays = 1;
+let addPlays = 1;
 
 function addGamePlay(){
     const myHeaders = new Headers();
@@ -255,12 +255,12 @@ function addGamePlay(){
         credentials: 'include'
     };
     //Adding points to the account
-    fetch(uri + `/api/person/addGamePlay?plays=${plays}`, requestOptions)
+    fetch(uri + `/api/person/addGamePlay?plays=${addPlays}`, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result);
             addKey(gamesPlayed);
-            console.log("key given heh");
+            console.log("games played: " + gamesPlayed + " key given heh");
             })
         .catch(error => console.log('error lol', error));
     return;
@@ -269,7 +269,7 @@ function addGamePlay(){
 let numKeys = 1;
 
 function addKey(games) {
-    if (games == 20){
+    if (games == 3){
         const myHeaders = new Headers();
 
         var requestOptions = {
@@ -281,10 +281,33 @@ function addKey(games) {
         //Adding points to the account
         fetch(uri + `/api/person/addKey?numKeys=${numKeys}`, requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result);
+                resetGamePlay();
+                console.log("reset done");
+            })
             .catch(error => console.log('error lol', error));
         return;
     }
+}
+
+let removePlays = 3;
+
+function resetGamePlay() {
+    const myHeaders = new Headers();
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+        credentials: 'include'
+    };
+    //Adding points to the account
+    fetch(uri + `/api/person/resetGamePlay?plays=${removePlays}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('reset game play failed', error));
+    return;
 }
 
 
