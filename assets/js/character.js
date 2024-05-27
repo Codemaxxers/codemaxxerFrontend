@@ -119,6 +119,8 @@ function showKeys(numKeys){
 }
 
 function useKEY() {
+    document.getElementById("keyPopup").style.display = "block";
+    
     const options = {
         method: 'POST',
         headers: {
