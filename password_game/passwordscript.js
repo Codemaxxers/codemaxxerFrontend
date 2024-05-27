@@ -196,6 +196,7 @@ window.onload = function () {
 };
 
 let gamesPlayed;
+let totalKeys;
 
 function fetchUserData() {
 
@@ -237,6 +238,8 @@ function fetchUserData() {
           console.log(data);
           console.log("games played:" + data.gamesPlayed);
           gamesPlayed = data.gamesPlayed;
+          console.log(data.keysCollected);
+          totalKeys = data.keysCollected;
       })
       .catch(error => {
           console.log('Fetch error:', error);
@@ -269,7 +272,7 @@ function addGamePlay(){
 let numKeys = 1;
 
 function addKey(games) {
-    if (games == 3){
+    if (games == 3 && totalKeys < 3){
         const myHeaders = new Headers();
 
         var requestOptions = {
