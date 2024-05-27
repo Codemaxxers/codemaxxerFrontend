@@ -4,9 +4,14 @@ body {
 #game-container {
   margin: 50px;
 }
+#result-container {
+  position: absolute;
+  bottom: 100px;
+}
 #result {
   font-weight: bold;
-  margin-top: 20px;
+  position: relative;
+  top: 100px;
 }
 .button {
 padding: .5rem 2rem;

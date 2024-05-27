@@ -48,11 +48,17 @@ function restartGame() {
     // UI elements
     document.getElementById("play_container").style.display = "none";
     document.getElementById("start_button").style.display = "block"; 
-    document.getElementById("restart_button").style.display = "none";
 
     // result displays
     document.getElementById("strengthResult").textContent = "-";
     document.getElementById("crackTimeResult").textContent = "-";
+
+    // Hide requirements
+    const requirements = ["length", "uppercase", "lowercase", "numbers", "specialChars"];
+    requirements.forEach(req => {
+        document.getElementById(req).style.display = "none";
+    });
+
     closeModal(); 
 }
 
@@ -169,13 +175,12 @@ function checkPassword() {
     }
 }
 
-
 //add game session time to backend database 
 var deployURL = "http://localhost:8013";
 function updateTime() {
     var gameId = 1;
     var payload = {
-        gameId: gamedId,
+        gameId: gameId,
         timeScore: minutes*60 + seconds,
     };
     fetch(deployURL + `/api/gamesession/${gameId}`, {

@@ -26,6 +26,7 @@ permalink: /compscreen
         <link rel="stylesheet" href="gravity_game/gravitystyle.css">
         <body>
             <button class ="closeGBtn" id="closeGModal"> Close </button>
+            <button class="playAgainBtnG" id="playAgainBtnG">Reset</button>
             <div id="gameCanvasContainer">
                 <canvas id="gameCanvas" width="1200" height="900"></canvas>
             </div>
@@ -44,10 +45,11 @@ permalink: /compscreen
         <link rel="stylesheet" href="phishing_game/phishingstyle.css">
         <body>
             <button class="closePhishBtn" id="closePhishModal">Close</button>
+            <button class="playAgainBtnP" id="playAgainBtnP">Reset</button>
             <canvas id="gameCanvas" width="1200" height="900"></canvas>
             <div id="game-container">
                 <h1>Email Phishing Game</h1>
-                <p id="email-text" style="position: relative; bottom: 280px;"></p>
+                <p id="email-text" style="position: relative; bottom: 340px;"></p>
                 <button class="legitBtn">Legitimate Email</button>
                 <button class="phishingButton">Phishing Email</button>
                 <p id="result"></p>
@@ -295,6 +297,24 @@ permalink: /compscreen
         position: absolute;
             top: 140px;
             left: 75%;
+    }
+
+    .playAgainBtnG {
+        position: absolute;
+            top: 140px;
+            left: 72%;
+    }
+
+    .playAgainBtnP {
+        position: absolute;
+            top: 140px;
+            left: 72%;
+    }
+
+    .restart_button  {
+        position: absolute;
+            top: 140px;
+            left: 69%;
     }
 </style>
 
