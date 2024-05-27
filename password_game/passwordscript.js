@@ -1,3 +1,18 @@
+
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://localhost:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
+var backBtn = document.getElementById("back-btn");
+    function goBack() {
+        window.location.href = '{{site.baseurl}}/compscreen';
+}
+
 var timeSet;
 var constant = 0;
 var seconds = 0;
@@ -25,7 +40,6 @@ function stopTimer() {
     clearInterval(timeSet);
     // alert display final time
     alert("Time: " + minutes + ":" + (seconds < 10 ? "0":"") + seconds);
-
 }
 
 function closeModal() {
@@ -121,6 +135,8 @@ const timerDisplay = document.getElementById("timerDisplay");
 
 function startGame() {
     console.log("Game started hihihi")
+    addGamePlay();
+    console.log("new game logged!");
     startTimer();
     playContainer.style = "display:block;";
     startButton.style = "display:none;";
@@ -140,7 +156,7 @@ function checkPassword() {
 
     // hide all requirments except first
     requirements.forEach((req, index) => {
-        if(index > 0) { 
+        if(index > 0) {
             document.getElementById(req.elementId).style.display = "none";
         }
     });
@@ -175,6 +191,7 @@ function checkPassword() {
     }
 }
 
+<<<<<<< HEAD
 //add game session time to backend database 
 var deployURL = "http://localhost:8013";
 function updateTime() {
@@ -182,19 +199,96 @@ function updateTime() {
     var payload = {
         gameId: gameId,
         timeScore: minutes*60 + seconds,
+=======
+window.onload = function () {
+    fetchUserData();
+};
+
+
+function fetchUserData() {
+
+    var requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
+>>>>>>> a8c09d5b10a30d0cae6b4843276c77ee40007ffd
     };
-    fetch(deployURL + `/api/gamesession/${gameId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload), // convret payload to JSOn
-    })
-    .then((response) => response.json())
-    .then((newGamesession) => { 
-        console.log('Game session updated:', newGameSession)
-    })
-    .catch(error => {
-        console.error('Error updating game session:', error)
-    });
+
+    fetch(uri + "/api/person/jwt", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                    switch (response.status) {
+                        case 401:
+                            //alert("Please log into or make an account");
+                            window.location.href = "login";
+                            break;
+                        case 403:
+                            //alert("Access forbidden. You do not have permission to access this resource.");
+                            break;
+                        case 404:
+                            //alert("User not found. Please check your credentials.");
+                            break;
+                        // Add more cases for other status codes as needed
+                        default:
+                            //alert("Login failed. Please try again later.");
+                    }
+
+                    return Promise.reject('Login failed');
+                }
+                return response.json();
+                // Success!!!
+            })
+        .then(data => {
+          console.log(data);
+          console.log("games played:" + data.gamesPlayed);
+      })
+      .catch(error => {
+          console.log('Fetch error:', error);
+      });
 }
+
+let plays = 1;
+
+function addGamePlay(){
+    const myHeaders = new Headers();
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+        credentials: 'include'
+    };
+    //Adding points to the account
+    fetch(uri + `/api/person/addGamePlay?plays=${plays}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error lol', error));
+    return;
+}
+
+let numKeys = 1;
+
+function addKey(games) {
+    if (games >= 4){
+        const myHeaders = new Headers();
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/addKey?numKeys=${numKeys}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error lol', error));
+        return;
+    }
+}
+
+
