@@ -36,6 +36,9 @@ permalink: /password
     </div>
 </body>
 </html>
+ <div id="games-played-div">
+    <h1 id="gamesPlayed"></h1>
+</div>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
