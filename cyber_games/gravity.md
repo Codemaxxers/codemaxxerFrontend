@@ -24,6 +24,8 @@ permalink: /gravity
         canvas {
             display: block;
             background-color: white;
+            background-image: url('https://cdn.discordapp.com/attachments/879557685253664768/1242892319342989372/pxArt_1.png?ex=6654c32c&is=665371ac&hm=7d50e59a366be1564e290f0d7a68fe639b24ccf7a540ce01d83adf4ae31d4c4e&'); /* Add this line */
+            background-size: cover; /* Ensure the image covers the entire canvas */
         }
         #typingBar {
             position: absolute;
@@ -104,7 +106,11 @@ permalink: /gravity
         let score = 10;
         let topic = "";
         let gameRunning = false;
-        // Fetches new term from bank
+        const backgroundImage = new Image();
+        backgroundImage.src = 'https://cdn.discordapp.com/attachments/879557685253664768/1242892319342989372/pxArt_1.png?ex=6654c32c&is=665371ac&hm=7d50e59a366be1564e290f0d7a68fe639b24ccf7a540ce01d83adf4ae31d4c4e&';
+        backgroundImage.onload = function() {
+            draw();
+        };
         async function fetchTerm(topic) {
             const requestOptions = {
                 method: 'GET',
@@ -160,7 +166,7 @@ permalink: /gravity
         }
         function drawText(text, x, y, width = 200, height = 200, fontSize = 18) {
             ctx.font = `${fontSize}px Arial`;
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "white";
             const lines = [];
             let currentLine = "";
             const words = text.split(' ');
@@ -182,6 +188,8 @@ permalink: /gravity
         function draw() {
             if (!gameRunning) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw the background image
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
             for (const rock of rocks) {
                 drawText(rock.definition, rock.x, rock.y);
                 rock.y += rock.speed;
@@ -244,4 +252,3 @@ permalink: /gravity
     </script>
 </body>
 </html>
-
