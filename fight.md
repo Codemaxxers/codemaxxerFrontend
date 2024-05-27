@@ -95,7 +95,7 @@ permalink: /fight
         <h1 id="key_num" class="hidden"></h1>
         <div id="keys"></div>
     </div>
-    <button class="key-btn" onclick="removeKey()"> Use Key</button>
+    <button class="key-btn" onclick="useKey()"> Use Key</button>
 </div>
 
 <div id="keyPopup" class="hidden">

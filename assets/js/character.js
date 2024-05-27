@@ -41,9 +41,9 @@ keyHTML = `
 <div>
     <h1>Keys:</h1>
     <h1 id="key_num" class="hidden"></h1>
-    <div id ="keys"></div>
+    <div id="keys"></div>
 </div>
-<button class="key-btn" onclick="removeKey()">Use Key</button>
+<button class="key-btn" onclick="useKey()"> Use Key</button>
 `
 
 window.onload = function () {
@@ -51,6 +51,7 @@ window.onload = function () {
 };
 
 let keyNumber;
+
 function keyFetch() {
     var keyMenu = document.getElementById('key-div');
     keyMenu.innerHTML = keyHTML;
@@ -120,10 +121,9 @@ function showKeys(numKeys){
     }
 }
 
-let numKeys = 1;
+let keyRemove = 1;
 
 function removeKey() {
-    document.getElementById("keyPopup").style.display = "block";
 
     if(keyNumber > 0){
         const myHeaders = new Headers();
@@ -135,12 +135,16 @@ function removeKey() {
             credentials: 'include'
         };
         //Adding points to the account
-        fetch(uri + `/api/person/removeKey?numKeys=${numKeys}`, requestOptions)
+        fetch(uri + `/api/person/removeKey?numKeys=${keyRemove}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('key removed failed', error));
         return;
     }
+}
+
+function useKey(){
+    document.getElementById("keyPopup").style.display = "block";
 }
 
 function innitFetch() {

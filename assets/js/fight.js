@@ -454,6 +454,29 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((error) => console.error(error));
 });
 
+let numKeys = 1;
+
+function removeKey() {
+    document.getElementById("keyPopup").style.display = "block";
+
+    if(keyNumber > 0){
+        const myHeaders = new Headers();
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/removeKey?numKeys=${numKeys}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('key removed failed', error));
+        return;
+    }
+}
+
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
