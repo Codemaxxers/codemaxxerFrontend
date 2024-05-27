@@ -456,7 +456,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
-    
+    removeKey();
+
     fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
         .then(response => response.json())
         .then(result => {
@@ -469,12 +470,15 @@ function useHint(){
 
 function useSkip(){
     document.getElementById("keyPopup").style.display = "none";
+    removeKey();
 
     fetchQuestion(damage);
 }
 
 function useDmg(){
     document.getElementById("keyPopup").style.display = "none";
+    removeKey();
+    
     damage += 10;
     console.log("Damage +10, current damage: " + damage);
     
