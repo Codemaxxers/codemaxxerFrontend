@@ -5,6 +5,7 @@ permalink: /password
 
 <html>
 <body>
+    <h1 id="ID"></h1>
     <div class="container">
         <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
         <h2>Password Game</h2>
@@ -156,8 +157,7 @@ h2 {
 }
 </style>
 
-
-<script>
+<script src="uri.js">
     var backBtn = document.getElementById("back-btn");
     function goBack() {
         window.location.href = '{{site.baseurl}}/compscreen';
@@ -331,31 +331,75 @@ h2 {
             stopTimer();
         }
     }
+    let userId = document.getElementById('ID');
+    window.onload = function () {
+        fetchUserData();
+    };
 
-    
-    //add game session time to backend database 
-    var deployURL = "http://localhost:8013";
-    function updateTime() {
-        var gameId = 1;
-        var payload = {
-            gameId: gamedId,
-            timeScore: minutes*60 + seconds,
+    function fetchUserData() {
+        var requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
         };
-        fetch(deployURL + `/api/gamesession/${gameId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload), // convret payload to JSOn
-        })
-        .then((response) => response.json())
-        .then((newGamesession) => { 
-            console.log('Game session updated:', newGameSession)
-        })
-        .catch(error => {
-            console.error('Error updating game session:', error)
-        });
+
+        fetch(uri + "/api/person/jwt", requestOptions)
+        .then(response => {
+                if (!response.ok) {
+                    const errorMsg = 'Login error: ' + response.status;
+                    console.log(errorMsg);
+
+                        switch (response.status) {
+                            case 401:
+                                alert("Please log into or make an account");
+                                window.location.href = "login";
+                                break;
+                            case 403:
+                                alert("Access forbidden. You do not have permission to access this resource.");
+                                break;
+                            case 404:
+                                alert("User not found. Please check your credentials.");
+                                break;
+                            // Add more cases for other status codes as needed
+                            default:
+                                alert("Login failed. Please try again later.");
+                        }
+
+                        return Promise.reject('Login failed');
+                    }
+                    return response.json();
+                    // Success!!!
+                })
+            .then(data => {
+                console.log(data); 
+                console.log("user id hehe:" + data.id);
+                document.getElementById('ID').innerText = data.id;
+            })
     }
+
+    function updateGamesPlayed() {
+        var currId = userId;
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+            body: JSON.stringify({ gamesPlayed: 1 }) // Example payload, adjust as needed
+    
+        };
+
+        // updating number of games played
+        fetch(uri + `/api/person/gamesPlayed`, requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                console.log("Games played updated", result);})
+            .catch((error) => console.error(error));
+    }
+
 
     
 </script>
