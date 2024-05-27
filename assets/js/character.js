@@ -37,6 +37,112 @@ html = `
 </div>
 `;
 
+keyHTML = `
+<div>
+    <h1>Keys:</h1>
+    <h1 id="key_num" class="hidden"></h1>
+    <div id ="keys"></div>
+</div>
+<button class="key-btn" onclick="useKEY()">Use Key</button>
+`
+
+window.onload = function () {
+    keyFetch();
+};
+
+function keyFetch() {
+    var keyMenu = document.getElementById('key-div');
+    keyMenu.innerHTML = keyHTML;
+
+    var requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
+    };
+
+    fetch(uri + "/api/person/jwt", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                    switch (response.status) {
+                        case 401:
+                            //alert("Please log into or make an account");
+                            window.location.href = "login";
+                            break;
+                        case 403:
+                            //alert("Access forbidden. You do not have permission to access this resource.");
+                            break;
+                        case 404:
+                            //alert("User not found. Please check your credentials.");
+                            break;
+                        // Add more cases for other status codes as needed
+                        default:
+                            //alert("Login failed. Please try again later.");
+                    }
+
+                    return Promise.reject('Login failed');
+                }
+                return response.json();
+                // Success!!!
+            })
+        .then(data => {
+          console.log(data);
+          console.log("keys collected:" + data.keysCollected);
+          document.getElementById('key_num').innerText = data.keysCollected;
+
+          //call showKeys with the updated number of keys
+          //const numOfKeys = parseInt(data.keysCollected, 10);
+          const numOfKeys = 3;
+          console.log("Parsed number of keys:", numOfKeys);
+          showKeys(numOfKeys);
+      })
+      .catch(error => {
+          console.log('Fetch error:', error);
+      });
+}
+
+function showKeys(numKeys){
+    console.log("test: " + numKeys);
+    const key_div = document.getElementById('keys');
+    for (let i=0; i < numKeys; i++){
+      const key =  document.createElement('img');
+      key.className = "key_img"
+      key.src = "https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/images/key.png";
+      key.width = "10";
+      key.width = "40";
+      console.log(key.src);
+      key_div.appendChild(key);
+    }
+}
+
+function useKEY() {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ numKeys: 1 })
+    };
+
+    fetch(uri + `/api/person/removeKey`, options)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to remove key');
+            }
+        })
+        .then(data => {
+            console.log('Key removed successfully:', data);
+            keyFetch();
+        })
+        .catch(error => {
+            console.error('Error removing key:', error);
+        });
+}
 
 function innitFetch() {
     var weaponMenu = document.getElementById('weaponMenu');

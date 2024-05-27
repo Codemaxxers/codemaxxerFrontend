@@ -89,6 +89,15 @@ permalink: /fight
     </div>
 </div>
 
+<div id="key-div" class="key-box">
+    <div>
+        <h1>Keys:</h1>
+        <h1 id="key_num" class="hidden"></h1>
+        <div id="keys"></div>
+    </div>
+    <button class="key-btn" onclick="useKEY()"> Use Key</button>
+</div>
+
 
 <script src="{{site.baseurl}}/assets/js/fight.js"></script>
 
@@ -115,6 +124,24 @@ permalink: /fight
     z-index: 99;
 }
 
+.key-box {
+    position: absolute;
+        top: 7%;
+        left: 3%;
+    width: 250px;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+    font-family: "DotGothic16", sans-serif;
+    z-index: 99;
+}
+
+.hidden {
+    display: none;
+}
+
 .controller {
     bottom: 100px;
     position: absolute;
@@ -123,6 +150,14 @@ permalink: /fight
 
 #level {
     background-color: #71b9e2;
+}
+
+.key-btn {
+    background-color: #71b9e2;
+    z-index: 99999;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .health-box {
