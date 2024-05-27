@@ -1,3 +1,17 @@
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://localhost:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
+var backBtn = document.getElementById("back-btn");
+    function goBack() {
+        window.location.href = '{{site.baseurl}}/compscreen';
+}
+
 var timeSet;
 var constant = 0;
 var seconds = 0;
@@ -25,7 +39,6 @@ function stopTimer() {
     clearInterval(timeSet);
     // alert display final time
     alert("Time: " + minutes + ":" + (seconds < 10 ? "0":"") + seconds);
-
 }
 
 function closeModal() {
@@ -115,6 +128,8 @@ const timerDisplay = document.getElementById("timerDisplay");
 
 function startGame() {
     console.log("Game started hihihi")
+    addGamePlay();
+    console.log("new game logged!");
     startTimer();
     playContainer.style = "display:block;";
     startButton.style = "display:none;";
@@ -169,27 +184,22 @@ function checkPassword() {
     }
 }
 
+let plays = 1;
 
-//add game session time to backend database 
-var deployURL = "http://localhost:8013";
-function updateTime() {
-    var gameId = 1;
-    var payload = {
-        gameId: gamedId,
-        timeScore: minutes*60 + seconds,
-    };
-    fetch(deployURL + `/api/gamesession/${gameId}`, {
+function addGamePlay(){
+    const myHeaders = new Headers();
+
+    var requestOptions = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload), // convret payload to JSOn
-    })
-    .then((response) => response.json())
-    .then((newGamesession) => { 
-        console.log('Game session updated:', newGameSession)
-    })
-    .catch(error => {
-        console.error('Error updating game session:', error)
-    });
+        headers: myHeaders,
+        redirect: 'follow',
+        credentials: 'include'
+    };
+    //Adding points to the account
+    fetch(uri + `/api/person/addGamePlay?plays=${plays}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error lol', error));
+    return;
 }
+
