@@ -43,13 +43,14 @@ keyHTML = `
     <h1 id="key_num" class="hidden"></h1>
     <div id ="keys"></div>
 </div>
-<button class="key-btn" onclick="useKEY()">Use Key</button>
+<button class="key-btn" onclick="removeKey()">Use Key</button>
 `
 
 window.onload = function () {
     keyFetch();
 };
 
+let keyNumber;
 function keyFetch() {
     var keyMenu = document.getElementById('key-div');
     keyMenu.innerHTML = keyHTML;
@@ -92,10 +93,11 @@ function keyFetch() {
           console.log(data);
           console.log("keys collected:" + data.keysCollected);
           document.getElementById('key_num').innerText = data.keysCollected;
+          keyNumber = data.keysCollected;
 
           //call showKeys with the updated number of keys
-          //const numOfKeys = parseInt(data.keysCollected, 10);
-          const numOfKeys = 3;
+          const numOfKeys = parseInt(data.keysCollected, 10);
+          //const numOfKeys = 3;
           console.log("Parsed number of keys:", numOfKeys);
           showKeys(numOfKeys);
       })
@@ -118,30 +120,25 @@ function showKeys(numKeys){
     }
 }
 
-function useKEY() {
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ numKeys: 1 })
-    };
+let numKeys = 1;
 
-    fetch(uri + `/api/person/removeKey`, options)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to remove key');
-            }
-        })
-        .then(data => {
-            console.log('Key removed successfully:', data);
-            keyFetch();
-        })
-        .catch(error => {
-            console.error('Error removing key:', error);
-        });
+function removeKey() {
+    if(keyNumber > 0){
+        const myHeaders = new Headers();
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/removeKey?numKeys=${numKeys}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('key removed failed', error));
+        return;
+    }
 }
 
 function innitFetch() {
