@@ -123,6 +123,8 @@ function showKeys(numKeys){
 let numKeys = 1;
 
 function removeKey() {
+    document.getElementById("keyPopup").style.display = "block";
+
     if(keyNumber > 0){
         const myHeaders = new Headers();
 
