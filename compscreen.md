@@ -38,32 +38,19 @@ permalink: /compscreen
     </div>
 </div>
 
-<!-- phishing game modal 
-<div class="phish-modal" id="phish-modal">
-    <div class="modal-inner">
-        <button class ="closePhishBtn" id="closePhishModal"> Close </button>
-    </div>
-</div>
--->
-
 <!-- phishing game modal -->
 <div class="phish-modal" id="phish-modal">
     <div class="modal-inner">
         <link rel="stylesheet" href="phishing_game/phishingstyle.css">
         <body>
-            <button class ="closePhishBtn" id="closePhishModal"> Close </button>
+            <button class="closePhishBtn" id="closePhishModal">Close</button>
             <canvas id="gameCanvas" width="1200" height="900"></canvas>
             <div id="game-container">
                 <h1>Email Phishing Game</h1>
-                <br>
-                <br>
-                <p id="email-text"></p>
-                <br>
-                <br>
-                <button class="button" onclick="checkAnswer(true)">Legitimate Email</button>
-                <button class="button" onclick="checkAnswer(false)">Phishing Email</button>
-                <br>
-                <br>
+                <p id="email-text" style="position: relative; bottom: 280px;"></p>
+                <button class="legitBtn">Legitimate Email</button>
+                <button class="phishingButton">Phishing Email</button>
+                <p id="result"></p>
             </div>
             <script src="phishing_game/phishingscript.js"></script>
         </body>
@@ -164,6 +151,20 @@ permalink: /compscreen
     * {
         font-family: "DotGothic16", sans-serif;
         box-sizing: border-box;
+    }
+
+    .legitBtn {
+        background-color: green; 
+        font-size: 23px;
+        border-radius: 10px;
+        position: absolute; bottom: 190px; left: 650px;
+    }
+
+    .phishingButton {
+        background-color: red; 
+        font-size: 23px;
+        border-radius: 10px;
+        position: absolute; bottom: 190px; right: 650px;
     }
 
     .container {
@@ -280,9 +281,10 @@ permalink: /compscreen
     }
     
     h1 {
-        position: absolute; top: 100px; left: 30%;
+        position: absolute; top: 120px; left: 35%;
         text-align: center;
         font-size: 60px;
+        color: black; 
     }
 
     h2, h3, p {
