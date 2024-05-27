@@ -453,3 +453,30 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
 });
+
+function useHint(){
+    document.getElementById("keyPopup").style.display = "none";
+    
+    fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result); 
+            document.getElementById("question-text").innerText = result.question;
+            document.getElementById("hint").innerText = result.hint;
+        })
+        .catch(error => console.log('error', error));
+}
+
+function useSkip(){
+    document.getElementById("keyPopup").style.display = "none";
+
+    fetchQuestion(damage);
+}
+
+function useDmg(){
+    document.getElementById("keyPopup").style.display = "none";
+    damage += 10;
+    console.log("Damage +10, current damage: " + damage);
+    
+    updateDamage.innerHTML = `<b>Damage: ${damage}</b>`;
+}
