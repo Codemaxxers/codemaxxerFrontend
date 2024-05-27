@@ -38,6 +38,7 @@ const ctx = canvas.getContext("2d");
 const userInput = document.getElementById("userInput");
 const inputHistory = document.getElementById("inputHistory");
 const closeButton = document.getElementById("closeGModal");
+const playAgainButton = document.getElementById("playAgainBtnG");
 
 let termsAndDefinitions = [
     { term: "Firewall", definition: "A network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules." },
@@ -66,6 +67,7 @@ let termsAndDefinitions = [
 let rocks = [];
 let score = 0;
 let gamePaused = false; // Flag to control game state
+
 
 function newRock() {
     const termDefinitionPair = termsAndDefinitions[Math.floor(Math.random() * termsAndDefinitions.length)];
@@ -195,6 +197,13 @@ canvas.addEventListener("click", () => {
 
 closeButton.addEventListener("click", () => {
     gamePaused = true; // Pause the game when close button is clicked
+});
+
+playAgainButton.addEventListener("click", () => {
+    resetGame(); 
+    gamePaused = false;
+    gameLoop();
+    draw();
 });
 
 gameLoop();
