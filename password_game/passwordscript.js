@@ -195,6 +195,8 @@ window.onload = function () {
     fetchUserData();
 };
 
+let gamesPlayed;
+
 function fetchUserData() {
 
     var requestOptions = {
@@ -234,6 +236,7 @@ function fetchUserData() {
         .then(data => {
           console.log(data);
           console.log("games played:" + data.gamesPlayed);
+          gamesPlayed = data.gamesPlayed;
       })
       .catch(error => {
           console.log('Fetch error:', error);
@@ -254,7 +257,11 @@ function addGamePlay(){
     //Adding points to the account
     fetch(uri + `/api/person/addGamePlay?plays=${plays}`, requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => {
+            console.log(result);
+            addKey(gamesPlayed);
+            console.log("key given heh");
+            })
         .catch(error => console.log('error lol', error));
     return;
 }
@@ -262,7 +269,7 @@ function addGamePlay(){
 let numKeys = 1;
 
 function addKey(games) {
-    if (games >= 4){
+    if (games == 20){
         const myHeaders = new Headers();
 
         var requestOptions = {
