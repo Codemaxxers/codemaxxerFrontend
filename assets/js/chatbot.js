@@ -49,6 +49,18 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
   });
 });
 
+
+// State variable to keep track of the current response function
+let useSecondBotResponse = false;
+
+// Event listener for the toggle button
+document.getElementById("toggle-response-btn").addEventListener("click", () => {
+  useSecondBotResponse = !useSecondBotResponse;
+  console.log(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
+});
+
+
+
 // Event listener for form submission (sending a new message)
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault(); // Prevent the default form submission
@@ -56,9 +68,12 @@ elements.form.addEventListener("submit", (event) => {
   if (!msgText) return; // Do nothing if the input field is empty
   appendMessage(assets.personName, assets.personImg, "right", msgText, assets.personTitle); // Append the user's message to the chat
   elements.input.value = ""; // Clear the input field
-  elements.spinner.style.display = ""; // Display the loading spinner
-  botResponse(msgText); // Send the message to the bot
-});
+  elements.spinner.style.display = ""; // Display the loading spinner)
+  if (useSecondBotResponse)  {
+    secondbotResponse(msgText); // Send the message to the second bot response
+  } else {
+    botResponse(msgText); // Send the message to the bot
+  }});
 
 // Function to append a message to the chat display area
 function appendMessage(name, img, side, text, title) {
@@ -79,51 +94,11 @@ function appendMessage(name, img, side, text, title) {
 }
 
 
-// Initialize a variable to keep track of the current response function
-let useSecondResponse = false;
-
-// Toggle button event listener
-document.getElementById('toggle-response-btn').addEventListener('click', () => {
-  useSecondResponse = !useSecondResponse;
-  const btn = document.getElementById('toggle-response-btn');
-  btn.textContent = useSecondResponse ? 'Use First Response' : 'Use Second Response';
-});
-
-// Function to handle bot responses based on the toggle state
-async function handleBotResponse(msgText) {
-  if (useSecondResponse) {
-    await secondbotResponse(msgText);
-  } else {
-    await botResponse(msgText);
-  }
-}
-
-// Update the form submission to use the handleBotResponse function
-document.querySelector('.msger-inputarea').addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const msgInput = document.querySelector('.msger-input');
-  const msgText = msgInput.value;
-
-  if (!msgText) return;
-
-  // Append user's message
-  appendMessage('You', 'assets/icons/icons8-user-64.png', 'right', msgText);
-
-  // Clear the input field
-  msgInput.value = '';
-
-  // Get and append bot's response
-  await handleBotResponse(msgText);
-});
-
-
 async function secondbotResponse(msgText) {
   const data = await fetchData(`${urls.chat}${msgText}`); // Fetch the bot's response
   appendMessage(assets.botName, assets.botImg, "left", data, assets.botTitle); // Append the bot's response to the chat
   elements.spinner.style.display = "none"; // Hide the loading spinner
 }
-
 // Function to handle bot responses
 async function botResponse(msgText) {
   // Show the loading spinner
