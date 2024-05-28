@@ -56,7 +56,7 @@ let useSecondBotResponse = false;
 // Event listener for the toggle button
 document.getElementById("toggle-response-btn").addEventListener("click", () => {
   useSecondBotResponse = !useSecondBotResponse;
-  console.log(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
+  alert(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
 });
 
 
@@ -99,6 +99,7 @@ async function secondbotResponse(msgText) {
   appendMessage(assets.botName, assets.botImg, "left", data, assets.botTitle); // Append the bot's response to the chat
   elements.spinner.style.display = "none"; // Hide the loading spinner
 }
+
 // Function to handle bot responses
 async function botResponse(msgText) {
   // Show the loading spinner
