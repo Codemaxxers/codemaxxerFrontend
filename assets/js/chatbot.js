@@ -57,7 +57,7 @@ elements.form.addEventListener("submit", (event) => {
   appendMessage(assets.personName, assets.personImg, "right", msgText, assets.personTitle); // Append the user's message to the chat
   elements.input.value = ""; // Clear the input field
   elements.spinner.style.display = ""; // Display the loading spinner
-  streamBotResponse(msgText); // Send the message to the bot
+  botResponse(msgText); // Send the message to the bot
 });
 
 // Function to append a message to the chat display area
@@ -79,20 +79,21 @@ function appendMessage(name, img, side, text, title) {
 }
 
 // Function to handle bot responses
-async function streamBotResponse(msgText) {
-  const response = await fetch(`${urls.chat}${msgText}`);
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let result = '';
-  
-  // Create a bot message element
+async function botResponse(msgText) {
+  const response = await fetchData(`${urls.chat}${msgText}`);
+  streamText(response, assets.botName, assets.botImg, "left", assets.botTitle);
+  elements.spinner.style.display = "none"; // Hide the loading spinner
+}
+
+// Function to progressively display text
+function streamText(text, name, img, side, title) {
   const botMessage = document.createElement('div');
-  botMessage.className = 'msg left-msg';
+  botMessage.className = `msg ${side}-msg`;
   botMessage.innerHTML = `
-    <div class="msg-img" style="background-image: url(${assets.botImg})" title="${assets.botTitle}"></div>
+    <div class="msg-img" style="background-image: url(${img})" title="${title}"></div>
     <div class="msg-bubble">
       <div class="msg-info">
-        <div class="msg-info-name">${assets.botName}</div>
+        <div class="msg-info-name">${name}</div>
         <div class="msg-info-time">${formatDate(new Date())}</div>
       </div>
       <div class="msg-text"></div>
@@ -101,15 +102,16 @@ async function streamBotResponse(msgText) {
   elements.chat.appendChild(botMessage);
   const botTextElement = botMessage.querySelector('.msg-text');
   
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    result += decoder.decode(value, { stream: true });
-    botTextElement.textContent = result;
-    elements.chat.scrollTop += 500; // Scroll to the bottom of the chat display area
-  }
-  
-  elements.spinner.style.display = "none"; // Hide the loading spinner
+  let index = 0;
+  const interval = setInterval(() => {
+    if (index < text.length) {
+      botTextElement.textContent += text.charAt(index);
+      index++;
+      elements.chat.scrollTop += 500; // Scroll to the bottom of the chat display area
+    } else {
+      clearInterval(interval);
+    }
+  }, 50); // Adjust the speed of text display here
 }
 
 // Function to format the date/time for messages
