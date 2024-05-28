@@ -481,14 +481,32 @@ function useHint(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
 
-    fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            console.log(result); 
-            document.getElementById("question-text").innerText = result.question;
-            document.getElementById("hint").innerText = result.hint;
-        })
-        .catch(error => console.log('error', error));
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        credentials: 'include',
+        redirect: 'follow'
+    };
+    
+    fetch(uri + `/api/questions/hint/${course}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result); // debugging
+        // update hint text
+        document.getElementById("hint-text").innerText = result.hint;
+
+        // clear hint
+        const hintDiv = document.getElementById("hint");
+        hintDiv.innerHTML = "";
+
+        let hDiv = document.createElement("div");
+        hDiv.innerText = result[`hint`];
+        hintDiv.appendChild(hDiv);
+    })
+    .catch(error => console.log('error', error));
 }
 
 function useSkip(){
@@ -501,7 +519,7 @@ function useSkip(){
 function useDmg(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
-    
+
     damage += 10;
     console.log("Damage +10, current damage: " + damage);
     

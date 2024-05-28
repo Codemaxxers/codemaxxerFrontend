@@ -42,6 +42,9 @@ permalink: /fight
         <div id="answers">
             <!-- Dynamically filled answers will go here -->
         </div>
+        <div id="hint">
+            <!-- Dynamically filled hint will go here -->
+        </div>
     </div>
     <div id="moves" class="controller">
         <div class="move" class="backgroundStyle" id="ChangeATK" onclick="attackMENU()">
