@@ -49,10 +49,13 @@ permalink: /compscreen
             <canvas id="gameCanvas" width="1200" height="900"></canvas>
             <div id="game-container">
                 <h1>Email Phishing Game</h1>
-                <p id="email-text" style="position: relative; bottom: 340px;"></p>
-                <button class="legitBtn">Legitimate Email</button>
-                <button class="phishingButton">Phishing Email</button>
-                <p id="result"></p>
+                <button id="startPhish" class="startPhish" onclick="startPhish()">Start</button>
+                <div id="phishing-container">
+                    <p id="email-text" style="position: relative; bottom: 340px;"></p>
+                    <button class="legitBtn">Legitimate Email</button>
+                    <button class="phishingButton">Phishing Email</button>
+                    <p id="result"></p>
+                </div>
             </div>
             <script src="phishing_game/phishingscript.js"></script>
         </body>
@@ -144,6 +147,10 @@ permalink: /compscreen
         passmodal.classList.remove("open");
     });
 
+function startPhish() {
+    document.getElementById("phishing-container").style = "display:block;";
+    document.getElementById("startPhish").style = "display:none;";
+}
 
 </script>
 
@@ -315,6 +322,10 @@ permalink: /compscreen
         position: absolute;
             top: 140px;
             left: 69%;
+    }
+
+    #phishing-container {
+        display: none;
     }
 </style>
 
