@@ -95,9 +95,30 @@ permalink: /fight
         <h1 id="key_num" class="hidden"></h1>
         <div id="keys"></div>
     </div>
-    <button class="key-btn" onclick="useKEY()"> Use Key</button>
+    <button class="key-btn" onclick="useKey()"> Use Key</button>
 </div>
 
+<div id="keyPopup" class="hidden">
+    <div class="keyPopup-box">
+        <h2>Power-up Options</h2>
+        <p>Earn keys by playing cyber games in the cyber house!</p>
+        <p>Use a key for one of the following power-ups:</p>
+        <div class="keyPopup-options">
+            <div class="option">
+                    <button onclick="useHint()">Hint</button>
+                    <img src="images/keyHint.png" alt="Hint">
+                </div>
+                <div class="option">
+                    <button onclick="useSkip()">Skip</button>
+                    <img src="images/keySkip.png" alt="Skip">
+                </div>
+                <div class="option">
+                    <button onclick="useDmg()">+10 Damage</button>
+                    <img src="images/keyDmg.png" alt="+10 Damage">
+                </div>
+        </div>
+    </div>
+</div>
 
 <script src="{{site.baseurl}}/assets/js/fight.js"></script>
 
@@ -176,5 +197,56 @@ permalink: /fight
 
 #userName {
     font-size: 1.2em;
+}
+
+.keyPopup-box {
+    position: absolute;
+        top: 0%;
+        left: 27%;
+    width: 900px;
+    height: 400px;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.keyPopup-box h2 {
+    font-size: 32px;
+    font-family: "DotGothic16", sans-serif;
+}
+
+.keyPopup-box p {
+    font-size: 24px;
+}
+
+.keyPopup-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.keyPopup-options button {
+    background-color: #71b9e2;
+    z-index: 99999;
+    border: none;
+    font-size: 24px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-family: "DotGothic16", sans-serif;
+}
+
+.keyPopup-options img {
+    width: 120px;
+    height: 120px;
 }
 </style>

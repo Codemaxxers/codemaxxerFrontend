@@ -453,3 +453,57 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((result) => console.log(result))
     .catch((error) => console.error(error));
 });
+
+let numKeys = 1;
+
+function removeKey() {
+    document.getElementById("keyPopup").style.display = "block";
+
+    if(keyNumber > 0){
+        const myHeaders = new Headers();
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/removeKey?numKeys=${numKeys}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('key removed failed', error));
+        return;
+    }
+}
+
+function useHint(){
+    document.getElementById("keyPopup").style.display = "none";
+    removeKey();
+
+    fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result); 
+            document.getElementById("question-text").innerText = result.question;
+            document.getElementById("hint").innerText = result.hint;
+        })
+        .catch(error => console.log('error', error));
+}
+
+function useSkip(){
+    document.getElementById("keyPopup").style.display = "none";
+    removeKey();
+
+    fetchQuestion(damage);
+}
+
+function useDmg(){
+    document.getElementById("keyPopup").style.display = "none";
+    removeKey();
+    
+    damage += 10;
+    console.log("Damage +10, current damage: " + damage);
+    
+    updateDamage.innerHTML = `<b>Damage: ${damage}</b>`;
+}

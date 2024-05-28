@@ -20,12 +20,16 @@ permalink: /gravity
             font-family: Arial, sans-serif;
             text-align: center;
             position: relative;
+            width: 100%;
+            height: 100%;
         }
         canvas {
             display: block;
             background-color: white;
             background-image: url('https://cdn.discordapp.com/attachments/879557685253664768/1242892319342989372/pxArt_1.png?ex=6654c32c&is=665371ac&hm=7d50e59a366be1564e290f0d7a68fe639b24ccf7a540ce01d83adf4ae31d4c4e&'); /* Add this line */
             background-size: cover; /* Ensure the image covers the entire canvas */
+            width: 100vw; /* Set to the viewport width */
+            height: 100vh; /* Set to the viewport height */
         }
         #typingBar {
             position: absolute;
@@ -38,10 +42,6 @@ permalink: /gravity
             font-size: 16px;
             width: 300px;
             padding: 10px;
-            margin-top: 20px;
-        }
-        #inputHistory {
-            font-size: 16px;
             margin-top: 20px;
         }
         #startScreen {
@@ -84,13 +84,15 @@ permalink: /gravity
         <p>Your score is: <span id="finalScore"></span></p>
         <button id="restartButton">Restart</button>
     </div>
-    <canvas id="gameCanvas" width="1200" height="800" style="display: none;"></canvas>
+    <canvas id="gameCanvas" style="display: none;"></canvas>
     <div id="typingBar">
         <input type="text" id="userInput" placeholder="Type the definition">
         <div id="inputHistory"></div>
     </div>
     <script>
         const canvas = document.getElementById("gameCanvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         const ctx = canvas.getContext("2d");
         const userInput = document.getElementById("userInput");
         const inputHistory = document.getElementById("inputHistory");
@@ -204,7 +206,6 @@ permalink: /gravity
                 }
             }
             drawText(`Score: ${score}`, 50, 750);
-            inputHistory.textContent = "Input History: " + userInput.value;
             requestAnimationFrame(draw);
         }
         function checkInput() {
@@ -215,7 +216,6 @@ permalink: /gravity
                     rocks.splice(index, 1);
                     score += 1;
                     userInput.value = "";
-                    inputHistory.textContent = "Input History: ";
                 }
             }
         }

@@ -5,6 +5,7 @@ permalink: /password
 
 <html>
 <body>
+    <h1 id="ID"></h1>
     <div class="container">
         <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
         <h2>Password Game</h2>
