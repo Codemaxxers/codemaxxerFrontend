@@ -40,10 +40,6 @@ permalink: /gravity
             padding: 10px;
             margin-top: 20px;
         }
-        #inputHistory {
-            font-size: 16px;
-            margin-top: 20px;
-        }
         #startScreen {
             position: absolute;
             top: 50%;
@@ -204,7 +200,6 @@ permalink: /gravity
                 }
             }
             drawText(`Score: ${score}`, 50, 750);
-            inputHistory.textContent = "Input History: " + userInput.value;
             requestAnimationFrame(draw);
         }
         function checkInput() {
@@ -215,7 +210,6 @@ permalink: /gravity
                     rocks.splice(index, 1);
                     score += 1;
                     userInput.value = "";
-                    inputHistory.textContent = "Input History: ";
                 }
             }
         }
