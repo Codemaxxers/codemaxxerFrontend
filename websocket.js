@@ -1,17 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const socket = new SockJS('https://codemaxxers.stu.nighthawkcodingsociety.com/myhandler');
-    const stompClient = Stomp.over(socket);
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const socketUrl = `${wsProtocol}//codemaxxers.stu.nighthawkcodingsociety.com/myhandler`;
+    const socket = new WebSocket(socketUrl);
 
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/messages', function (messageOutput) {
-            showMessageOutput(messageOutput.body);
-        });
-    });
+    socket.onopen = function() {
+        console.log('Connected');
+    };
+
+    socket.onmessage = function(event) {
+        showMessageOutput(event.data);
+    };
 
     function sendMessage() {
         const messageInput = document.getElementById('messageInput').value;
-        stompClient.send("/app/hello", {}, messageInput);
+        const message = JSON.stringify({ command: 'hello', params: messageInput });
+        socket.send(message);
     }
 
     function showMessageOutput(messageOutput) {
