@@ -10,7 +10,7 @@ permalink: /compscreen
 <div class="container"> 
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
     <div class="inside-container">
-        <a id="gravityBtn" href="#"> <img class="gravityBtn"></a>
+        <a id="gravityBtn" href="{{site.baseurl}}/gravity"> <img class="gravityBtn"></a>
     </div>
     <div class="inside-container">
         <a id="phishingBtn" href="#"> <img class="phishingBtn"></a>
