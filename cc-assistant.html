@@ -9,6 +9,22 @@ permalink: bot
 
 <style>
   
+  #toggle-response-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #toggle-response-btn:hover {
+    background-color: #218838;
+  }
+
   #profile-container {
       display: flex;
       justify-content: space-between;
@@ -155,6 +171,7 @@ permalink: bot
     <input type="text" class="msger-input" placeholder="Enter your message...">
     <button type="submit" id = "msger-send-btn" class="msger-send-btn">Send</button>
   </form>
+  <button id="toggle-response-btn">Toggle Response</button>
 </section>
 </body>
 <script type="text/javascript" src="assets/js/chatbot.js"></script>

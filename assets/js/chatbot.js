@@ -78,6 +78,52 @@ function appendMessage(name, img, side, text, title) {
   elements.chat.scrollTop += 500; // Scroll to the bottom of the chat display area
 }
 
+
+// Initialize a variable to keep track of the current response function
+let useSecondResponse = false;
+
+// Toggle button event listener
+document.getElementById('toggle-response-btn').addEventListener('click', () => {
+  useSecondResponse = !useSecondResponse;
+  const btn = document.getElementById('toggle-response-btn');
+  btn.textContent = useSecondResponse ? 'Use First Response' : 'Use Second Response';
+});
+
+// Function to handle bot responses based on the toggle state
+async function handleBotResponse(msgText) {
+  if (useSecondResponse) {
+    await secondbotResponse(msgText);
+  } else {
+    await botResponse(msgText);
+  }
+}
+
+// Update the form submission to use the handleBotResponse function
+document.querySelector('.msger-inputarea').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const msgInput = document.querySelector('.msger-input');
+  const msgText = msgInput.value;
+
+  if (!msgText) return;
+
+  // Append user's message
+  appendMessage('You', 'assets/icons/icons8-user-64.png', 'right', msgText);
+
+  // Clear the input field
+  msgInput.value = '';
+
+  // Get and append bot's response
+  await handleBotResponse(msgText);
+});
+
+
+async function secondbotResponse(msgText) {
+  const data = await fetchData(`${urls.chat}${msgText}`); // Fetch the bot's response
+  appendMessage(assets.botName, assets.botImg, "left", data, assets.botTitle); // Append the bot's response to the chat
+  elements.spinner.style.display = "none"; // Hide the loading spinner
+}
+
 // Function to handle bot responses
 async function botResponse(msgText) {
   // Show the loading spinner
