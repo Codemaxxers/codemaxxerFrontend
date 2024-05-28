@@ -115,7 +115,7 @@ permalink: /gravity
     let topic = "";
     let gameRunning = false;
     const backgroundImage = new Image();
-    backgroundImage.src = 'https://cdn.discordapp.com/attachments/879557685253664768/1242892319342989372/pxArt_1.png?ex=6654c32c&is=665371ac&hm=7d50e59a366be1564e290f0d7a68fe639b24ccf7a540ce01d83adf4ae31d4c4e&';
+    backgroundImage.src = "{{site.baseurl}}/images/earth.png";
     backgroundImage.onload = function() {
         draw();
     };
