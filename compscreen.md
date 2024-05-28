@@ -28,7 +28,7 @@ permalink: /compscreen
             <button class ="closeGBtn" id="closeGModal"> Close </button>
             <button class="playAgainBtnG" id="playAgainBtnG">Reset</button>
             <div id="gameCanvasContainer">
-                <canvas id="gameCanvas" width="1200" height="900"></canvas>
+                <canvas id="gameCanvas" width="900" height="900"></canvas>
             </div>
             <div id="typingBar">
                 <input type="text" id="userInput" placeholder="Type the definition">
