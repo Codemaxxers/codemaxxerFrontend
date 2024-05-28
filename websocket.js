@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const socket = new SockJS('http://codemaxxers.stu.nighthawkcodingsociety.com/myhandler');
+    const socket = new SockJS('https://codemaxxers.stu.nighthawkcodingsociety.com/myhandler');
     const stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
