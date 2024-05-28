@@ -481,6 +481,10 @@ function removeKey() {
     }
 }
 
+function closeKeyPopup() {
+    document.getElementById("keyPopup").style.display = "none";
+}
+
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
