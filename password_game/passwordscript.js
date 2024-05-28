@@ -51,6 +51,7 @@ function openModal() {
 }
 
 function restartGame() {
+    clearInterval(timeSet); // Ensure timer is stopped
     constant = 0;
     seconds = 0;
     minutes = 0;
@@ -154,7 +155,7 @@ function checkPassword() {
         {condition: /[\W_]/.test(password), elementId: "specialChars"}
     ];
 
-    // hide all requirments except first
+    // hide all requirements except first
     requirements.forEach((req, index) => {
         if(index > 0) {
             document.getElementById(req.elementId).style.display = "none";
