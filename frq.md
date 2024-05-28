@@ -7,111 +7,70 @@ author: Luna I
 permalink: /frq
 ---
 
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Content</title>
+  <title>Java Code Compiler</title>
   <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
     }
-    #content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    textarea {
+      width: 60%;
+      height: 200px;
     }
-    #container {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
     }
-    #image-container {
-      flex: 1;
-      margin-right: 20px;
-    }
-    #image {
-      width: 100%;
-      height: auto;
-    }
-    #button-container {
-      flex: 1;
-      margin-bottom: 20px;
-    }
-    #sentences-container {
-      flex: 1;
-      margin-right: 20px;
-    }
-    #user-input {
-      flex: 1;
-    }
-    #output {
-      flex: 1;
-      margin-top: 20px;
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
     }
   </style>
 </head>
 <body>
-  <div id="content">
-    <div id="container">
-      <div id="image-container">
-        <img id="image" src="default-image.jpg" alt="Image">
-        <button onclick="changeImage()">Next FRQ</button>
-      </div>
-      <div id="button-container">
-        <button onclick="changeSentence()">Tips</button>
-      </div>
-      <div id="sentences-container">
-        <p id="sentence">This is the default sentence.</p>
-      </div>
-      <div id="user-input">
-        <input type="text" id="userInput" placeholder="Type here...">
-      </div>
-      <div id="output">
-        <p id="outputText">Output will appear here.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Array of sentences
-    const sentences = [
-      "Express in print form the proper syntax to represent a described algorithm or program.Express in print form the proper syntax to represent a described algorithm or program.",
-      "Pay attention to task verbs",
-      "Try to solve all parts of a question.",
-      "Be organized and clear in your programming.",
-      "Sentence 5"
-    ];
-
-    // Function to change the image
-    function changeImage() {
-      const image = document.getElementById("image");
-      // Change the image source here
-      image.src = "frq1.png";
+  <iframe
+  src="images/ap23csa.pdf"
+  width="60%"
+  height="600px"
+  ></iframe>
+<h1>Java Code Compiler</h1>
+<textarea id="code" placeholder="Enter your Java code here..."></textarea>
+<button onclick="compileCode()">Run Code</button>
+<h1>Output</h1>
+<pre id="output"></pre>
+<script>
+async function compileCode() {
+  const code = document.getElementById('code').value;
+  try {
+  const response = await fetch('http://localhost:8032/api/compile/JudgeController', { 
+// fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/compile/JudgeController", requestOptions)
+  method: 'POST',
+headers: {
+    'Content-Type': 'application/json'
+},
+  body: JSON.stringify({ code: code })
+});
+  if (!response.ok) {
+    const errorMsg = 'Compiling failed: ' + response.status;
+    console.log(errorMsg);
+    switch (response.status) {
+    default:
+     alert("Compiling failed. Please try again later.");
     }
-
-    // Function to change the sentence
-    function changeSentence() {
-      const randomIndex = Math.floor(Math.random() * sentences.length);
-      const sentence = sentences[randomIndex];
-      const sentenceElement = document.getElementById("sentence");
-      sentenceElement.textContent = sentence;
+    throw new Error('Compiling failed');
     }
-
-    // Function to handle user input
-    document.getElementById("userInput").addEventListener("input", function() {
-      const userInput = document.getElementById("userInput").value;
-      const outputText = document.getElementById("outputText");
-      outputText.textContent = userInput;
-    });
-
-    // Function to change the sentence automatically every 5 minutes
-    setInterval(changeSentence, 5 * 60 * 1000);
-  </script>
+    const result = await response.json();
+    const outputElement = document.getElementById('output');
+    if (result.output) {
+      outputElement.textContent = result.output;
+     } else if (result.error) {
+      outputElement.textContent = result.error;
+        }
+} catch (error) {
+  console.error('Error:', error);
+  }
+}
+</script>
 </body>
-
 
