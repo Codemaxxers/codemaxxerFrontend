@@ -21,7 +21,7 @@ permalink: /gravity
     canvas {
         display: block;
         background-color: white;
-        background-image: url('https://cdn.discordapp.com/attachments/879557685253664768/1242892319342989372/pxArt_1.png?ex=6654c32c&is=665371ac&hm=7d50e59a366be1564e290f0d7a68fe639b24ccf7a540ce01d83adf4ae31d4c4e&'); /* Add this line */
+        background-image: url("{{site.baseurl}}/images/earth.png"); /* Add this line */
         background-size: cover; /* Ensure the image covers the entire canvas */
         width: 100vw; /* Set to the viewport width */
         height: 100vh; /* Set to the viewport height */
@@ -72,8 +72,6 @@ permalink: /gravity
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gravity Game</title>
-<<<<<<< HEAD
-=======
     <style>
         body {
             margin: 0;
@@ -134,7 +132,6 @@ permalink: /gravity
             cursor: pointer;
         }
     </style>
->>>>>>> fb19ef6 (gravity background update)
 </head>
 <body>
     <div id="startScreen">
