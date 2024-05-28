@@ -80,39 +80,40 @@ function appendMessage(name, img, side, text, title) {
 
 // Function to handle bot responses
 async function botResponse(msgText) {
-  const response = await fetchData(`${urls.chat}${msgText}`);
-  streamText(response, assets.botName, assets.botImg, "left", assets.botTitle);
-  elements.spinner.style.display = "none"; // Hide the loading spinner
+  // Show the loading spinner
+  elements.spinner.style.display = "block";
+
+  // Fetch the bot's response
+  const data = await fetchData(`${urls.chat}${msgText}`);
+
+  // Function to split the data into smaller chunks
+  function* chunkString(str, size) {
+    for (let i = 0; i < str.length; i += size) {
+      yield str.slice(i, i + size);
+    }
+  }
+
+  // Split the response into chunks of a specified size (e.g., 10 characters)
+  const chunks = Array.from(chunkString(data, 10));
+
+  // Function to append the next chunk
+  let currentChunk = 0;
+  function appendNextChunk() {
+    if (currentChunk < chunks.length) {
+      appendMessage(assets.botName, assets.botImg, "left", chunks[currentChunk], assets.botTitle);
+      currentChunk++;
+    } else {
+      // Stop the interval when all chunks are appended
+      clearInterval(intervalId);
+      // Hide the loading spinner
+      elements.spinner.style.display = "none";
+    }
+  }
+
+  // Set an interval to append chunks at specified intervals (e.g., every 100 milliseconds)
+  const intervalId = setInterval(appendNextChunk, 100);
 }
 
-// Function to progressively display text
-function streamText(text, name, img, side, title) {
-  const botMessage = document.createElement('div');
-  botMessage.className = `msg ${side}-msg`;
-  botMessage.innerHTML = `
-    <div class="msg-img" style="background-image: url(${img})" title="${title}"></div>
-    <div class="msg-bubble">
-      <div class="msg-info">
-        <div class="msg-info-name">${name}</div>
-        <div class="msg-info-time">${formatDate(new Date())}</div>
-      </div>
-      <div class="msg-text"></div>
-    </div>
-  `;
-  elements.chat.appendChild(botMessage);
-  const botTextElement = botMessage.querySelector('.msg-text');
-  
-  let index = 0;
-  const interval = setInterval(() => {
-    if (index < text.length) {
-      botTextElement.textContent += text.charAt(index);
-      index++;
-      elements.chat.scrollTop += 500; // Scroll to the bottom of the chat display area
-    } else {
-      clearInterval(interval);
-    }
-  }, 50); // Adjust the speed of text display here
-}
 
 // Function to format the date/time for messages
 function formatDate(date) {
