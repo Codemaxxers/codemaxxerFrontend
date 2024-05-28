@@ -96,12 +96,19 @@ async function botResponse(msgText) {
   // Split the response into chunks of a specified size (e.g., 10 characters)
   const chunks = Array.from(chunkString(data, 10));
 
+  // Create a single message container for the response
+  appendMessage(assets.botName, assets.botImg, "left", "", assets.botTitle);
+
+  // Get the newly created message element
+  const lastMsgTextElement = elements.chat.querySelector(".msg.left-msg:last-child .msg-text");
+
   // Function to append the next chunk
   let currentChunk = 0;
   function appendNextChunk() {
     if (currentChunk < chunks.length) {
-      appendMessage(assets.botName, assets.botImg, "left", chunks[currentChunk], assets.botTitle);
+      lastMsgTextElement.innerHTML += chunks[currentChunk];
       currentChunk++;
+      elements.chat.scrollTop += 500; // Ensure the chat scrolls to show the latest content
     } else {
       // Stop the interval when all chunks are appended
       clearInterval(intervalId);
@@ -113,6 +120,7 @@ async function botResponse(msgText) {
   // Set an interval to append chunks at specified intervals (e.g., every 100 milliseconds)
   const intervalId = setInterval(appendNextChunk, 100);
 }
+
 
 
 // Function to format the date/time for messages
