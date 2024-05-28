@@ -37,7 +37,7 @@ permalink: /password
     </div>
 </body>
 </html>
- <div id="games-played-div">
+<div id="games-played-div">
     <h1 id="gamesPlayed"></h1>
 </div>
 
@@ -70,7 +70,7 @@ box-sizing: border-box;
 }
 
 #play_container {
-display: none;
+    display: none;
 }
 
 h2 {
