@@ -71,6 +71,10 @@ var comingsoon = `
     </div>
 `;
 
+var hint = `
+   <h1 id="hint-text"></h1>
+`
+
 document.getElementById("alert").addEventListener("click", function() {
     window.location.pathname = '/codemaxxerFrontend/game/index.html'
 });
@@ -480,6 +484,8 @@ function removeKey() {
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
+    var hintMenu = document.getElementById('hint-box');
+    hintMenu.innerHTML = hint;
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -497,6 +503,7 @@ function useHint(){
         console.log(result); // debugging
         // update hint text
         document.getElementById("hint-text").innerText = result.hint;
+        console.log(result.hint);
 
         // clear hint
         const hintDiv = document.getElementById("hint");
@@ -514,6 +521,7 @@ function useSkip(){
     removeKey();
 
     fetchQuestion(damage);
+    console.log("question skipped");
 }
 
 function useDmg(){
