@@ -17,7 +17,7 @@ const urls = {
   //Example alternative URLs (commented out)
  chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
  clearHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear",
- retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history"
+ retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history",
 };
 
 // Define assets such as images and names for the bot and user
