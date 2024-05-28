@@ -32,6 +32,9 @@ permalink: /phishing
       bottom: 20px;
       right: 20px;
     }
+    .startBtn {
+    background-color: #c0eefc;
+    }
   </style>
 <div id="game-container">
   <h1>Email Phishing Game</h1>
@@ -210,3 +213,4 @@ permalink: /phishing
   }
   
 </script>
+
