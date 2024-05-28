@@ -1,3 +1,18 @@
+
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://localhost:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
+var backBtn = document.getElementById("back-btn");
+    function goBack() {
+        window.location.href = '{{site.baseurl}}/compscreen';
+}
+
 var timeSet;
 var constant = 0;
 var seconds = 0;
@@ -25,7 +40,6 @@ function stopTimer() {
     clearInterval(timeSet);
     // alert display final time
     alert("Time: " + minutes + ":" + (seconds < 10 ? "0":"") + seconds);
-
 }
 
 function closeModal() {
@@ -37,6 +51,7 @@ function openModal() {
 }
 
 function restartGame() {
+    clearInterval(timeSet); // Ensure timer is stopped
     constant = 0;
     seconds = 0;
     minutes = 0;
@@ -48,11 +63,17 @@ function restartGame() {
     // UI elements
     document.getElementById("play_container").style.display = "none";
     document.getElementById("start_button").style.display = "block"; 
-    document.getElementById("restart_button").style.display = "none";
 
     // result displays
     document.getElementById("strengthResult").textContent = "-";
     document.getElementById("crackTimeResult").textContent = "-";
+
+    // Hide requirements
+    const requirements = ["length", "uppercase", "lowercase", "numbers", "specialChars"];
+    requirements.forEach(req => {
+        document.getElementById(req).style.display = "none";
+    });
+
     closeModal(); 
 }
 
@@ -115,6 +136,8 @@ const timerDisplay = document.getElementById("timerDisplay");
 
 function startGame() {
     console.log("Game started hihihi")
+    addGamePlay();
+    console.log("new game logged!");
     startTimer();
     playContainer.style = "display:block;";
     startButton.style = "display:none;";
@@ -132,9 +155,9 @@ function checkPassword() {
         {condition: /[\W_]/.test(password), elementId: "specialChars"}
     ];
 
-    // hide all requirments except first
+    // hide all requirements except first
     requirements.forEach((req, index) => {
-        if(index > 0) { 
+        if(index > 0) {
             document.getElementById(req.elementId).style.display = "none";
         }
     });
@@ -169,27 +192,126 @@ function checkPassword() {
     }
 }
 
+window.onload = function () {
+    fetchUserData();
+};
 
-//add game session time to backend database 
-var deployURL = "http://localhost:8013";
-function updateTime() {
-    var gameId = 1;
-    var payload = {
-        gameId: gamedId,
-        timeScore: minutes*60 + seconds,
+let gamesPlayed;
+let totalKeys;
+
+function fetchUserData() {
+
+    var requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
     };
-    fetch(deployURL + `/api/gamesession/${gameId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload), // convret payload to JSOn
-    })
-    .then((response) => response.json())
-    .then((newGamesession) => { 
-        console.log('Game session updated:', newGameSession)
-    })
-    .catch(error => {
-        console.error('Error updating game session:', error)
-    });
+
+    fetch(uri + "/api/person/jwt", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                    switch (response.status) {
+                        case 401:
+                            //alert("Please log into or make an account");
+                            window.location.href = "login";
+                            break;
+                        case 403:
+                            //alert("Access forbidden. You do not have permission to access this resource.");
+                            break;
+                        case 404:
+                            //alert("User not found. Please check your credentials.");
+                            break;
+                        // Add more cases for other status codes as needed
+                        default:
+                            //alert("Login failed. Please try again later.");
+                    }
+
+                    return Promise.reject('Login failed');
+                }
+                return response.json();
+                // Success!!!
+            })
+        .then(data => {
+          console.log(data);
+          console.log("games played:" + data.gamesPlayed);
+          gamesPlayed = data.gamesPlayed;
+          console.log(data.keysCollected);
+          totalKeys = data.keysCollected;
+      })
+      .catch(error => {
+          console.log('Fetch error:', error);
+      });
 }
+
+let addPlays = 1;
+
+function addGamePlay(){
+    const myHeaders = new Headers();
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+        credentials: 'include'
+    };
+    //Adding points to the account
+    fetch(uri + `/api/person/addGamePlay?plays=${addPlays}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+            addKey(gamesPlayed);
+            console.log("games played: " + gamesPlayed + " key given heh");
+            })
+        .catch(error => console.log('error lol', error));
+    return;
+}
+
+let numKeys = 1;
+
+function addKey(games) {
+    if (games == 3 && totalKeys < 3){
+        const myHeaders = new Headers();
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/addKey?numKeys=${numKeys}`, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                resetGamePlay();
+                console.log("reset done");
+            })
+            .catch(error => console.log('error lol', error));
+        return;
+    }
+}
+
+let removePlays = 3;
+
+function resetGamePlay() {
+    const myHeaders = new Headers();
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+        credentials: 'include'
+    };
+    //Adding points to the account
+    fetch(uri + `/api/person/resetGamePlay?plays=${removePlays}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('reset game play failed', error));
+    return;
+}
+
+

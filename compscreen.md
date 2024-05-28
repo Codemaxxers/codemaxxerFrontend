@@ -6,18 +6,17 @@ permalink: /compscreen
 ---
 
 <body>
-<img src="{{site.baseurl}}/images/blankScreenWide.png">
+<img class = "screen_img" src="{{site.baseurl}}/images/blankScreenWide.png">
 <div class="container"> 
-    <h1>Become a Cyber Wizard!</h1>
     <button onclick="goBack()" id="backBtn" class="backBtn">Back</button>
     <div class="inside-container">
-        <a id="gravityBtn" href="#"> <img class="gravityBtn" src="images/gravityicon.png"></a>
+        <a id="gravityBtn" href="{{site.baseurl}}/gravity"> <img class="gravityBtn"></a>
     </div>
     <div class="inside-container">
-        <a id="phishingBtn" href="#"> <img class="phishingBtn" src="images/phishingicon.png"></a>
+        <a id="phishingBtn" href="#"> <img class="phishingBtn"></a>
     </div>
     <div class="inside-container">
-        <a id="passwordBtn" href="#"> <img class="passwordBtn" src="images/passwordicon.png"></a>
+        <a id="passwordBtn" href="#"> <img class="passwordBtn"></a>
     </div>
 </div>
 
@@ -27,7 +26,10 @@ permalink: /compscreen
         <link rel="stylesheet" href="gravity_game/gravitystyle.css">
         <body>
             <button class ="closeGBtn" id="closeGModal"> Close </button>
-            <canvas id="gameCanvas" width="1200" height="800"></canvas>
+            <button class="playAgainBtnG" id="playAgainBtnG">Reset</button>
+            <div id="gameCanvasContainer">
+                <canvas id="gameCanvas" width="900" height="900"></canvas>
+            </div>
             <div id="typingBar">
                 <input type="text" id="userInput" placeholder="Type the definition">
                 <div id="inputHistory"></div>
@@ -41,7 +43,19 @@ permalink: /compscreen
 <div class="phish-modal" id="phish-modal">
     <div class="modal-inner">
         <link rel="stylesheet" href="phishing_game/phishingstyle.css">
-        <button class ="closePhishBtn" id="closePhishModal"> Close </button>
+        <body>
+            <button class="closePhishBtn" id="closePhishModal">Close</button>
+            <button class="playAgainBtnP" id="playAgainBtnP">Reset</button>
+            <canvas id="gameCanvas" width="1200" height="900"></canvas>
+            <div id="game-container">
+                <h1>Email Phishing Game</h1>
+                <p id="email-text" style="position: relative; bottom: 340px;"></p>
+                <button class="legitBtn">Legitimate Email</button>
+                <button class="phishingButton">Phishing Email</button>
+                <p id="result"></p>
+            </div>
+            <script src="phishing_game/phishingscript.js"></script>
+        </body>
     </div>
 </div>
 
@@ -141,6 +155,20 @@ permalink: /compscreen
         box-sizing: border-box;
     }
 
+    .legitBtn {
+        background-color: green; 
+        font-size: 23px;
+        border-radius: 10px;
+        position: absolute; bottom: 190px; left: 650px;
+    }
+
+    .phishingButton {
+        background-color: red; 
+        font-size: 23px;
+        border-radius: 10px;
+        position: absolute; bottom: 190px; right: 650px;
+    }
+
     .container {
         height: 100%;
         width: 100%;
@@ -170,14 +198,15 @@ permalink: /compscreen
         background-size: 300px;
     }
 
+    /* pop up change positioning*/
     .g-modal, .pass-modal, .phish-modal {
         background-color: none;
         opacity: 0;
         position: fixed;
         top:0px;
-        left: 9px;
+        left: 55px;
         right: 0;
-        bottom: 186px;
+        bottom: 250px;
         transition: all 0.3s ease-in-out;
         z-index: -1;
         display: flex;
@@ -190,6 +219,14 @@ permalink: /compscreen
         z-index: 999;
     }
 
+    .screen_img {
+        border: 5px solid black;
+        width: 1550;
+        position: absolute;
+            top: 10%;
+            left: 9%;
+    }
+
     .pass-modal.open {
         opacity: 1;
         z-index: 999;
@@ -200,19 +237,20 @@ permalink: /compscreen
         z-index: 999;
     }
 
+    /* pop up change size*/
     .modal-inner {
         background-color: white;
         border-radius: 2px;
         padding: 40px 25px;
         text-align: center;
-        width: 785px;
-        height: 407px;
+        width: 1002px;
+        height: 521px;
     }
 
     #popup-window {
         position: fixed;
         width: 70%;
-        height: 50%;
+        height: 70%;
         background: white;
         border: 1px solid black;
         padding: 10px;
@@ -225,28 +263,30 @@ permalink: /compscreen
         display: none;
     }  
 
+    /* the invisible button*/
     .gravityBtn {
-        width: 550px;
-        height: 500px;
-        position: absolute; left: 300px; top: 120px; 
+        width: 135px;
+        height: 135px;
+        position: absolute; left: 31%; top:190%; 
     }
 
     .phishingBtn {
-        width: 200px;
-        height: 200px;
-        position: absolute; left: 720px; bottom: 300px; 
+        width: 175px;
+        height: 120px;
+        position: absolute; left: 47%; top:190%; 
     }
 
     .passwordBtn {
-        width: 200px;
-        height: 200px;
-        position: absolute; left: 950px; bottom: 300px; 
+        width: 140px;
+        height: 180px;
+        position: absolute; left: 65.7%; top:170%; 
     }
     
     h1 {
-        position: absolute; top: 100px; left: 30%;
+        position: absolute; top: 120px; left: 35%;
         text-align: center;
         font-size: 60px;
+        color: black; 
     }
 
     h2, h3, p {
@@ -255,8 +295,26 @@ permalink: /compscreen
 
     .closeGBtn, .closePassBtn, .closePhishBtn{
         position: absolute;
-            top: 100px;
-            left: 70%;
+            top: 140px;
+            left: 75%;
+    }
+
+    .playAgainBtnG {
+        position: absolute;
+            top: 140px;
+            left: 72%;
+    }
+
+    .playAgainBtnP {
+        position: absolute;
+            top: 140px;
+            left: 72%;
+    }
+
+    .restart_button  {
+        position: absolute;
+            top: 140px;
+            left: 69%;
     }
 </style>
 

@@ -4,7 +4,7 @@ comments: true
 layout: battle
 title: fight everything
 author: Finn C
-permalink: /fight
+permalink: /playerFight
 ---
 
 
@@ -29,11 +29,11 @@ permalink: /fight
         <div class="move" id="EnemyHealth">Enemy Health: </div>
     </div>
     <div class="fight-container">
-        <div class="player-box">
+        <div class="player-box" id="p1">
             <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
         </div>
-        <div class="enemy-box">
-            <img id="eIMG" class="fade-in" src="{{site.baseurl}}/images/">
+        <div class="enemy-box" id="p2" style="width: 150px">
+            <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
         </div>
     </div>
     <div class="question-box" id="question-box" style="display: none;">
@@ -41,9 +41,6 @@ permalink: /fight
         <p id="question-text">Select an Attack</p>
         <div id="answers">
             <!-- Dynamically filled answers will go here -->
-        </div>
-        <div id="hint-box">
-            <h1 id="hint-text"></h1>
         </div>
     </div>
     <div id="moves" class="controller">
@@ -92,40 +89,6 @@ permalink: /fight
     </div>
 </div>
 
-<div id="key-div" class="key-box">
-    <div>
-        <h1>Keys:</h1>
-        <h1 id="key_num" class="hidden"></h1>
-        <div id="keys"></div>
-    </div>
-    <button class="key-btn" onclick="useKey()"> Use Key</button>
-</div>
-
-<div id="keyPopup" class="hidden">
-    <div class="keyPopup-box">
-        <button class="close-btn" onclick="closeKeyPopup()">X</button>
-        <h2>Power-up Options</h2>
-        <p>Earn keys by playing cyber games in the cyber house!</p>
-        <p>Use a key for one of the following power-ups:</p>
-        <div class="keyPopup-options">
-            <div class="option">
-                    <button onclick="useHint()">Hint</button>
-                    <img src="images/keyHint.png" alt="Hint">
-                </div>
-                <div class="option">
-                    <button onclick="useSkip()">Skip</button>
-                    <img src="images/keySkip.png" alt="Skip">
-                </div>
-                <div class="option">
-                    <button onclick="useDmg()">+10 Damage</button>
-                    <img src="images/keyDmg.png" alt="+10 Damage">
-                </div>
-        </div>
-    </div>
-</div>
-
-<script src="{{site.baseurl}}/assets/js/fight.js"></script>
-
 <script src="{{site.baseurl}}/assets/js/character.js"></script>
 
 <script>
@@ -149,24 +112,6 @@ permalink: /fight
     z-index: 99;
 }
 
-.key-box {
-    position: absolute;
-        top: 7%;
-        left: 3%;
-    width: 250px;
-    padding: 40px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: black;
-    font-family: "DotGothic16", sans-serif;
-    z-index: 99;
-}
-
-.hidden {
-    display: none;
-}
-
 .controller {
     bottom: 100px;
     position: absolute;
@@ -175,14 +120,6 @@ permalink: /fight
 
 #level {
     background-color: #71b9e2;
-}
-
-.key-btn {
-    background-color: #71b9e2;
-    z-index: 99999;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
 }
 
 .health-box {
@@ -201,70 +138,5 @@ permalink: /fight
 
 #userName {
     font-size: 1.2em;
-}
-
-.keyPopup-box {
-    position: absolute;
-        top: 0%;
-        left: 27%;
-    width: 900px;
-    height: 400px;
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
-.keyPopup-box h2 {
-    font-size: 32px;
-    font-family: "DotGothic16", sans-serif;
-}
-
-.keyPopup-box p {
-    font-size: 24px;
-}
-
-.keyPopup-options {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.keyPopup-options button {
-    background-color: #71b9e2;
-    z-index: 99999;
-    border: none;
-    font-size: 24px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    font-family: "DotGothic16", sans-serif;
-}
-
-.keyPopup-options img {
-    width: 120px;
-    height: 120px;
-}
-
-.close-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 50%;
-    font-size: 20px;
-    font-family: "DotGothic16", sans-serif;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
 }
 </style>

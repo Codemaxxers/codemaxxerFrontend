@@ -2,12 +2,155 @@ var uri;
 if (location.hostname === "localhost") {
     uri = "http://localhost:8032";
 } else if (location.hostname === "127.0.0.1") {
-    uri = "http://127.0.0.1:8032";
+    uri = "http://localhost:8032";
 } else {
     uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
 }
 
-window.onload = function() {
+html = `
+<div id="profile-container">
+    <br>
+    <div id="playerStats">
+        <h1 class="centered">Player Stats</h1><hr/>
+        <h1 id="characterHealth"></h1>
+        <h1 id="characterDamage"></h1>
+        <br>
+        <h1>Equipped Gear</h1>
+        <div id="equipped" class="flex-container">
+        </div>
+    </div>
+    <div id="inventory">
+    <div class="inventoryArmor">
+        <h1>Armor</h1>
+    </div>
+    <br>
+    <div class="inventoryWeapons">
+        <h1>Weapons</h1>
+    </div>
+    <br>
+    <!-- 
+    <div class="inventoryAccessories">
+        <h1>Accessories</h1>
+    </div> -->
+    <div id="equip-spot" ondrop="drop(event)" ondragover="allowDrop(event)">Drop Here to Equip</div>
+</div>
+</div>
+`;
+
+keyHTML = `
+<div>
+    <h1>Keys:</h1>
+    <h1 id="key_num" class="hidden"></h1>
+    <div id="keys"></div>
+</div>
+<button class="key-btn" onclick="useKey()"> Use Key</button>
+`
+
+window.onload = function () {
+    keyFetch();
+};
+
+let keyNumber;
+
+function keyFetch() {
+    var keyMenu = document.getElementById('key-div');
+    keyMenu.innerHTML = keyHTML;
+
+    var requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
+    };
+
+    fetch(uri + "/api/person/jwt", requestOptions)
+    .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                    switch (response.status) {
+                        case 401:
+                            //alert("Please log into or make an account");
+                            window.location.href = "login";
+                            break;
+                        case 403:
+                            //alert("Access forbidden. You do not have permission to access this resource.");
+                            break;
+                        case 404:
+                            //alert("User not found. Please check your credentials.");
+                            break;
+                        // Add more cases for other status codes as needed
+                        default:
+                            //alert("Login failed. Please try again later.");
+                    }
+
+                    return Promise.reject('Login failed');
+                }
+                return response.json();
+                // Success!!!
+            })
+        .then(data => {
+          console.log(data);
+          console.log("keys collected:" + data.keysCollected);
+          document.getElementById('key_num').innerText = data.keysCollected;
+          keyNumber = data.keysCollected;
+
+          //call showKeys with the updated number of keys
+          const numOfKeys = parseInt(data.keysCollected, 10);
+          //const numOfKeys = 3;
+          console.log("Parsed number of keys:", numOfKeys);
+          showKeys(numOfKeys);
+      })
+      .catch(error => {
+          console.log('Fetch error:', error);
+      });
+}
+
+function showKeys(numKeys){
+    console.log("test: " + numKeys);
+    const key_div = document.getElementById('keys');
+    for (let i=0; i < numKeys; i++){
+      const key =  document.createElement('img');
+      key.className = "key_img"
+      key.src = "https://raw.githubusercontent.com/Codemaxxers/codemaxxerFrontend/main/images/key.png";
+      key.width = "10";
+      key.width = "40";
+      console.log(key.src);
+      key_div.appendChild(key);
+    }
+}
+
+let keyRemove = 1;
+
+function removeKey() {
+
+    if(keyNumber > 0){
+        const myHeaders = new Headers();
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/removeKey?numKeys=${keyRemove}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('key removed failed', error));
+        return;
+    }
+}
+
+function useKey(){
+    document.getElementById("keyPopup").style.display = "block";
+}
+
+function innitFetch() {
+    var weaponMenu = document.getElementById('weaponMenu');
+    weaponMenu.innerHTML = html;
+
     var requestOptions = {
         method: 'GET',
         redirect: 'follow',
@@ -231,7 +374,7 @@ function equipWeapon(gearID) {
         .then(response => {
             if (response.ok) {
                 console.log("Weapon equipped successfully.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 throw new Error('Network response was not ok.');
             }
@@ -251,7 +394,7 @@ function unequipWeapon() {
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 throw new Error('Network response was not ok.');
             }
@@ -271,7 +414,7 @@ function equipArmor(gearID) {
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 switch (response.status) {
                     case 401:
@@ -306,7 +449,7 @@ function unequipArmor() {
         .then(response => {
             if (response.ok) {
                 console.log("Gear change successful.");
-                window.location.reload(); // Reload the page if successful
+                innitFetch(); // Reload the page if successful
             } else {
                 throw new Error('Network response was not ok.');
             }
@@ -350,3 +493,5 @@ function fetchArmorStats(armorID) {
             return armorStats;
         });
 }
+
+innitFetch();
