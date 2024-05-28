@@ -42,8 +42,8 @@ permalink: /fight
         <div id="answers">
             <!-- Dynamically filled answers will go here -->
         </div>
-        <div id="hint">
-            <!-- Dynamically filled hint will go here -->
+        <div id="hint-box">
+            <h1 id="hint-text"></h1>
         </div>
     </div>
     <div id="moves" class="controller">
@@ -103,6 +103,7 @@ permalink: /fight
 
 <div id="keyPopup" class="hidden">
     <div class="keyPopup-box">
+        <button class="close-btn" onclick="closeKeyPopup()">X</button>
         <h2>Power-up Options</h2>
         <p>Earn keys by playing cyber games in the cyber house!</p>
         <p>Use a key for one of the following power-ups:</p>
@@ -251,5 +252,19 @@ permalink: /fight
 .keyPopup-options img {
     width: 120px;
     height: 120px;
+}
+
+.close-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-family: "DotGothic16", sans-serif;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }
 </style>

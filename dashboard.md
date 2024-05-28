@@ -121,10 +121,6 @@ search_exclude: true
         <h2>Computer Science P</h2>
         <p id="cspPointsDisplay">Loading...</p>
       </div>
-      <div class="summary-card">
-        <h2>Cyber Security</h2>
-        <p id="cyberPointsDisplay">Loading...</p>
-      </div>
     </div>
   </div>
 </div>
@@ -254,16 +250,15 @@ search_exclude: true
   let accountPoints = 0;
   let csaPoints = 100;
   let cspPoints = 0;
-  let cyberPoints = 0;
 
   let ctx = document.getElementById('pointsChart').getContext('2d');
   let pointsChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Account Points', 'CSA Points', 'CSP Points', 'Cyber Points'],
+      labels: ['Account Points', 'CSA Points', 'CSP Points'],
       datasets: [{
         label: 'Points',
-        data: [accountPoints, csaPoints, cspPoints, cyberPoints],
+        data: [accountPoints, csaPoints, cspPoints],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',

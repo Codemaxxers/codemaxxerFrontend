@@ -3,15 +3,15 @@ layout: none
 permalink: /phishing
 ---
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
+<style>
     body {
       text-align: center;
     }
     #game-container {
       margin: 50px;
+    }
+    #play-container {
+      style.display: none;
     }
     #result {
       font-weight: bold;
@@ -24,28 +24,43 @@ permalink: /phishing
     border-radius: 5px;
     border: none;
     }   
+
     .button-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
     }
-  </style>
+    .startBtn {
+      background-color: #c0eefc;
+      z-index: 9999;
+    }
+</style>
+
+<html>
 <div id="game-container">
-  <h1>Email Phishing Game</h1>
+  <h1>Email Phishing Game 8</h1>
   <br>
+  <button id="startBt" class="startBt" onclick="startGame()">Start</button>
   <br>
-  <p id="email-text"></p>
-  <br>
-  <br>
-  <button class="button" onclick="checkAnswer(true)">Legitimate Email</button>
-  <button class="button" onclick="checkAnswer(false)">Phishing Email</button>
-  <br>
-  <br>
-  <p id="result"></p>
-  <div class="button-container">
-    <a href="{{ site.baseurl }}/passwordintro" class="button">Continue</a>
+  <div id="play-container">
+    <p id="email-text"></p>
+    <br>
+    <br>
+    <button class="button" onclick="checkAnswer(true)">Legitimate Email</button>
+    <button class="button" onclick="checkAnswer(false)">Phishing Email</button>
+    <br>
+    <br>
+    <p id="result"></p>
+    <div class="button-container">
+      <a href="{{ site.baseurl }}/passwordintro" class="button">Continue</a>
+    </div>
   </div>
 </div>
+<div id="games-played-div">
+    <h1 id="gamesPlayed"></h1>
+</div>
+</html>
+
 
 <script>
   const emails = [
@@ -103,12 +118,16 @@ permalink: /phishing
   shuffle(emails);
 
   function startGame() {
+    addGamePlay();
+    document.getElementById("play-container").style = "display:block;";
+    document.getElementById("startBt").style = "display:none;";
     if (currentLevel < 5) {
       document.getElementById("email-text").textContent = emails[currentLevel].text;
     } else {
       endGame();
     }
   }
+
   function checkAnswer(userResponse) {
     if (emails[currentLevel].isLegitimate === userResponse) {
       correctAnswers++;
@@ -128,5 +147,71 @@ permalink: /phishing
   startGame();
 
   console.log(correctAnswers);
-  
+
+  let addPlays = 1;
+
+  function addGamePlay(){
+    const myHeaders = new Headers();
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow',
+        credentials: 'include'
+    };
+    //Adding points to the account
+    fetch(uri + `/api/person/addGamePlay?plays=${addPlays}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+            addKey(gamesPlayed);
+            console.log("games played: " + gamesPlayed + " key given heh");
+            })
+        .catch(error => console.log('error lol', error));
+    return;
+  }
+
+  let numKeys = 1;
+
+  function addKey(games) {
+      if (games == 3 && totalKeys < 3){
+          const myHeaders = new Headers();
+
+          var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              redirect: 'follow',
+              credentials: 'include'
+          };
+          //Adding points to the account
+          fetch(uri + `/api/person/addKey?numKeys=${numKeys}`, requestOptions)
+              .then(response => response.text())
+              .then(result => {
+                  console.log(result);
+                  resetGamePlay();
+                  console.log("reset done");
+              })
+              .catch(error => console.log('error lol', error));
+          return;
+      }
+  }
+
+  let removePlays = 3;
+
+  function resetGamePlay() {
+      const myHeaders = new Headers();
+
+      var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          redirect: 'follow',
+          credentials: 'include'
+      };
+      //Adding points to the account
+      fetch(uri + `/api/person/resetGamePlay?plays=${removePlays}`, requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('reset game play failed', error));
+      return;
+  }
 </script>
