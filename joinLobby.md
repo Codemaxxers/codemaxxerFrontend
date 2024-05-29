@@ -63,6 +63,11 @@ search_exclude: true
     .lobby-item button:hover {
         background-color: #0056b3;
     }
+    #playerNameDataStore,
+    #playerDMGDataStore,
+    #playerHPDataStore{
+        display: none;
+    }
 </style>
 
 <div class="fadeAnimation">
@@ -71,12 +76,21 @@ search_exclude: true
         <h2>Available Lobbies</h2>
         <div id="lobbyContainer"></div>
     </div>
+    <h1 id="playerNameDataStore">
+    <h1 id="playerDMGDataStore">
+    <h1 id="playerHPDataStore">
 </div>
 
 <script>
     const requestOptions = {
         method: "GET",
         redirect: "follow"
+    };
+
+    const requestCredOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        credentials: 'include'
     };
 
 fetch(connectionuri + "/api/lobby/availableLobbies", requestOptions)
@@ -117,49 +131,70 @@ fetch(connectionuri + "/api/lobby/availableLobbies", requestOptions)
     })
     .catch((error) => console.error(error));
 
+fetch(uri + "/api/person/characterData", requestCredOptions)
+    .then((response) => {
+        if (!response.ok) {
+            const errorMsg = 'Login error: ' + response.status;
+            console.log(errorMsg);
+
+            switch (response.status) {
+                case 401:
+                    alert("Please log into or make an account");
+                    // window.location.href = "login";
+                    break;
+                case 403:
+                    alert("Access forbidden. You do not have permission to access this resource.");
+                    break;
+                case 404:
+                    alert("User not found. Please check your credentials.");
+                    break;
+                default:
+                    alert("Login failed. Please try again later.");
+            }
+
+            return Promise.reject('Login failed');
+        }
+        return response.json();
+    })
+    .then((data) => {
+        // Handle the character data here
+        console.log(data); // For example, logging the character data
+        console.log(data.name);
+        console.log(data.totalHealth);
+        console.log(data.totalDamage);
+    })
+    .catch((error) => {
+        // Handle any errors that occur during fetch or parsing
+        console.error("Error fetching character data:", error);
+    });
+
 function joinLobby(lobbyId) {
     localStorage.setItem("lobbyId", lobbyId);
-    characterDataFetch();
+
+    fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyID}&playerName=${name}&attack=${dmg}&health=${health}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+
+            const lobbyList = document.querySelector('.lobby-list');
+            lobbyList.innerHTML = '';
+
+            const lobbyCreatedMsg = document.createElement('h1');
+            lobbyCreatedMsg.textContent = "Lobby " + lobbyID + " created and joined";
+            lobbyList.appendChild(lobbyCreatedMsg);
+
+            const timerMsg = document.createElement('p');
+            timerMsg.textContent = "You will be redirected when the opposing player joins the lobby.";
+            lobbyList.appendChild(timerMsg);
+
+            startPolling(lobbyID);
+        })
+        .catch(error => console.error(error));
     // location.href = "multiplayerLobby";
 }
 
-function characterDataFetch() {
-    fetch(uri + "/api/person/characterData", requestOptions)
-        .then((response) => {
-            if (!response.ok) {
-                const errorMsg = 'Login error: ' + response.status;
-                console.log(errorMsg);
 
-                switch (response.status) {
-                    case 401:
-                        alert("Please log into or make an account");
-                        window.location.href = "login";
-                        break;
-                    case 403:
-                        alert("Access forbidden. You do not have permission to access this resource.");
-                        break;
-                    case 404:
-                        alert("User not found. Please check your credentials.");
-                        break;
-                    default:
-                        alert("Login failed. Please try again later.");
-                }
 
-                return Promise.reject('Login failed');
-            }
-            console.log(data.name);
-            console.log(data.totalHealth);
-            console.log(data.totalDamage);
-        })
-        .then((data) => {
-            // Handle the character data here
-            console.log(data); // For example, logging the character data
-        })
-        .catch((error) => {
-            // Handle any errors that occur during fetch or parsing
-            console.error("Error fetching character data:", error);
-        });
-}
 
 
 </script>
