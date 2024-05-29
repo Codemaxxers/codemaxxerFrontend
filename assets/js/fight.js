@@ -137,7 +137,7 @@ function fetchQuestion(attackValue) {
         console.log(result); // For debugging!
         
         console.log(result.hint); 
-        currentQuestionHint = result.hint;
+        //currentQuestionHint = result.hint;
 
         // Update the question text
         document.getElementById("question-text").innerText = result.question;
