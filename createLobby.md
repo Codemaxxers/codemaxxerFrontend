@@ -5,8 +5,18 @@ search_exclude: true
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap">
 <script src="uri.js"></script>
+<script src="connectionURI.js"></script>
 
 <style>
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .fadeAnimation {
+        animation: fade-in 0.5s;
+    }
+
     #backIcon {
         position: absolute;
         top: 40px;
@@ -23,9 +33,13 @@ search_exclude: true
         height: 100vh;
         margin: 0;
         background-color: #f0f0f0;
+        color: black;
+    }
+    h1 {
+        color: black;
     }
     .lobby-list {
-        margin-top: 20%;
+        margin-top: 40%;
         width: 700px;
         padding: 20px;
         background-color: white;
@@ -33,7 +47,7 @@ search_exclude: true
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         overflow-y: scroll;
         max-height: 72vh;
-        margin-left: 5%;
+        scale: 1.5;
     }
     .lobby-item {
         margin-bottom: 10px;
@@ -79,31 +93,166 @@ search_exclude: true
     #blackText {
         color: black;
     }
+    #playerImage {
+        width: 100px;
+        height: auto;
+    }
+    .playerInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        align-items: center;
+    }
+    .playerStats {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .playerStats h2 {
+        margin: 0;
+    }
+    .equippedItems {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .equippedItems img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 5px;
+    }
 </style>
 
-<a href="multiplayer"><i class="bx bx-arrow-back" id="backIcon"></i></a>
-<div class="lobby-list">
-    <h2>Create Lobby</h2>
-    <form id="create-lobby-form">
-        <label id="blackText" for="lobby-number">Lobby Number (1-99):</label>
-        <input type="number" id="lobby-number" name="lobby-number" min="1" max="99" required>
-        <input type="submit" value="Create Lobby">
-    </form>
+<div class="fadeAnimation">
+    <a href="multiplayer"><i class="bx bx-arrow-back" id="backIcon"></i></a>
+    <div class="lobby-list">
+        <h1>Confirm Your Character</h1>
+        <div class="playerInfo">
+            <h2 id="playerName"></h2>
+            <img id="playerImage" src="game/img/player.png">
+            <div class="playerStats">
+                <img src="game/img/heart.png" style="width: 35px; height: 35px; margin-bottom: 5px;">
+                <h2 id="playerHealth"></h2>
+                <img src="game/img/sword.png" style="width: 35px; height: 35px; margin-bottom: 5px;">
+                <h2 id="playerDamage"></h2>
+            </div>
+            <div class="equippedItems">
+                <img id="equippedArmor">
+                <img id="equippedWeapon">
+            </div>
+        </div>
+        <form id="create-lobby-form">
+            <input type="submit" value="Create & Join Lobby">
+        </form>
+    </div>
 </div>
 
 <script>
-    document.getElementById('create-lobby-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const lobbyNumber = document.getElementById('lobby-number').value;
-        
-        const requestOptions = {
-            method: "POST",
-            redirect: "follow"
-        };
 
-    fetch(`http://127.0.0.1:8033/api/lobby/createLobby?lobbyId=${lobbyNumber}`, requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
-    });
+window.onload = function() {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        credentials: 'include'
+    };
+
+    fetch(uri + "/api/person/characterData", requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        window.location.href = "login";
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('playerName').textContent = data.name;
+            document.getElementById('playerHealth').textContent = data.totalHealth;
+            document.getElementById('playerDamage').textContent = data.totalDamage;
+            if (data.armorGearIdEquipped == 0) {
+                document.getElementById('equippedArmor').style.display = "none";
+            } else {
+                document.getElementById('equippedArmor').src = "https://codemaxxers.github.io/codemaxxerFrontend/game/img/armor/" + data.armorGearIdEquipped + ".png";
+            }
+            if (data.weaponGearIdEquipped == 0) {
+                document.getElementById('equippedWeapon').style.display = "none";
+            } else {
+                document.getElementById('equippedWeapon').src = "https://codemaxxers.github.io/codemaxxerFrontend/game/img/weapons/" + data.weaponGearIdEquipped + ".png";
+            }
+        })
+        .catch(error => console.log('error', error));
+}
+
+document.getElementById('create-lobby-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const requestOptions = {
+        method: "POST",
+        redirect: "follow"
+    };
+
+    fetch(connectionuri + `/api/lobby/createLobby`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+            let lobbyID = result.match(/\d+/)[0];;
+            joinLobby(lobbyID);
+        })
+        .catch(error => console.error(error));
+});
+</script>
+
+<script>
+    const requestOptions = {
+        method: "POST",
+        redirect: "follow"
+    };
+
+    function joinLobby(lobbyID) {
+        let name = document.getElementById('playerName').textContent;
+        let dmg = document.getElementById('playerDamage').textContent;
+        let health = document.getElementById('playerHealth').textContent;
+        console.log(lobbyID, name, dmg, health);
+
+        fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyID}&playerName=${name}&attack=${dmg}&health=${health}`, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                // Call your function here
+
+                const lobbyList = document.querySelector('.lobby-list');
+                lobbyList.innerHTML = '';
+
+                // Display messages about lobby creation and player data loading
+                const lobbyCreatedMsg = document.createElement('h1');
+                lobbyCreatedMsg.textContent = result; // Assuming result is the message like "Lobby 253561 created."
+                lobbyList.appendChild(lobbyCreatedMsg);
+
+                const loadingMsg = document.createElement('p');
+                loadingMsg.textContent = "Loading your player data...";
+                lobbyList.appendChild(loadingMsg);
+
+                const timerMsg = document.createElement('p');
+                timerMsg.textContent = "Opposing player must join within 5 minutes or lobby will be deleted.";
+                lobbyList.appendChild(timerMsg);
+            })
+            .catch(error => console.error(error));
+    }
 </script>

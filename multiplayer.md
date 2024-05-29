@@ -6,6 +6,15 @@ search_exclude: true
 <script src="uri.js"></script>
 
 <style>
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .fadeAnimation {
+        animation: fade-in 0.5s;
+    }
+    
     #backIcon {
         position: absolute;
         top: 40px;
@@ -45,17 +54,13 @@ search_exclude: true
     .button:hover {
         background-color: #555;
     }
-
-    @keyframes fade-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
 </style>
 
-<a href="dashboard"><i class="bx bx-arrow-back" id="backIcon"></i></a>
-
-<button class="button" onclick="location.href='createLobby'">Create Lobby</button>
-<button class="button" onclick="location.href='joinLobby'">Join Lobby</button>
+<div class="fadeAnimation">
+    <a href="dashboard"><i class="bx bx-arrow-back" id="backIcon"></i></a>
+    <button class="button" onclick="location.href='createLobby'">Create Lobby</button>
+    <button class="button" onclick="location.href='joinLobby'">Join Lobby</button>
+</div>
 
 <script>
     document.getElementById("backIcon").addEventListener("mouseover", function() {

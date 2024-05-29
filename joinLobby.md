@@ -4,9 +4,16 @@ search_exclude: true
 ---
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap">
-<script src="uri.js"></script>
+<script src="connectionURI.js"></script>
 
 <style>
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .fadeAnimation {
+        animation: fade-in 0.5s;
+    }
     #backIcon {
         position: absolute;
         top: 40px;
@@ -57,12 +64,12 @@ search_exclude: true
     }
 </style>
 
-<a href="multiplayer"><i class="bx bx-arrow-back" id="backIcon"></i></a>
-
-
-<div class="lobby-list">
-    <h2>Available Lobbies</h2>
-    <div id="lobbyContainer"></div>
+<div class="fadeAnimation">
+    <a href="multiplayer"><i class="bx bx-arrow-back" id="backIcon"></i></a>
+    <div class="lobby-list">
+        <h2>Available Lobbies</h2>
+        <div id="lobbyContainer"></div>
+    </div>
 </div>
 
 <script>
@@ -71,7 +78,7 @@ search_exclude: true
         redirect: "follow"
     };
 
-fetch("http://127.0.0.1:8033/api/lobby/availableLobbys", requestOptions)
+fetch(connectionuri + "/api/lobby/availableLobbies", requestOptions)
     .then((response) => response.json())
     .then((data) => {
         const lobbyContainer = document.getElementById("lobbyContainer");
