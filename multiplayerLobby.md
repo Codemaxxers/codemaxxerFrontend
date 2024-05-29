@@ -221,7 +221,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         .catch((error) => console.error(error));
 
         updateGameTurn();
-        window.location.reload();
+        // window.location.reload();
     }
 
     function updateGameInfo() {
