@@ -137,7 +137,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         }, 2000);
     } else {
         console.log("Incorrect. You lost your turn");
-        switchTurn();
+        updateGameTurn(name);
         setTimeout(function() {
             playerIMG.classList.remove('flashing');
         }, 2000);
@@ -150,6 +150,8 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 </script>
 
 <script>
+    setInterval(updateGameInfo, 6000); // Fetch every 5 seconds (adjust interval as needed)
+
     // function leave() {
     //     window.location.href = "/codemaxxerFrontend/game/index.html";
     // }
@@ -169,7 +171,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
             document.getElementById("playerLevel").innerHTML = "Level: " + data.accountLevel;
 
             // Match the player in the game info request with the name
-            updateGameInfo(data.name);
+            initialDataLoad(data.name);
         })
         .catch((error) => console.error(error));
     }
@@ -182,29 +184,163 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 
         let name = localStorage.getItem("playerName");
         let target = localStorage.getItem("opponentName");
+        let lobbyId = localStorage.getItem("lobbyId");
 
-        fetch(connectionuri + `/api/lobby/attack?attackerName=${name}&targetName=${target}`, requestOptions)
+        fetch(connectionuri + `/api/lobby/attack?attackerName=${name}&targetName=${target}&lobbyId=${lobbyId}`, requestOptions)
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.error(error));
 
-        updateGameInfo(name);
+        updateGameTurn();
         window.location.reload();
     }
 
-    function switchTurn() {
-
-    }
-
-    function updateGameInfo(playerName) {
+    function updateGameInfo() {
         const requestOptions = {
             method: "GET",
             redirect: "follow"
         };
 
         let lobbyId = localStorage.getItem("lobbyId");
+        let playerName = localStorage.getItem("playerName");
+        let opponentName = localStorage.getItem("opponentName");
 
-        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}`, requestOptions)
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=info&player=${playerName}&target=${opponentName}`, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+
+            const controllers = document.getElementsByClassName("controller");
+            const signControllers = document.getElementsByClassName("controllerSIGN");
+            if (data.currentPlayer == playerName) {
+                for (let i = 0; i < controllers.length; i++) {
+                    controllers[i].style.display = "block";
+                }
+                for (let i = 0; i < signControllers.length; i++) {
+                    signControllers[i].style.display = "none";
+                }
+            } else {
+                for (let i = 0; i < controllers.length; i++) {
+                    controllers[i].style.display = "none";
+                }
+                for (let i = 0; i < signControllers.length; i++) {
+                    signControllers[i].style.display = "block";
+                }
+            }
+
+
+            // YOUR DATA DISPLAYED
+            if (data.players && data.players[playerName]) {
+                const playerInfo = data.players[playerName];
+                document.getElementById("playerName").innerHTML = playerInfo.name;
+                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + playerInfo.health;
+            } else {
+                console.log("Player not found in game info.");
+            }
+            // YOUR DATA DISPLAYED
+
+
+            // OPPONENT DATA DISPLAYED
+            let opponentData = null;
+            for (const player in data.players) {
+                if (player !== playerName) {
+                    opponentData = data.players[player];
+                    break;
+                }
+            }
+            // Display the opponent's data if found
+            if (opponentData) {
+                document.getElementById("opponentName").innerHTML = "Enemy: " + opponentData.name;
+                document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-right: 5px;">' + opponentData.health;
+            } else {
+                console.log("Opponent not found in game info.");
+            }
+            // OPPONENT DATA DISPLAYED
+
+            localStorage.setItem("playerName", playerName);
+            localStorage.setItem("opponentName", opponentData.name);
+        })
+        .catch((error) => console.error(error));
+    }
+
+    function updateGameTurn() {
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        let lobbyId = localStorage.getItem("lobbyId");
+        let playerName = localStorage.getItem("playerName");
+        let opponentName = localStorage.getItem("opponentName");
+
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=turn&player=${playerName}&target=${opponentName}`, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+
+            const controllers = document.getElementsByClassName("controller");
+            const signControllers = document.getElementsByClassName("controllerSIGN");
+            if (data.currentPlayer == playerName) {
+                for (let i = 0; i < controllers.length; i++) {
+                    controllers[i].style.display = "block";
+                }
+                for (let i = 0; i < signControllers.length; i++) {
+                    signControllers[i].style.display = "none";
+                }
+            } else {
+                for (let i = 0; i < controllers.length; i++) {
+                    controllers[i].style.display = "none";
+                }
+                for (let i = 0; i < signControllers.length; i++) {
+                    signControllers[i].style.display = "block";
+                }
+            }
+
+
+            // YOUR DATA DISPLAYED
+            if (data.players && data.players[playerName]) {
+                const playerInfo = data.players[playerName];
+                document.getElementById("playerName").innerHTML = playerInfo.name;
+                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + playerInfo.health;
+            } else {
+                console.log("Player not found in game info.");
+            }
+            // YOUR DATA DISPLAYED
+
+
+            // OPPONENT DATA DISPLAYED
+            let opponentData = null;
+            for (const player in data.players) {
+                if (player !== playerName) {
+                    opponentData = data.players[player];
+                    break;
+                }
+            }
+            // Display the opponent's data if found
+            if (opponentData) {
+                document.getElementById("opponentName").innerHTML = "Enemy: " + opponentData.name;
+                document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-right: 5px;">' + opponentData.health;
+            } else {
+                console.log("Opponent not found in game info.");
+            }
+            // OPPONENT DATA DISPLAYED
+
+            localStorage.setItem("playerName", playerName);
+            localStorage.setItem("opponentName", opponentData.name);
+        })
+        .catch((error) => console.error(error));
+    }
+
+    function initialDataLoad(playerName) {
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        let lobbyId = localStorage.getItem("lobbyId");
+        let opponentName = localStorage.getItem("opponentName");
+
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=random&player=${playerName}&target=${opponentName}`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
