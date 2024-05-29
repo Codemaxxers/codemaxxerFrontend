@@ -18,9 +18,9 @@ const urls = {
   retrieveHistory: uri+"/aichatbot/chat/history?person_id=", // Endpoint for retrieving chat history
   
   //Example alternative URLs (commented out)
-//  chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
-//  clearHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear",
-//  retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history",
+ chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
+ clearHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear",
+ retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history",
 };
 
 // Define assets such as images and names for the bot and user
