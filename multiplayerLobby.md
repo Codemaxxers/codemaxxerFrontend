@@ -34,7 +34,7 @@ author: Theo H
             <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box" id="p2" style="width: 150px">
-            <img id="pIMG" class="" src="{{site.baseurl}}/images/opponent.png">
+            <img id="pIMG" id="eIMG" class="" src="{{site.baseurl}}/images/opponent.png">
         </div>
     </div>
     <div class="question-box" id="question-box" style="display: none;">
@@ -45,7 +45,7 @@ author: Theo H
         </div>
     </div>
     <div id="moves" class="controller">
-        <div id="attack" class="backgroundStyle" id="ChangeATK" onclick="attack()">
+        <div id="attack" class="backgroundStyle" id="ChangeATK" onclick="fetchQuestion()">
             <h1>Attack</h1>
         </div>
     </div>
@@ -88,46 +88,14 @@ author: Theo H
 
 <script>
 var questionBox = document.getElementById("question-box");
+var playerIMG = document.getElementById("pIMG");
+var enemyIMG = document.getElementById("eIMG");
 
-function attack(attack) {
-    questionBox.style = "";
-    fetchQuestion(attack); // Call fetchQuestion with the attack value
-    // Check if the player or enemy has been defeated
-    if (health <= 0) {
-        alert.style = "";
-        playerIMG.classList = "death";
-        alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
-    } else if (eHealth < 1) {
-        updateHealthEnemy.innerHTML = `Enemy: Defeated`;
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            redirect: 'follow',
-            credentials: 'include'
-        };
-        //Adding points to the account
-        fetch(uri + `/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-        //Re-direct to island
-        alert.style = "";
-        enemyIMG.classList = "death";
-        alertBox.innerHTML = "<b>You Won</b><p>Go back to island</p>";
-        return;
-    }
-}
 
-function fetchQuestion(attackValue) {
+function fetchQuestion() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
-    // clear hint
-    const hintText = document.getElementById("hint-text");
-    hintText.innerHTML = "";
 
     var requestOptions = {
         method: 'GET',
@@ -136,56 +104,40 @@ function fetchQuestion(attackValue) {
         redirect: 'follow'
     };
     
-    fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
+    fetch(uri + `/api/questions/randomQuestion/CSA`, requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result); // For debugging
-        
-        console.log(result.hint); 
-        currentQuestionHint = result.hint;
 
-        // Update the question text
+        document.getElementById("question-box").style = "display: block;";
         document.getElementById("question-text").innerText = result.question;
 
         // Clear previous answers
         const answersDiv = document.getElementById("answers");
         answersDiv.innerHTML = "";
-        totalPoints = totalPoints + result.points;
 
         // Dynamically create answer buttons or text for each possible answer
         for (let i = 1; i <= 4; i++) {
             let answerDiv = document.createElement("div");
             answerDiv.innerText = result[`answer${i}`];
-            answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer, attackValue); };
+            answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer); };
             answersDiv.appendChild(answerDiv);
         }
     })
     .catch(error => console.log('error', error));
 }
 
-function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
-    // Increment total points regardless of the answer
-    totalPoints += attackValue;
+function checkAnswer(selectedAnswer, correctAnswer) {
 
     if (selectedAnswer === correctAnswer) {
         console.log("Correct! You attack the enemy.");
-        eHealth -= attackValue;
-        updateHealthEnemy.innerHTML = `Health: ${eHealth}`;
-        // When an image gets hurt, you can add the flashing class to it
-        enemyIMG.classList.add('flashing');
-
-        // After a certain duration, remove the flashing class to stop the flashing effect
+        attackEnemy();
         setTimeout(function() {
             enemyIMG.classList.remove('flashing');
         }, 2000);
     } else {
-        console.log("Incorrect. The enemy attacks you!");
-        health -= eAttack;
-        updateHealth.innerHTML = `Health: ${health}`;
-        // When an image gets hurt, you can add the flashing class to it
-        playerIMG.classList.add('flashing');
-
-        // After a certain duration, remove the flashing class to stop the flashing effect
+        console.log("Incorrect. You lost your turn");
+        switchTurn();
         setTimeout(function() {
             playerIMG.classList.remove('flashing');
         }, 2000);
@@ -193,35 +145,8 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
 
     // Call Battle to check for end-of-battle scenarios
     questionBox.style = " display: none;";
-    controller.innerHTML = baseHTML;
-
-    if (health <= 0) {
-        alert.style = "";
-        playerIMG.classList = "death";
-        alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
-    } else if (eHealth < 1) {
-        updateHealthEnemy.innerHTML = `Health: Defeated`;
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            redirect: 'follow',
-            credentials: 'include'
-        };
-        //Adding points to the account
-        fetch(uri + `/api/person/addPoints${course}?points=${totalPoints}`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-        //Re-direct to island
-        alert.style = "";
-        enemyIMG.classList = "death";
-        alertBox.innerHTML = "<b>You Won</b><p>Go back to island</p>";
-        return;
-    }
 }
+
 </script>
 
 <script>
@@ -247,6 +172,28 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
             updateGameInfo(data.name);
         })
         .catch((error) => console.error(error));
+    }
+
+    function attackEnemy() {
+        const requestOptions = {
+        method: "POST",
+        redirect: "follow"
+        };
+
+        let name = localStorage.getItem("playerName");
+        let target = localStorage.getItem("opponentName");
+
+        fetch(connectionuri + `/api/lobby/attack?attackerName=${name}&targetName=${target}`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+
+        updateGameInfo(name);
+        window.location.reload();
+    }
+
+    function switchTurn() {
+
     }
 
     function updateGameInfo(playerName) {
@@ -308,6 +255,9 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
                 console.log("Opponent not found in game info.");
             }
             // OPPONENT DATA DISPLAYED
+
+            localStorage.setItem("playerName", playerName);
+            localStorage.setItem("opponentName", opponentData.name);
         })
         .catch((error) => console.error(error));
     }
@@ -327,6 +277,8 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
             .catch((error) => console.error(error));
 
         localStorage.removeItem('lobbyId');
+        localStorage.removeItem('playerName');
+        localStorage.removeItem('opponentName');
     }
 
 // window.addEventListener('beforeunload', function(event) {
