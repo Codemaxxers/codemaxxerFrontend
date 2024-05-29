@@ -13,9 +13,14 @@ const elements = {
 
 // Define URLs for various API endpoints
 const urls = {
-  chat: uri+"/aichatbot/chat?person_id=", // Endpoint for sending a chat message
-  clearHistory: uri+"/aichatbot/chat/history/clear?person_id=", // Endpoint for clearing chat history
-  retrieveHistory: uri+"/aichatbot/chat/history?person_id=", // Endpoint for retrieving chat history
+  chat: uri+"/aichatbot/chat&message=", // Endpoint for sending a chat message
+  clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
+  retrieveHistory: uri+"/aichatbot/chat/history", // Endpoint for retrieving chat history
+  
+  //Example alternative URLs (commented out)
+//  chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
+//  clearHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear",
+//  retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history",
 };
 
 // Define assets such as images and names for the bot and user
@@ -32,7 +37,7 @@ const assets = {
 elements.deleteChat.addEventListener("click", async (event) => {
   event.preventDefault(); // Prevent the default form submission
   
-  await fetchData(`${urls.clearHistory}${elements.personid.value}`, "DELETE"); // Send a DELETE request to clear chat history
+  await fetchData(`${urls.clearHistory}`, "DELETE"); // Send a DELETE request to clear chat history
   elements.chat.innerHTML = ""; // Clear the chat display area
   appendMessage(assets.botName, assets.botImg, "left", "Your chat history has been cleared! Go ahead and send me a new message. 😄", assets.botTitle); // Inform the user that the chat history is cleared
 });
@@ -40,7 +45,7 @@ elements.deleteChat.addEventListener("click", async (event) => {
 // Event listener for the retrieve chat history button
 elements.retrieveChatHistory.addEventListener("click", async (event) => {
   event.preventDefault(); // Prevent the default form submission
-  const chatHistory = await fetchData(`${urls.retrieveHistory}${elements.personid.value}`); // Fetch chat history
+  const chatHistory = await fetchData(`${urls.retrieveHistory}`); // Fetch chat history
   const chats = JSON.parse(chatHistory).chats; // Parse the chat history
   chats.forEach(chat => { // Loop through each chat message
     appendMessage(assets.personName, assets.personImg, "right", chat.chat_message, assets.personTitle); // Append user's message
@@ -94,7 +99,7 @@ function appendMessage(name, img, side, text, title) {
 
 
 async function secondbotResponse(msgText) {
-  const data = await fetchData(`${urls.chat}${elements.personid.value}&message=${msgText}`); // Fetch the bot's response
+  const data = await fetchData(`${urls.chat}${msgText}`); // Fetch the bot's response
   appendMessage(assets.botName, assets.botImg, "left", data, assets.botTitle); // Append the bot's response to the chat
   elements.spinner.style.display = "none"; // Hide the loading spinner
 }
@@ -105,7 +110,7 @@ async function botResponse(msgText) {
   elements.spinner.style.display = "block";
 
   // Fetch the bot's response
-  const data = await fetchData(`${urls.chat}${elements.personid.value}&message=${msgText}`);
+  const data = await fetchData(`${urls.chat}${msgText}`);
 
   // Function to split the data into smaller chunks
   function* chunkString(str, size) {
