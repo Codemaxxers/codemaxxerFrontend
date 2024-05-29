@@ -15,3 +15,18 @@
     <script src="websocket.js"></script>
 </body>
 </html>
+<script>
+    // Create WebSocket connection.
+    const socket = new WebSocket('wss://codemaxxerlink.stu.nighthawkcodingsociety.com/myhandler');
+    
+    // Connection opened
+    socket.addEventListener('open', function (event) {
+        socket.send('Hello Server!');
+    });
+    
+    // Listen for messages
+    socket.addEventListener('message', function (event) {
+        console.log('Message from server', event.data);
+    });
+    </script>
+    
