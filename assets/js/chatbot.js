@@ -1,4 +1,5 @@
 fetchUserData();
+let chatHistoryMode = false;
 
 // Define and select essential elements from the DOM for interaction
 const elements = {
@@ -13,9 +14,10 @@ const elements = {
 
 // Define URLs for various API endpoints
 const urls = {
-  chat: uri+"/aichatbot/chat&message=", // Endpoint for sending a chat message
+  chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
   clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
   retrieveHistory: uri+"/aichatbot/chat/history", // Endpoint for retrieving chat history
+  deleteChat: uri+"/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
   };
 
 // Define assets such as images and names for the bot and user
@@ -39,11 +41,15 @@ elements.deleteChat.addEventListener("click", async (event) => {
 
 // Event listener for the retrieve chat history button
 elements.retrieveChatHistory.addEventListener("click", async (event) => {
+  chatHistoryMode = true;
   event.preventDefault(); // Prevent the default form submission
   const chatHistory = await fetchData(`${urls.retrieveHistory}`); // Fetch chat history
   const chats = JSON.parse(chatHistory).chats; // Parse the chat history
+  elements.chat.innerHTML = ""; // Clear the chat display area
+  appendMessage(assets.botName, assets.botImg, "left", "Your chat history!", assets.botTitle); // Inform the user that the chat history is loaded
+
   chats.forEach(chat => { // Loop through each chat message
-    appendMessage(assets.personName, assets.personImg, "right", chat.chat_message, assets.personTitle); // Append user's message
+    appendMessage(assets.personName, assets.personImg, "right", chat.chat_message, assets.personTitle, chat.id); // Append user's message
     appendMessage(assets.botName, assets.botImg, "left", chat.chat_response, assets.botTitle); // Append bot's response
   });
 });
@@ -53,15 +59,17 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
 let useSecondBotResponse = false;
 
 // Event listener for the toggle button
+/*
 document.getElementById("toggle-response-btn").addEventListener("click", () => {
   useSecondBotResponse = !useSecondBotResponse;
   alert(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
 });
-
+*/
 
 
 // Event listener for form submission (sending a new message)
 elements.form.addEventListener("submit", (event) => {
+  chatHistoryMode = false;
   event.preventDefault(); // Prevent the default form submission
   const msgText = elements.input.value; // Get the message text from the input field
   if (!msgText) return; // Do nothing if the input field is empty
@@ -75,7 +83,8 @@ elements.form.addEventListener("submit", (event) => {
   }});
 
 // Function to append a message to the chat display area
-function appendMessage(name, img, side, text, title) {
+function appendMessage(name, img, side, text, title, chatid) {
+  const deleteChatDiv = `<div style="cursor: pointer;"><i class="fa fa-trash" title="Delete Chat" onclick="deleteChat(${chatid})"></i></div>`;
   const msgHTML = `
     <div class="msg ${side}-msg">
       <div class="msg-img" style="background-image: url(${img})" title="${title}"></div>
@@ -83,6 +92,7 @@ function appendMessage(name, img, side, text, title) {
         <div class="msg-info">
           <div class="msg-info-name">${name}</div>
           <div class="msg-info-time">${formatDate(new Date())}</div>
+          ${chatHistoryMode && side == "right" ? deleteChatDiv : ''}
         </div>
         <div class="msg-text">${text}</div>
       </div>
@@ -92,6 +102,11 @@ function appendMessage(name, img, side, text, title) {
   elements.chat.scrollTop += 500; // Scroll to the bottom of the chat display area
 }
 
+async function deleteChat(id){
+  await fetchData(`${urls.deleteChat}${id}`, "DELETE"); // Send a DELETE request to clear chat history
+  
+  elements.retrieveChatHistory.dispatchEvent(new Event("click"));
+}
 
 async function secondbotResponse(msgText) {
   const data = await fetchData(`${urls.chat}${msgText}`); // Fetch the bot's response
@@ -101,6 +116,8 @@ async function secondbotResponse(msgText) {
 
 // Function to handle bot responses
 async function botResponse(msgText) {
+  console.log("Bot Response");
+  console.log(msgText);
   // Show the loading spinner
   elements.spinner.style.display = "block";
 
