@@ -275,7 +275,7 @@ function checkLobbyStatus(lobbyId) {
                 isLobbyFull = true; // Set the flag to true when lobby is full
                 clearInterval(pollInterval);
                 clearTimeout(pollTimeout);
-                window.location.href = "lobbyFullPage";
+                window.location.href = "multiplayerLobby";
             } else {
                 console.log("Lobby is not full, continuing to poll...");
             }
