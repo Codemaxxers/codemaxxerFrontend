@@ -149,7 +149,6 @@ search_exclude: true
 </div>
 
 <script>
-
 window.onload = function() {
     var requestOptions = {
         method: 'GET',
@@ -212,47 +211,112 @@ document.getElementById('create-lobby-form').addEventListener('submit', function
         .then(response => response.text())
         .then(result => {
             console.log(result);
-            let lobbyID = result.match(/\d+/)[0];;
+            let lobbyID = result.match(/\d+/)[0];
             joinLobby(lobbyID);
         })
         .catch(error => console.error(error));
 });
-</script>
 
-<script>
+function joinLobby(lobbyID) {
+    localStorage.setItem('lobbyID', lobbyID);
+    let name = document.getElementById('playerName').textContent;
+    let dmg = document.getElementById('playerDamage').textContent;
+    let health = document.getElementById('playerHealth').textContent;
+    console.log(lobbyID, name, dmg, health);
+
     const requestOptions = {
         method: "POST",
         redirect: "follow"
     };
 
-    function joinLobby(lobbyID) {
-        let name = document.getElementById('playerName').textContent;
-        let dmg = document.getElementById('playerDamage').textContent;
-        let health = document.getElementById('playerHealth').textContent;
-        console.log(lobbyID, name, dmg, health);
+    fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyID}&playerName=${name}&attack=${dmg}&health=${health}`, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
 
-        fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyID}&playerName=${name}&attack=${dmg}&health=${health}`, requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                console.log(result);
-                // Call your function here
+            const lobbyList = document.querySelector('.lobby-list');
+            lobbyList.innerHTML = '';
 
-                const lobbyList = document.querySelector('.lobby-list');
-                lobbyList.innerHTML = '';
+            const lobbyCreatedMsg = document.createElement('h1');
+            lobbyCreatedMsg.textContent = "Lobby " + lobbyID + " created and joined";
+            lobbyList.appendChild(lobbyCreatedMsg);
 
-                // Display messages about lobby creation and player data loading
-                const lobbyCreatedMsg = document.createElement('h1');
-                lobbyCreatedMsg.textContent = result; // Assuming result is the message like "Lobby 253561 created."
-                lobbyList.appendChild(lobbyCreatedMsg);
+            const timerMsg = document.createElement('p');
+            timerMsg.textContent = "You will be redirected when the opposing player joins the lobby.";
+            lobbyList.appendChild(timerMsg);
 
-                const loadingMsg = document.createElement('p');
-                loadingMsg.textContent = "Loading your player data...";
-                lobbyList.appendChild(loadingMsg);
+            startPolling(lobbyID);
+        })
+        .catch(error => console.error(error));
+}
 
-                const timerMsg = document.createElement('p');
-                timerMsg.textContent = "Opposing player must join within 5 minutes or lobby will be deleted.";
-                lobbyList.appendChild(timerMsg);
-            })
-            .catch(error => console.error(error));
+let pollInterval;
+let pollTimeout;
+let isLobbyFull = false; // Global flag to track lobby status
+
+function checkLobbyStatus(lobbyID) {
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+    };
+
+    fetch(`${connectionuri}/api/lobby/checkIfLobbyIsFull?lobbyId=${lobbyID}`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    throw new Error(error.error);
+                });
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.isFull) {
+                console.log("Lobby is full!");
+                isLobbyFull = true; // Set the flag to true when lobby is full
+                clearInterval(pollInterval);
+                clearTimeout(pollTimeout);
+                window.location.href = "lobbyFullPage";
+            } else {
+                console.log("Lobby is not full, continuing to poll...");
+            }
+        })
+        .catch(error => console.error(error));
+}
+
+function startPolling(lobbyID) {
+    pollInterval = setInterval(() => {
+        checkLobbyStatus(lobbyID);
+    }, 5000);
+
+    pollTimeout = setTimeout(() => {
+        clearInterval(pollInterval);
+        console.log("Stopped polling after 3 minutes.");
+    }, 3 * 60 * 1000);
+}
+
+function removeLobby() {
+    const lobbyID = localStorage.getItem('lobbyID');
+
+    const requestOptions = {
+        method: "POST",
+        redirect: "follow"
+    };
+
+    fetch(connectionuri + `/api/lobby/removeLobby?lobbyId=${lobbyID}`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+
+    localStorage.removeItem('lobbyID');
+}
+
+window.addEventListener('beforeunload', function(event) {
+    if (!isLobbyFull) { // Check if the lobby is not full before removing it
+        event.preventDefault();
+        removeLobby();
+        clearInterval(pollInterval);
+        clearTimeout(pollTimeout);
     }
+});
+
 </script>
