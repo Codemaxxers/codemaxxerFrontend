@@ -135,8 +135,9 @@ function fetchQuestion(attackValue) {
     .then(response => response.json())
     .then(result => {
         console.log(result); // For debugging
-
-        currentQuestionId = result.id;
+        
+        console.log(result.hint); 
+        currentQuestionHint = result.hint;
 
         // Update the question text
         document.getElementById("question-text").innerText = result.question;
@@ -492,7 +493,7 @@ function closeKeyPopup() {
     document.getElementById("keyPopup").style.display = "none";
 }
 
-let currentQuestionId = null;
+let currentQuestionHint = null;
 
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
@@ -500,26 +501,27 @@ function useHint(){
     var hintMenu = document.getElementById('hint-box');
     hintMenu.innerHTML = hint;
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    document.getElementById("hint-text").innerText = currentQuestionHint;
+    // var myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        credentials: 'include',
-        redirect: 'follow'
-    };
+    // var requestOptions = {
+    //     method: 'GET',
+    //     headers: myHeaders,
+    //     credentials: 'include',
+    //     redirect: 'follow'
+    // };
     
-    fetch(uri + `/api/questions/QuestionById/${currentQuestionId}`, requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result); // debugging
-        // update hint text
-        console.log(result.hint);
-        document.getElementById("hint-text").innerText = result.hint;
+    // fetch(uri + `/api/questions/QuestionById/${currentQuestionId}`, requestOptions)
+    // .then(response => response.json())
+    // .then(result => {
+    //     console.log(result); // debugging
+    //     // update hint text
+    //     console.log(result.hint);
+    //     document.getElementById("hint-text").innerText = result.hint;
 
-    })
-    .catch(error => console.log('error', error));
+    // })
+    // .catch(error => console.log('error', error));
 }
 
 function useSkip(){
