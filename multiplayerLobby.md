@@ -181,6 +181,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
     popup.style.padding = "20px";
     popup.style.border = "1px solid black";
     popup.style.borderRadius = "5px";
+    popup.style.color = "black";
 
     // Append the popup to the body
     document.body.appendChild(popup);
