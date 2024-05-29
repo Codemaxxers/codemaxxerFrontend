@@ -14,10 +14,17 @@ const elements = {
 
 // Define URLs for various API endpoints
 const urls = {
-  chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
-  clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
-  retrieveHistory: uri+"/aichatbot/chat/history", // Endpoint for retrieving chat history
-  deleteChat: uri+"/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
+  // chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
+  // clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
+  // retrieveHistory: uri+"/aichatbot/chat/history", // Endpoint for retrieving chat history
+  // deleteChat: uri+"/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
+
+  //local
+  chat: "http://localhost:8032/aichatbot/chat?message=", // Endpoint for sending a chat message
+  clearHistory: "http://localhost:8032/aichatbot/chat/history/clear", // Endpoint for clearing chat history
+  retrieveHistory: "http://localhost:8032/aichatbot/chat/history", // Endpoint for retrieving chat history
+  deleteChat: "http://localhost:8032/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
+
   };
 
 // Define assets such as images and names for the bot and user
