@@ -63,11 +63,6 @@ search_exclude: true
     .lobby-item button:hover {
         background-color: #0056b3;
     }
-    #playerNameDataStore,
-    #playerDMGDataStore,
-    #playerHPDataStore{
-        display: none;
-    }
 </style>
 
 <div class="fadeAnimation">
@@ -76,126 +71,108 @@ search_exclude: true
         <h2>Available Lobbies</h2>
         <div id="lobbyContainer"></div>
     </div>
-    <h1 id="playerNameDataStore">
-    <h1 id="playerDMGDataStore">
-    <h1 id="playerHPDataStore">
 </div>
 
 <script>
-    const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-    };
+    let playerName, playerDmg, playerHealth;
 
-    const requestCredOptions = {
-        method: 'GET',
-        redirect: 'follow',
-        credentials: 'include'
-    };
-
-fetch(connectionuri + "/api/lobby/availableLobbies", requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-        const lobbyContainer = document.getElementById("lobbyContainer");
-        Object.keys(data).forEach((lobbyId) => {
-            const lobbyData = data[lobbyId];
-            const lobbyItem = document.createElement("div");
-            lobbyItem.classList.add("lobby-item");
-            lobbyItem.style.color = "black"; // Add this line to set text color to black
-
-            let playersText = "Empty Lobby"; // Default text for no players
-            const players = Object.keys(lobbyData.players);
-            if (players.length > 0) {
-                playersText = "In Lobby: " + players.join(", ");
-
-                // Add health and damage only if there's a player in the lobby
-                const player = lobbyData.players[players[0]];
-                lobbyItem.innerHTML = `
-                    <div># ${lobbyData.id}</div>
-                    <div>${playersText}</div>
-                    <div>Health: <img src="game/img/heart.png" style="width: 20px; height: auto;"> ${player.health}</div>
-                    <div>Damage: <img src="game/img/sword.png" style="width: 20px; height: auto;"> ${player.attack}</div>
-                    <button onclick="joinLobby('${lobbyData.id}')">Join</button>
-                `;
-            } else {
-                // No players in the lobby, display default text
-                lobbyItem.innerHTML = `
-                    <div># ${lobbyData.id}</div>
-                    <div>${playersText}</div>
-                    <button onclick="joinLobby('${lobbyData.id}')">Join</button>
-                `;
-            }
-
-            lobbyContainer.appendChild(lobbyItem);
-        });
-    })
-    .catch((error) => console.error(error));
-
-fetch(uri + "/api/person/characterData", requestCredOptions)
-    .then((response) => {
-        if (!response.ok) {
-            const errorMsg = 'Login error: ' + response.status;
-            console.log(errorMsg);
-
-            switch (response.status) {
-                case 401:
-                    alert("Please log into or make an account");
-                    // window.location.href = "login";
-                    break;
-                case 403:
-                    alert("Access forbidden. You do not have permission to access this resource.");
-                    break;
-                case 404:
-                    alert("User not found. Please check your credentials.");
-                    break;
-                default:
-                    alert("Login failed. Please try again later.");
-            }
-
-            return Promise.reject('Login failed');
-        }
-        return response.json();
-    })
-    .then((data) => {
-        // Handle the character data here
-        console.log(data); // For example, logging the character data
-        console.log(data.name);
-        console.log(data.totalHealth);
-        console.log(data.totalDamage);
-    })
-    .catch((error) => {
-        // Handle any errors that occur during fetch or parsing
-        console.error("Error fetching character data:", error);
-    });
-
-function joinLobby(lobbyId) {
-    localStorage.setItem("lobbyId", lobbyId);
-
-    fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyID}&playerName=${name}&attack=${dmg}&health=${health}`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            console.log(result);
-
-            const lobbyList = document.querySelector('.lobby-list');
-            lobbyList.innerHTML = '';
-
-            const lobbyCreatedMsg = document.createElement('h1');
-            lobbyCreatedMsg.textContent = "Lobby " + lobbyID + " created and joined";
-            lobbyList.appendChild(lobbyCreatedMsg);
-
-            const timerMsg = document.createElement('p');
-            timerMsg.textContent = "You will be redirected when the opposing player joins the lobby.";
-            lobbyList.appendChild(timerMsg);
-
-            startPolling(lobbyID);
+    fetch(connectionuri + "/api/lobby/availableLobbies", {
+            method: "GET",
+            redirect: "follow"
         })
-        .catch(error => console.error(error));
-    // location.href = "multiplayerLobby";
-}
+        .then((response) => response.json())
+        .then((data) => {
+            const lobbyContainer = document.getElementById("lobbyContainer");
+            Object.keys(data).forEach((lobbyId) => {
+                const lobbyData = data[lobbyId];
+                const lobbyItem = document.createElement("div");
+                lobbyItem.classList.add("lobby-item");
+                lobbyItem.style.color = "black"; // Set text color to black
 
+                let playersText = "Empty Lobby"; // Default text for no players
+                const players = Object.keys(lobbyData.players);
+                if (players.length > 0) {
+                    playersText = "In Lobby: " + players.join(", ");
 
+                    // Add health and damage only if there's a player in the lobby
+                    const player = lobbyData.players[players[0]];
+                    lobbyItem.innerHTML = `
+                        <div># ${lobbyData.id}</div>
+                        <div>${playersText}</div>
+                        <div>Health: <img src="game/img/heart.png" style="width: 20px; height: auto;"> ${player.health}</div>
+                        <div>Damage: <img src="game/img/sword.png" style="width: 20px; height: auto;"> ${player.attack}</div>
+                        <button onclick="joinLobby('${lobbyData.id}')">Join</button>
+                    `;
+                } else {
+                    // No players in the lobby, display default text
+                    lobbyItem.innerHTML = `
+                        <div># ${lobbyData.id}</div>
+                        <div>${playersText}</div>
+                        <button onclick="joinLobby('${lobbyData.id}')">Join</button>
+                    `;
+                }
 
+                lobbyContainer.appendChild(lobbyItem);
+            });
+        })
+        .catch((error) => console.error(error));
 
+    fetch(uri + "/api/person/characterData", {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
+    })
+        .then((response) => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
 
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        window.location.href = "login";
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // Store the character data in variables
+            playerName = data.name;
+            playerDmg = data.totalDamage;
+            playerHealth = data.totalHealth;
+
+            // Optionally log data for debugging purposes
+            console.log(playerName, playerDmg, playerHealth);
+        })
+        .catch((error) => {
+            // Handle any errors that occur during fetch or parsing
+            console.error("Error fetching character data:", error);
+        });
+
+    function joinLobby(lobbyId) {
+        // Log the lobbyId and player data for debugging purposes
+        console.log(lobbyId, playerName, playerDmg, playerHealth);
+
+        fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyId}&playerName=${playerName}&attack=${playerDmg}&health=${playerHealth}`, {
+            method: "POST",
+            redirect: "follow"
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => console.error(error));
+        location.href = "multiplayerLobby";
+    }
 </script>
-
