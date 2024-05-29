@@ -1,3 +1,12 @@
+var uri;
+if (location.hostname === "localhost") {
+    uri = "http://localhost:8032";
+} else if (location.hostname === "127.0.0.1") {
+    uri = "http://localhost:8032";
+} else {
+    uri = "https://codemaxxers.stu.nighthawkcodingsociety.com";
+}
+
 const emails = [
     {
       text: "Dear Beloved Friend, I know this message will come to you as surprised but permit me of my desire to go into business relationship with you. I am Miss Naomi Surugaba a daughter to late Al-badari Surugaba of Libya whom was murdered during the recent civil war in Libya in March 2011, before his death my late father was a strong supporter and a member of late Moammar Gadhafi Government in Tripoli. Meanwhile before the incident, my late Father came to Cotonou Benin republic with the sum of USD4, 200,000.00 (US$4.2M) which he deposited in a Bank here in Cotonou Benin Republic West Africa for safe keeping. I am here seeking for an avenue to transfer the fund to you in only you're reliable and trustworthy person to Investment the fund. I am here in Benin Republic because of the death of my parent's and I want you to help me transfer the fund into your bank account for investment purpose. Please I will offer you 20% of the total sum of USD4.2M for your assistance. Please I wish to transfer the fund urgently without delay into your account and also wish to relocate to your country due to the poor condition in Benin, as to enable me continue my education as I was a medical student before the sudden death of my parent's. Reply to my alternative email:missnaomisurugaba2@hotmail.com, Your immediate response would be appreciated.",
@@ -53,7 +62,7 @@ const emails = [
   shuffle(emails);
 
   function startGame() {
-    addGamePlay();
+    //addGamePlay();
     document.getElementById("play-container").style = "display:block;";
     document.getElementById("startBt").style = "display:none;";
     if (currentLevel < 5) {
@@ -83,69 +92,69 @@ const emails = [
 
   console.log(correctAnswers);
 
-  let addPlays = 1;
+//   let addPlays = 1;
 
-  function addGamePlay(){
-    const myHeaders = new Headers();
+//   function addGamePlay(){
+//     const myHeaders = new Headers();
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        redirect: 'follow',
-        credentials: 'include'
-    };
-    //Adding points to the account
-    fetch(uri + `/api/person/addGamePlay?plays=${addPlays}`, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            console.log(result);
-            addKey(gamesPlayed);
-            console.log("games played: " + gamesPlayed + " key given heh");
-            })
-        .catch(error => console.log('error lol', error));
-    return;
-  }
+//     var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         redirect: 'follow',
+//         credentials: 'include'
+//     };
+//     //Adding points to the account
+//     fetch(uri + `/api/person/addGamePlay?plays=${addPlays}`, requestOptions)
+//         .then(response => response.text())
+//         .then(result => {
+//             console.log(result);
+//             addKey(gamesPlayed);
+//             console.log("games played: " + gamesPlayed + " key given heh");
+//             })
+//         .catch(error => console.log('error lol', error));
+//     return;
+//   }
 
-  let numKeys = 1;
+//   let numKeys = 1;
 
-  function addKey(games) {
-      if (games == 3 && totalKeys < 3){
-          const myHeaders = new Headers();
+//   function addKey(games) {
+//       if (games == 3 && totalKeys < 3){
+//           const myHeaders = new Headers();
 
-          var requestOptions = {
-              method: 'POST',
-              headers: myHeaders,
-              redirect: 'follow',
-              credentials: 'include'
-          };
-          //Adding points to the account
-          fetch(uri + `/api/person/addKey?numKeys=${numKeys}`, requestOptions)
-              .then(response => response.text())
-              .then(result => {
-                  console.log(result);
-                  resetGamePlay();
-                  console.log("reset done");
-              })
-              .catch(error => console.log('error lol', error));
-          return;
-      }
-  }
+//           var requestOptions = {
+//               method: 'POST',
+//               headers: myHeaders,
+//               redirect: 'follow',
+//               credentials: 'include'
+//           };
+//           //Adding points to the account
+//           fetch(uri + `/api/person/addKey?numKeys=${numKeys}`, requestOptions)
+//               .then(response => response.text())
+//               .then(result => {
+//                   console.log(result);
+//                   resetGamePlay();
+//                   console.log("reset done");
+//               })
+//               .catch(error => console.log('error lol', error));
+//           return;
+//       }
+//   }
 
-  let removePlays = 3;
+//   let removePlays = 3;
 
-  function resetGamePlay() {
-      const myHeaders = new Headers();
+//   function resetGamePlay() {
+//       const myHeaders = new Headers();
 
-      var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          redirect: 'follow',
-          credentials: 'include'
-      };
-      //Adding points to the account
-      fetch(uri + `/api/person/resetGamePlay?plays=${removePlays}`, requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('reset game play failed', error));
-      return;
-  }
+//       var requestOptions = {
+//           method: 'POST',
+//           headers: myHeaders,
+//           redirect: 'follow',
+//           credentials: 'include'
+//       };
+//       //Adding points to the account
+//       fetch(uri + `/api/person/resetGamePlay?plays=${removePlays}`, requestOptions)
+//           .then(response => response.text())
+//           .then(result => console.log(result))
+//           .catch(error => console.log('reset game play failed', error));
+//       return;
+//   }
