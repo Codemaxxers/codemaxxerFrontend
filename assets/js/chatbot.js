@@ -59,12 +59,12 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
 let useSecondBotResponse = false;
 
 // Event listener for the toggle button
-/*
+
 document.getElementById("toggle-response-btn").addEventListener("click", () => {
   useSecondBotResponse = !useSecondBotResponse;
   alert(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
 });
-*/
+
 
 
 // Event listener for form submission (sending a new message)
