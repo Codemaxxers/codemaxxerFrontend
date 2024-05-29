@@ -2,9 +2,8 @@
 toc: true
 comments: true
 layout: battle
-title: fight everything
+title: Fight!
 author: Finn C
-permalink: /playerFight
 ---
 
 

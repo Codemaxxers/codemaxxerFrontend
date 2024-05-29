@@ -120,6 +120,10 @@ function fetchQuestion(attackValue) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
+    // clear hint
+    const hintText = document.getElementById("hint-text");
+    hintText.innerHTML = "";
+
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -131,6 +135,9 @@ function fetchQuestion(attackValue) {
     .then(response => response.json())
     .then(result => {
         console.log(result); // For debugging
+
+        currentQuestionId = result.id;
+
         // Update the question text
         document.getElementById("question-text").innerText = result.question;
 
@@ -485,6 +492,8 @@ function closeKeyPopup() {
     document.getElementById("keyPopup").style.display = "none";
 }
 
+let currentQuestionId = null;
+
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
@@ -501,21 +510,14 @@ function useHint(){
         redirect: 'follow'
     };
     
-    fetch(uri + `/api/questions/hint/${course}`, requestOptions)
+    fetch(uri + `/api/questions/QuestionById/${currentQuestionId}`, requestOptions)
     .then(response => response.json())
     .then(result => {
         console.log(result); // debugging
         // update hint text
-        document.getElementById("hint-text").innerText = result.hint;
         console.log(result.hint);
+        document.getElementById("hint-text").innerText = result.hint;
 
-        // clear hint
-        const hintDiv = document.getElementById("hint");
-        hintDiv.innerHTML = "";
-
-        let hDiv = document.createElement("div");
-        hDiv.innerText = result[`hint`];
-        hintDiv.appendChild(hDiv);
     })
     .catch(error => console.log('error', error));
 }
