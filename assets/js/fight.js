@@ -435,6 +435,8 @@ function getWeapon() {
         .catch(error => console.log('error', error));
 }
 
+let currentQuestionHint = "Hint: Consider a database approach.";
+
 function fetchWeaponStats(weaponID) {
     return fetch('gear.json')
         .then(response => {
@@ -492,8 +494,6 @@ function removeKey() {
 function closeKeyPopup() {
     document.getElementById("keyPopup").style.display = "none";
 }
-
-let currentQuestionHint = null;
 
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
