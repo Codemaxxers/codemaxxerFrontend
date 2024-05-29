@@ -291,6 +291,9 @@ function startPolling(lobbyID) {
     pollTimeout = setTimeout(() => {
         clearInterval(pollInterval);
         console.log("Stopped polling after 3 minutes.");
+        alert("Max time of 3 minutes reached. Please try again later.");
+        removeLobby();
+        window.location.href = "multiplayer";
     }, 3 * 60 * 1000);
 }
 

@@ -4,6 +4,7 @@ search_exclude: true
 ---
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap">
+<script src="uri.js"></script>
 <script src="connectionURI.js"></script>
 
 <style>
@@ -117,8 +118,47 @@ fetch(connectionuri + "/api/lobby/availableLobbies", requestOptions)
     .catch((error) => console.error(error));
 
 function joinLobby(lobbyId) {
-    // Add your code for joining a lobby here
-    console.log("Joining lobby:", lobbyId);
+    localStorage.setItem("lobbyId", lobbyId);
+    characterDataFetch();
+    // location.href = "multiplayerLobby";
+}
+
+function characterDataFetch() {
+    fetch(uri + "/api/person/characterData", requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert("Please log into or make an account");
+                        window.location.href = "login";
+                        break;
+                    case 403:
+                        alert("Access forbidden. You do not have permission to access this resource.");
+                        break;
+                    case 404:
+                        alert("User not found. Please check your credentials.");
+                        break;
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            console.log(data.name);
+            console.log(data.totalHealth);
+            console.log(data.totalDamage);
+        })
+        .then((data) => {
+            // Handle the character data here
+            console.log(data); // For example, logging the character data
+        })
+        .catch((error) => {
+            // Handle any errors that occur during fetch or parsing
+            console.error("Error fetching character data:", error);
+        });
 }
 
 
