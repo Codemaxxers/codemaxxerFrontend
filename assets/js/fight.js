@@ -50,7 +50,7 @@ var baseHTML = `
     <div class="move" id="ChangeInv" onclick="inventoryMENU()">
         <h1>Inventory</h1>
     </div>
-    <div class="move" id="run" onclick="Leave()">
+    <div class="move" id="run" onclick="leave()">
         <h1>Run Away</h1>
     </div>
 `;
@@ -217,7 +217,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
     }
 }
 
-function Leave() {
+function leave() {
     if (health < StartingHealth / 2) {
         alert("Running Away Failed");
     }

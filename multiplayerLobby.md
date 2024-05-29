@@ -1,11 +1,13 @@
 ---
 toc: true
 comments: true
-layout: battle
+layout: multiplayer
 title: Fight!
-author: Finn C
+author: Theo H
 ---
 
+<script src="uri.js"></script>
+<script src="connectionURI.js"></script>
 
 <div>
     <div class="alert" id="alert" style="display: none;">
@@ -15,24 +17,24 @@ author: Finn C
     </div>
     <div class="health-box">
         <div class="topRow">
-            <div class="move" id="userName">name</div>
-            <div class="move" id="level">Player Level</div>
+            <div class="move" id="playerName">NAME</div>
+            <div class="move" id="playerLevel">LEVEL</div>
         </div>
         <div class="bottomRow">
             <!-- <div class="move" id="damage">Damage</div> -->
-            <div class="move" id="health">Health</div>
+            <div class="move" id="playerHealth">HEALTH</div>
         </div>
     </div>
     <div class="health-box" style="margin-left: 65vw; margin-right: 10vw;margin-top: 25vh;">
-        <div class="move" id="EnemyName">Enemy: </div>
-        <div class="move" id="EnemyHealth">Enemy Health: </div>
+        <div class="move" id="opponentName">Enemy: </div>
+        <div class="move" id="opponentHealth">Enemy Health: </div>
     </div>
     <div class="fight-container">
         <div class="player-box" id="p1">
             <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
         </div>
         <div class="enemy-box" id="p2" style="width: 150px">
-            <img id="pIMG" class="" src="{{site.baseurl}}/images/player.png">
+            <img id="pIMG" class="" src="{{site.baseurl}}/images/opponent.png">
         </div>
     </div>
     <div class="question-box" id="question-box" style="display: none;">
@@ -43,17 +45,8 @@ author: Finn C
         </div>
     </div>
     <div id="moves" class="controller">
-        <div class="move" class="backgroundStyle" id="ChangeATK" onclick="attackMENU()">
+        <div id="attack" class="backgroundStyle" id="ChangeATK" onclick="attackMENU()">
             <h1>Attack</h1>
-        </div>
-        <div class="move" class="backgroundStyle" id="ChangePT" onclick="potionMENU()">
-            <h1>Potions</h1>
-        </div>
-        <div class="move" class="backgroundStyle" id="ChangeInv" onclick="inventoryMENU()">
-            <h1>Inventory</h1>
-        </div>
-        <div class="move" class="backgroundStyle" id="run" onclick="leave()">
-            <h1>Run Away</h1>
         </div>
     </div>
 </div>
@@ -88,15 +81,103 @@ author: Finn C
     </div>
 </div>
 
-<script src="{{site.baseurl}}/assets/js/character.js"></script>
-
 <script>
-    function leave() {
-        window.location.href = "/codemaxxerFrontend/game/index.html";
+    window.addEventListener('onload', characterData());
+
+    // function leave() {
+    //     window.location.href = "/codemaxxerFrontend/game/index.html";
+    // }
+
+    window.addEventListener('onload', characterData());
+
+    function characterData() {
+        fetch(uri + "/api/person/characterData", {
+            method: "GET",
+            redirect: "follow",
+            credentials: "include"
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            document.getElementById("playerName").innerHTML = data.name;
+            document.getElementById("playerLevel").innerHTML = "Level: " + data.accountLevel;
+
+            // Match the player in the game info request with the name
+            updateGameInfo(data.name);
+        })
+        .catch((error) => console.error(error));
     }
+
+    function updateGameInfo(playerName) {
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        let lobbyId = localStorage.getItem("lobbyId");
+
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}`, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+
+            // Find and display the matching player's information
+            if (data.players && data.players[playerName]) {
+                const playerInfo = data.players[playerName];
+                document.getElementById("playerName").innerHTML = playerInfo.name;
+                document.getElementById("playerHealth").innerHTML = "Health: " + playerInfo.health;
+            } else {
+                console.log("Player not found in game info.");
+            }
+
+            let opponentData = null;
+            for (const player in data.players) {
+                if (player !== playerName) {
+                    opponentData = data.players[player];
+                    break;
+                }
+            }
+
+            // Display the opponent's data if found
+            if (opponentData) {
+                document.getElementById("opponentName").innerHTML = "Enemy: " + opponentData.name;
+                document.getElementById("opponentHealth").innerHTML = "Enemy Health: " + opponentData.health;
+            } else {
+                console.log("Opponent not found in game info.");
+            }
+        })
+        .catch((error) => console.error(error));
+    }
+
+
+    function removeLobby() {
+        const lobbyId = localStorage.getItem('lobbyId');
+
+        const requestOptions = {
+            method: "POST",
+            redirect: "follow"
+        };
+
+        fetch(connectionuri + `/api/lobby/removeLobby?lobbyId=${lobbyId}`, requestOptions)
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+
+        localStorage.removeItem('lobbyId');
+    }
+
+// window.addEventListener('beforeunload', function(event) {
+//         removeLobby();
+//     }
+// );
+
+
 </script>
 
 <style>
+#attack {
+    width: 100%;
+}
 #profile-container {
     position: absolute;
     right: 43vw;
