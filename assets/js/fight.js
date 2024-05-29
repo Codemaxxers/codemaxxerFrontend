@@ -50,7 +50,7 @@ var baseHTML = `
     <div class="move" id="ChangeInv" onclick="inventoryMENU()">
         <h1>Inventory</h1>
     </div>
-    <div class="move" id="run" onclick="Leave()">
+    <div class="move" id="run" onclick="leave()">
         <h1>Run Away</h1>
     </div>
 `;
@@ -120,6 +120,10 @@ function fetchQuestion(attackValue) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
+    // clear hint
+    const hintText = document.getElementById("hint-text");
+    hintText.innerHTML = "";
+
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -131,6 +135,10 @@ function fetchQuestion(attackValue) {
     .then(response => response.json())
     .then(result => {
         console.log(result); // For debugging
+        
+        console.log(result.hint); 
+        currentQuestionHint = result.hint;
+
         // Update the question text
         document.getElementById("question-text").innerText = result.question;
 
@@ -210,7 +218,7 @@ function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
     }
 }
 
-function Leave() {
+function leave() {
     if (health < StartingHealth / 2) {
         alert("Running Away Failed");
     }
@@ -485,39 +493,35 @@ function closeKeyPopup() {
     document.getElementById("keyPopup").style.display = "none";
 }
 
+let currentQuestionHint = null;
+
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
     removeKey();
     var hintMenu = document.getElementById('hint-box');
     hintMenu.innerHTML = hint;
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    document.getElementById("hint-text").innerText = currentQuestionHint;
+    // var myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        credentials: 'include',
-        redirect: 'follow'
-    };
+    // var requestOptions = {
+    //     method: 'GET',
+    //     headers: myHeaders,
+    //     credentials: 'include',
+    //     redirect: 'follow'
+    // };
     
-    fetch(uri + `/api/questions/hint/${course}`, requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        console.log(result); // debugging
-        // update hint text
-        document.getElementById("hint-text").innerText = result.hint;
-        console.log(result.hint);
+    // fetch(uri + `/api/questions/QuestionById/${currentQuestionId}`, requestOptions)
+    // .then(response => response.json())
+    // .then(result => {
+    //     console.log(result); // debugging
+    //     // update hint text
+    //     console.log(result.hint);
+    //     document.getElementById("hint-text").innerText = result.hint;
 
-        // clear hint
-        const hintDiv = document.getElementById("hint");
-        hintDiv.innerHTML = "";
-
-        let hDiv = document.createElement("div");
-        hDiv.innerText = result[`hint`];
-        hintDiv.appendChild(hDiv);
-    })
-    .catch(error => console.log('error', error));
+    // })
+    // .catch(error => console.log('error', error));
 }
 
 function useSkip(){
