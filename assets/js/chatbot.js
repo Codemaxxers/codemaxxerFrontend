@@ -1,3 +1,5 @@
+fetchUserData();
+
 // Define and select essential elements from the DOM for interaction
 const elements = {
   form: document.querySelector(".msger-inputarea"), // The form where users input their messages
@@ -6,19 +8,15 @@ const elements = {
   spinner: document.getElementById("waiting"), // A loading spinner element
   deleteChat: document.getElementById("delete_chat"), // The button to delete chat history
   retrieveChatHistory: document.getElementById("retieve_chat_history"), // The button to retrieve chat history
+  personid: document.getElementById("initId"), // personid hidden field
 };
 
 // Define URLs for various API endpoints
 const urls = {
-  // chat: "http://localhost:8032/aichatbot/chat?message=", // Endpoint for sending a chat message
-  // clearHistory: "http://localhost:8032/aichatbot/chat/history/clear", // Endpoint for clearing chat history
-  // retrieveHistory: "http://localhost:8032/aichatbot/chat/history" // Endpoint for retrieving chat history
-  
-  //Example alternative URLs (commented out)
- chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
- clearHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear",
- retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history"
-};
+  chat: uri+"/aichatbot/chat&message=", // Endpoint for sending a chat message
+  clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
+  retrieveHistory: uri+"/aichatbot/chat/history", // Endpoint for retrieving chat history
+  };
 
 // Define assets such as images and names for the bot and user
 const assets = {
@@ -33,7 +31,8 @@ const assets = {
 // Event listener for the delete chat button
 elements.deleteChat.addEventListener("click", async (event) => {
   event.preventDefault(); // Prevent the default form submission
-  await fetchData(urls.clearHistory, "DELETE"); // Send a DELETE request to clear chat history
+  
+  await fetchData(`${urls.clearHistory}`, "DELETE"); // Send a DELETE request to clear chat history
   elements.chat.innerHTML = ""; // Clear the chat display area
   appendMessage(assets.botName, assets.botImg, "left", "Your chat history has been cleared! Go ahead and send me a new message. 😄", assets.botTitle); // Inform the user that the chat history is cleared
 });
@@ -41,7 +40,7 @@ elements.deleteChat.addEventListener("click", async (event) => {
 // Event listener for the retrieve chat history button
 elements.retrieveChatHistory.addEventListener("click", async (event) => {
   event.preventDefault(); // Prevent the default form submission
-  const chatHistory = await fetchData(urls.retrieveHistory); // Fetch chat history
+  const chatHistory = await fetchData(`${urls.retrieveHistory}`); // Fetch chat history
   const chats = JSON.parse(chatHistory).chats; // Parse the chat history
   chats.forEach(chat => { // Loop through each chat message
     appendMessage(assets.personName, assets.personImg, "right", chat.chat_message, assets.personTitle); // Append user's message
@@ -167,4 +166,44 @@ async function fetchData(url, method = "GET", data = null) {
   const response = await fetch(url, options); // Fetch data from the API
   console.log(response); // Log the response for debugging
   return response.text(); // Return the response text
+}
+
+
+async function fetchUserData() {
+  console.log("Getting user data");
+  var requestOptions = {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
+  };
+
+  const response = await fetch(uri + "/api/person/jwt", requestOptions);
+  const data = await response.json();
+
+  // ACCOUNT CARD
+  let profilePictureDiv = document.getElementById("profilePicture");
+  let imgElement = document.createElement("img");
+  imgElement.src = "https://codemaxxers.github.io/codemaxxerFrontend/images/profilePics/"+ data.profilePicInt + ".png";
+  imgElement.style.width = "60px";
+  imgElement.style.height = "60px";
+  imgElement.style.float = "left";
+  imgElement.style.borderRadius = "5px";
+  var nameForProfile = document.createElement("h3");
+  nameForProfile.innerHTML = data.name;
+  var changeProfileText = document.createElement("p");
+  changeProfileText.innerHTML = "Level " + data.accountLevel;
+  changeProfileText.style.marginBottom = "0px";
+  profilePictureDiv.appendChild(imgElement);
+  profilePictureDiv.appendChild(nameForProfile);
+  profilePictureDiv.appendChild(changeProfileText);
+  // ACCOUNT CARD
+
+  document.getElementById("initName").innerText = data.name;
+  document.getElementById("initId").value=data.id;
+  console.log(data.id);
+  //document.getElementById("accountPointsDisplay").innerText = data.accountPoints + " Points";
+  //document.getElementById("csaPointsDisplay").innerText = data.csaPoints + " Points";
+  //document.getElementById("cspPointsDisplay").innerText = data.cspPoints + " Points";
+
 }
