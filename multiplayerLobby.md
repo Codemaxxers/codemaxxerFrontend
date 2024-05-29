@@ -137,7 +137,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         }, 2000);
     } else {
         console.log("Incorrect. You lost your turn");
-        updateGameTurn(name);
+        updateGameTurn();
         setTimeout(function() {
             playerIMG.classList.remove('flashing');
         }, 2000);
@@ -241,7 +241,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 
       // Check for win/lose conditions
         if (data.players[playerName].health <= 0) {
-            document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + 0;
+            document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-righ: 5px;">' + 0;
             showPopup("You Lost!");
             // Redirect to desired location after a short delay (e.g., homepage)
             setTimeout(() => {
@@ -249,7 +249,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
             }, 20000);
             return;  // Exit the function if player lost
         } else if (data.players[opponentName].health <= 0) {
-            document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-left: 5px;">' + 0;
+            document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-right: 5px;">' + 0;
             showPopup("You Won!");
             // Redirect to desired location after a short delay (e.g., homepage)
             setTimeout(() => {
@@ -281,7 +281,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
             if (data.players && data.players[playerName]) {
                 const playerInfo = data.players[playerName];
                 document.getElementById("playerName").innerHTML = playerInfo.name;
-                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + playerInfo.health;
+                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-right: 5px;">' + playerInfo.health;
             } else {
                 console.log("Player not found in game info.");
             }
@@ -329,7 +329,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 
             // Check for win/lose conditions
             if (data.players[playerName].health <= 0) {
-                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + 0;
+                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-right: 5px;">' + 0;
                 showPopup("You Lost!");
                 // Redirect to desired location after a short delay (e.g., homepage)
                 setTimeout(() => {
