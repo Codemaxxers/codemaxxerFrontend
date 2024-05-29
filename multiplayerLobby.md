@@ -158,6 +158,34 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 
     window.addEventListener('onload', characterData());
 
+    function showPopup(message) {
+    // Create a popup element with the message
+    const popup = document.createElement("div");
+    popup.classList.add("popup");
+    popup.innerHTML = `<h1>${message}</h1>`;
+
+    // Add a close button (optional)
+    const closeButton = document.createElement("button");
+    closeButton.innerText = "Close";
+    closeButton.addEventListener("click", () => {
+        popup.remove();
+    });
+    popup.appendChild(closeButton);
+
+    // Style the popup (optional)
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.backgroundColor = "white";
+    popup.style.padding = "20px";
+    popup.style.border = "1px solid black";
+    popup.style.borderRadius = "5px";
+
+    // Append the popup to the body
+    document.body.appendChild(popup);
+    }
+
     function characterData() {
         fetch(uri + "/api/person/characterData", {
             method: "GET",
@@ -210,7 +238,26 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         .then((data) => {
             console.log(data);
 
-            const controllers = document.getElementsByClassName("controller");
+      // Check for win/lose conditions
+        if (data.players[playerName].health <= 0) {
+            document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + 0;
+            showPopup("You Lost!");
+            // Redirect to desired location after a short delay (e.g., homepage)
+            setTimeout(() => {
+            window.location.href = "multiplayer";
+            }, 20000);
+            return;  // Exit the function if player lost
+        } else if (data.players[opponentName].health <= 0) {
+            document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-left: 5px;">' + 0;
+            showPopup("You Won!");
+            // Redirect to desired location after a short delay (e.g., homepage)
+            setTimeout(() => {
+            window.location.href = "multiplayer";
+            }, 20000);
+            return;  // Exit the function if player won
+        }
+
+        const controllers = document.getElementsByClassName("controller");
             const signControllers = document.getElementsByClassName("controllerSIGN");
             if (data.currentPlayer == playerName) {
                 for (let i = 0; i < controllers.length; i++) {
@@ -259,9 +306,10 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 
             localStorage.setItem("playerName", playerName);
             localStorage.setItem("opponentName", opponentData.name);
-        })
-        .catch((error) => console.error(error));
-    }
+    })
+    .catch((error) => console.error(error));
+}
+
 
     function updateGameTurn() {
         const requestOptions = {
@@ -277,6 +325,25 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
+
+            // Check for win/lose conditions
+            if (data.players[playerName].health <= 0) {
+                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + 0;
+                showPopup("You Lost!");
+                // Redirect to desired location after a short delay (e.g., homepage)
+                setTimeout(() => {
+                window.location.href = "multiplayer";
+                }, 20000);
+                return;  // Exit the function if player lost
+            } else if (data.players[opponentName].health <= 0) {
+                document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-left: 5px;">' + 0;
+                showPopup("You Won!");
+                // Redirect to desired location after a short delay (e.g., homepage)
+                setTimeout(() => {
+                window.location.href = "multiplayer";
+                }, 20000);
+                return;  // Exit the function if player won
+            }
 
             const controllers = document.getElementsByClassName("controller");
             const signControllers = document.getElementsByClassName("controllerSIGN");
