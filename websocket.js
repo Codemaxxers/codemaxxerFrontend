@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const socketUrl = `wss://codemaxxerlink.stu.nighthawkcodingsociety.com/myhandler`;
+    const socketUrl = 'wss://codemaxxerlink.stu.nighthawkcodingsociety.com/myhandler'; // Deployed WebSocket URL
     const socket = new WebSocket(socketUrl);
 
     socket.onopen = function() {
@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     socket.onmessage = function(event) {
         showMessageOutput(event.data);
+    };
+
+    socket.onerror = function(error) {
+        console.error('WebSocket Error: ', error);
+    };
+
+    socket.onclose = function(event) {
+        console.log('WebSocket connection closed: ', event);
     };
 
     function sendMessage() {

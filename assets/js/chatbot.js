@@ -10,14 +10,14 @@ const elements = {
 
 // Define URLs for various API endpoints
 const urls = {
-  chat: "http://localhost:8032/aichatbot/chat?message=", // Endpoint for sending a chat message
-  clearHistory: "http://localhost:8032/aichatbot/chat/history/clear", // Endpoint for clearing chat history
-  retrieveHistory: "http://localhost:8032/aichatbot/chat/history", // Endpoint for retrieving chat history
+  // chat: "http://localhost:8032/aichatbot/chat?message=", // Endpoint for sending a chat message
+  // clearHistory: "http://localhost:8032/aichatbot/chat/history/clear", // Endpoint for clearing chat history
+  // retrieveHistory: "http://localhost:8032/aichatbot/chat/history", // Endpoint for retrieving chat history
   
-  // Example alternative URLs (commented out)
-  // const chat = "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=";
-  // const clearHistory = "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear";
-  // const retrieveHistory = "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history";
+  //Example alternative URLs (commented out)
+ chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
+ clearHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history/clear",
+ retrieveHistory: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat/history",
 };
 
 // Define assets such as images and names for the bot and user
@@ -49,6 +49,18 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
   });
 });
 
+
+// State variable to keep track of the current response function
+let useSecondBotResponse = false;
+
+// Event listener for the toggle button
+document.getElementById("toggle-response-btn").addEventListener("click", () => {
+  useSecondBotResponse = !useSecondBotResponse;
+  alert(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
+});
+
+
+
 // Event listener for form submission (sending a new message)
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault(); // Prevent the default form submission
@@ -56,9 +68,12 @@ elements.form.addEventListener("submit", (event) => {
   if (!msgText) return; // Do nothing if the input field is empty
   appendMessage(assets.personName, assets.personImg, "right", msgText, assets.personTitle); // Append the user's message to the chat
   elements.input.value = ""; // Clear the input field
-  elements.spinner.style.display = ""; // Display the loading spinner
-  botResponse(msgText); // Send the message to the bot
-});
+  elements.spinner.style.display = ""; // Display the loading spinner)
+  if (useSecondBotResponse)  {
+    secondbotResponse(msgText); // Send the message to the second bot response
+  } else {
+    botResponse(msgText); // Send the message to the bot
+  }});
 
 // Function to append a message to the chat display area
 function appendMessage(name, img, side, text, title) {
@@ -76,6 +91,13 @@ function appendMessage(name, img, side, text, title) {
   `;
   elements.chat.insertAdjacentHTML("beforeend", msgHTML); // Insert the message HTML into the chat display area
   elements.chat.scrollTop += 500; // Scroll to the bottom of the chat display area
+}
+
+
+async function secondbotResponse(msgText) {
+  const data = await fetchData(`${urls.chat}${msgText}`); // Fetch the bot's response
+  appendMessage(assets.botName, assets.botImg, "left", data, assets.botTitle); // Append the bot's response to the chat
+  elements.spinner.style.display = "none"; // Hide the loading spinner
 }
 
 // Function to handle bot responses
