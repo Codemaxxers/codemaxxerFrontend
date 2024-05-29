@@ -163,6 +163,7 @@ search_exclude: true
     function joinLobby(lobbyId) {
         // Log the lobbyId and player data for debugging purposes
         console.log(lobbyId, playerName, playerDmg, playerHealth);
+        localStorage.setItem("lobbyId", lobbyId);
 
         fetch(`${connectionuri}/api/lobby/registerAndJoin?lobbyId=${lobbyId}&playerName=${playerName}&attack=${playerDmg}&health=${playerHealth}`, {
             method: "POST",
