@@ -91,7 +91,7 @@ var questionBox = document.getElementById("question-box");
 var playerIMG = document.getElementById("pIMG");
 var enemyIMG = document.getElementById("eIMG");
 
-localStorage.setItem("initialDataLoaded", false);
+
 
 function fetchQuestion() {
     var myHeaders = new Headers();
@@ -200,11 +200,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
             document.getElementById("playerLevel").innerHTML = "Level: " + data.accountLevel;
 
             // Match the player in the game info request with the name
-            let hasInitialDataBeenLoaded = localStorage.getItem("initialDataLoaded");
-
-            if (hasInitialDataBeenLoaded === "false") {
-                initialDataLoad(data.name);
-            }
+            initialDataLoad(data.name);
         })
         .catch((error) => console.error(error));
     }
@@ -412,8 +408,6 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         let lobbyId = localStorage.getItem("lobbyId");
         let opponentName = localStorage.getItem("opponentName");
 
-        localStorage.setItem("initialDataLoaded", true);
-
         fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=random&player=${playerName}&target=${opponentName}`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
@@ -489,7 +483,6 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         localStorage.removeItem('lobbyId');
         localStorage.removeItem('playerName');
         localStorage.removeItem('opponentName');
-        localStorage.removeItem('initialDataLoaded');
     }
 
 // window.addEventListener('beforeunload', function(event) {
