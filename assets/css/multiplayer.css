@@ -7,6 +7,7 @@
     margin-top: 50px;
 }
 
+
 .player-box,
 .enemy-box {
     width: 400px;
@@ -104,6 +105,19 @@
     width: 8%;
 }
 
+
+.controllerSIGN {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 40vh;
+    margin-left: 5%;
+    margin-right: 80vw;
+    height: 175px;
+    display: grid;
+    width: 90%;
+}
+
 .move {
     /* background-color: #e0e0e0; */
     color: #333;
@@ -113,6 +127,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: "DotGothic16", sans-serif;
+    font-size: 1.5em;
 }
 
 .moveATK {
@@ -133,8 +148,9 @@
 
 h1 {
     margin: 0;
-    font-size: 1.2em;
+    font-size: 2em;
     font-family: "DotGothic16", sans-serif;
+
 }
 
 .player-box {
@@ -201,4 +217,5 @@ b {
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: "DotGothic16", sans-serif;
+    height: 100%;
 }

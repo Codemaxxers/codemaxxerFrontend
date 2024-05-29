@@ -45,8 +45,13 @@ author: Theo H
         </div>
     </div>
     <div id="moves" class="controller">
-        <div id="attack" class="backgroundStyle" id="ChangeATK" onclick="attackMENU()">
+        <div id="attack" class="backgroundStyle" id="ChangeATK" onclick="attack()">
             <h1>Attack</h1>
+        </div>
+    </div>
+    <div id="moves" class="controllerSIGN">
+        <div id="waitSign" class="backgroundStyle">
+            <h1>Please wait until your opponent attacks</h1>
         </div>
     </div>
 </div>
@@ -82,8 +87,144 @@ author: Theo H
 </div>
 
 <script>
-    window.addEventListener('onload', characterData());
+var questionBox = document.getElementById("question-box");
 
+function attack(attack) {
+    questionBox.style = "";
+    fetchQuestion(attack); // Call fetchQuestion with the attack value
+    // Check if the player or enemy has been defeated
+    if (health <= 0) {
+        alert.style = "";
+        playerIMG.classList = "death";
+        alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
+    } else if (eHealth < 1) {
+        updateHealthEnemy.innerHTML = `Enemy: Defeated`;
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/addPointsCSA?points=${totalPoints}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        //Re-direct to island
+        alert.style = "";
+        enemyIMG.classList = "death";
+        alertBox.innerHTML = "<b>You Won</b><p>Go back to island</p>";
+        return;
+    }
+}
+
+function fetchQuestion(attackValue) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    // clear hint
+    const hintText = document.getElementById("hint-text");
+    hintText.innerHTML = "";
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        credentials: 'include',
+        redirect: 'follow'
+    };
+    
+    fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result); // For debugging
+        
+        console.log(result.hint); 
+        currentQuestionHint = result.hint;
+
+        // Update the question text
+        document.getElementById("question-text").innerText = result.question;
+
+        // Clear previous answers
+        const answersDiv = document.getElementById("answers");
+        answersDiv.innerHTML = "";
+        totalPoints = totalPoints + result.points;
+
+        // Dynamically create answer buttons or text for each possible answer
+        for (let i = 1; i <= 4; i++) {
+            let answerDiv = document.createElement("div");
+            answerDiv.innerText = result[`answer${i}`];
+            answerDiv.onclick = function() { checkAnswer(i, result.correctAnswer, attackValue); };
+            answersDiv.appendChild(answerDiv);
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
+function checkAnswer(selectedAnswer, correctAnswer, attackValue) {
+    // Increment total points regardless of the answer
+    totalPoints += attackValue;
+
+    if (selectedAnswer === correctAnswer) {
+        console.log("Correct! You attack the enemy.");
+        eHealth -= attackValue;
+        updateHealthEnemy.innerHTML = `Health: ${eHealth}`;
+        // When an image gets hurt, you can add the flashing class to it
+        enemyIMG.classList.add('flashing');
+
+        // After a certain duration, remove the flashing class to stop the flashing effect
+        setTimeout(function() {
+            enemyIMG.classList.remove('flashing');
+        }, 2000);
+    } else {
+        console.log("Incorrect. The enemy attacks you!");
+        health -= eAttack;
+        updateHealth.innerHTML = `Health: ${health}`;
+        // When an image gets hurt, you can add the flashing class to it
+        playerIMG.classList.add('flashing');
+
+        // After a certain duration, remove the flashing class to stop the flashing effect
+        setTimeout(function() {
+            playerIMG.classList.remove('flashing');
+        }, 2000);
+    }
+
+    // Call Battle to check for end-of-battle scenarios
+    questionBox.style = " display: none;";
+    controller.innerHTML = baseHTML;
+
+    if (health <= 0) {
+        alert.style = "";
+        playerIMG.classList = "death";
+        alertBox.innerHTML = "<b>You Lost</b><p>Go back to island</p>";
+    } else if (eHealth < 1) {
+        updateHealthEnemy.innerHTML = `Health: Defeated`;
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            credentials: 'include'
+        };
+        //Adding points to the account
+        fetch(uri + `/api/person/addPoints${course}?points=${totalPoints}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        //Re-direct to island
+        alert.style = "";
+        enemyIMG.classList = "death";
+        alertBox.innerHTML = "<b>You Won</b><p>Go back to island</p>";
+        return;
+    }
+}
+</script>
+
+<script>
     // function leave() {
     //     window.location.href = "/codemaxxerFrontend/game/index.html";
     // }
@@ -121,15 +262,37 @@ author: Theo H
         .then((data) => {
             console.log(data);
 
-            // Find and display the matching player's information
+            const controllers = document.getElementsByClassName("controller");
+            const signControllers = document.getElementsByClassName("controllerSIGN");
+            if (data.currentPlayer == playerName) {
+                for (let i = 0; i < controllers.length; i++) {
+                    controllers[i].style.display = "block";
+                }
+                for (let i = 0; i < signControllers.length; i++) {
+                    signControllers[i].style.display = "none";
+                }
+            } else {
+                for (let i = 0; i < controllers.length; i++) {
+                    controllers[i].style.display = "none";
+                }
+                for (let i = 0; i < signControllers.length; i++) {
+                    signControllers[i].style.display = "block";
+                }
+            }
+
+
+            // YOUR DATA DISPLAYED
             if (data.players && data.players[playerName]) {
                 const playerInfo = data.players[playerName];
                 document.getElementById("playerName").innerHTML = playerInfo.name;
-                document.getElementById("playerHealth").innerHTML = "Health: " + playerInfo.health;
+                document.getElementById("playerHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px;">' + playerInfo.health;
             } else {
                 console.log("Player not found in game info.");
             }
+            // YOUR DATA DISPLAYED
 
+
+            // OPPONENT DATA DISPLAYED
             let opponentData = null;
             for (const player in data.players) {
                 if (player !== playerName) {
@@ -137,14 +300,14 @@ author: Theo H
                     break;
                 }
             }
-
             // Display the opponent's data if found
             if (opponentData) {
                 document.getElementById("opponentName").innerHTML = "Enemy: " + opponentData.name;
-                document.getElementById("opponentHealth").innerHTML = "Enemy Health: " + opponentData.health;
+                document.getElementById("opponentHealth").innerHTML = '<img src="game/img/heart.png" style="width: 20px; height: auto; margin-bottom: 5px; margin-right: 5px;">' + opponentData.health;
             } else {
                 console.log("Opponent not found in game info.");
             }
+            // OPPONENT DATA DISPLAYED
         })
         .catch((error) => console.error(error));
     }
@@ -170,11 +333,12 @@ author: Theo H
 //         removeLobby();
 //     }
 // );
-
-
 </script>
 
 <style>
+.controllerSIGN {
+    display: none;
+} 
 #attack {
     width: 100%;
 }
@@ -218,5 +382,9 @@ author: Theo H
 
 #userName {
     font-size: 1.2em;
+}
+
+#move {
+    font-size: 2em;
 }
 </style>
