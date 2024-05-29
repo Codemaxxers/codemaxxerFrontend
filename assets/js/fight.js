@@ -134,7 +134,7 @@ function fetchQuestion(attackValue) {
     fetch(uri + `/api/questions/randomQuestion/${course}`, requestOptions)
     .then(response => response.json())
     .then(result => {
-        console.log(result); // For debugging
+        console.log(result); // For debugging!
         
         console.log(result.hint); 
         currentQuestionHint = result.hint;
