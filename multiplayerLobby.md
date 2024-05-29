@@ -91,6 +91,7 @@ var questionBox = document.getElementById("question-box");
 var playerIMG = document.getElementById("pIMG");
 var enemyIMG = document.getElementById("eIMG");
 
+localStorage.setItem("initialDataLoaded", false);
 
 function fetchQuestion() {
     var myHeaders = new Headers();
