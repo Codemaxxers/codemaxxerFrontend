@@ -12,7 +12,7 @@ const elements = {
 const urls = {
   chat: "http://localhost:8032/aichatbot/chat?message=", // Endpoint for sending a chat message
   clearHistory: "http://localhost:8032/aichatbot/chat/history/clear", // Endpoint for clearing chat history
-  retrieveHistory: "http://localhost:8032/aichatbot/chat/history", // Endpoint for retrieving chat history
+  retrieveHistory: "http://localhost:8032/aichatbot/chat/history" // Endpoint for retrieving chat history
   
   //Example alternative URLs (commented out)
 //  chat: "https://codemaxxers.stu.nighthawkcodingsociety.com/aichatbot/chat?message=",
