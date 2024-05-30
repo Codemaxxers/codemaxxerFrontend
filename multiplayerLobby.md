@@ -150,6 +150,8 @@ function checkAnswer(selectedAnswer, correctAnswer) {
 </script>
 
 <script>
+    let currentPlayerParameter = "";
+
     setInterval(updateGameInfo, 6000); // Fetch every 5 seconds (adjust interval as needed)
 
     // function leave() {
@@ -234,7 +236,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         let playerName = localStorage.getItem("playerName");
         let opponentName = localStorage.getItem("opponentName");
 
-        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=info&player=${playerName}&target=${opponentName}`, requestOptions)
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=info&player=${playerName}&target=${opponentName}&lastCurrentPlayer=${currentPlayerParameter}`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
@@ -322,7 +324,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         let playerName = localStorage.getItem("playerName");
         let opponentName = localStorage.getItem("opponentName");
 
-        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=turn&player=${playerName}&target=${opponentName}`, requestOptions)
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=turn&player=${playerName}&target=${opponentName}&lastCurrentPlayer=${currentPlayerParameter}`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
@@ -408,10 +410,12 @@ function checkAnswer(selectedAnswer, correctAnswer) {
         let lobbyId = localStorage.getItem("lobbyId");
         let opponentName = localStorage.getItem("opponentName");
 
-        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=random&player=${playerName}&target=${opponentName}`, requestOptions)
+        fetch(connectionuri + `/api/lobby/lobbyInfo?lobbyId=${lobbyId}&type=initial&player=${playerName}&target=${opponentName}&lastCurrentPlayer=none`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
+            currentPlayerParameter = data.currentPlayer;
+            console.log("AFTER INITIAL LOADING, CURRENT PLAYER IS " + currentPlayerParameter);
 
             const controllers = document.getElementsByClassName("controller");
             const signControllers = document.getElementsByClassName("controllerSIGN");
