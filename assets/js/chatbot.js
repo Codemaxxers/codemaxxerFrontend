@@ -13,6 +13,8 @@ const elements = {
 };
 
 // Define URLs for various API endpoints
+// hardcoding backend URI to localhost
+uri = "http://localhost:8032"
 const urls = {
   chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
   clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
