@@ -242,9 +242,8 @@ async function fetchUserData() {
   console.log("Getting user data");
   var requestOptions = {
     method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-    credentials: 'include',
+    redirect: 'follow',
+    credentials: "include"
   };
 
   const response = await fetch(uri + "/api/person/jwt", requestOptions);
