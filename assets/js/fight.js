@@ -137,7 +137,7 @@ function fetchQuestion(attackValue) {
         console.log(result); // For debugging!
         
         console.log(result.hint); 
-        //currentQuestionHint = result.hint;
+        currentQuestionHint = result.hint;
 
         // Update the question text
         document.getElementById("question-text").innerText = result.question;
@@ -435,8 +435,6 @@ function getWeapon() {
         .catch(error => console.log('error', error));
 }
 
-let currentQuestionHint = "Hint: Consider a database approach.";
-
 function fetchWeaponStats(weaponID) {
     return fetch('gear.json')
         .then(response => {
@@ -494,6 +492,8 @@ function removeKey() {
 function closeKeyPopup() {
     document.getElementById("keyPopup").style.display = "none";
 }
+
+let currentQuestionHint = null;
 
 function useHint(){
     document.getElementById("keyPopup").style.display = "none";
