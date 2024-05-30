@@ -158,7 +158,7 @@ async function botResponse(msgText) {
 
   console.log(data.chatReponse);
   console.log(data.id);
-  // Split the response into chunks of a specified size (e.g., 10 characters)
+  // Split the response into chunks of a specified size (e.g., 10 characters) :)
   const chunks = Array.from(chunkString(data.chatReponse, 10));
 
   // Create a single message container for the response
