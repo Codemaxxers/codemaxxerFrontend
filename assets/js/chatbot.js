@@ -1,5 +1,5 @@
 fetchUserData();
-let chatHistoryMode = false;
+let chatHistoryMode = false; 
 
 // Define and select essential elements from the DOM for interaction
 const elements = {
@@ -13,20 +13,12 @@ const elements = {
 };
 
 // Define URLs for various API endpoints
-// hardcoding backend URI to localhost
-uri = "http://localhost:8032"
+uri = "http://localhost:8032";
 const urls = {
-  // chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
-  // clearHistory: uri+"/aichatbot/chat/history/clear", // Endpoint for clearing chat history
-  // retrieveHistory: uri+"/aichatbot/chat/history", // Endpoint for retrieving chat history
-  // deleteChat: uri+"/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
-
-  //local
-  chat: "http://localhost:8032/aichatbot/chat?message=", // Endpoint for sending a chat message
-  clearHistory: "http://localhost:8032/aichatbot/chat/history/clear", // Endpoint for clearing chat history
-  retrieveHistory: "http://localhost:8032/aichatbot/chat/history", // Endpoint for retrieving chat history
-  deleteChat: "http://localhost:8032/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
-
+  chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
+  clearHistory: uri+"/aichatbot/chat/history/clear?personid=", // Endpoint for clearing chat history
+  retrieveHistory: uri+"/aichatbot/chat/history?personid=", // Endpoint for retrieving chat history
+  deleteChat: uri+"/aichatbot/chat/history/delete/", //Endpoint for deleting a chat
   };
 
 // Define assets such as images and names for the bot and user
@@ -43,7 +35,7 @@ const assets = {
 elements.deleteChat.addEventListener("click", async (event) => {
   event.preventDefault(); // Prevent the default form submission
   
-  await fetchData(`${urls.clearHistory}`, "DELETE"); // Send a DELETE request to clear chat history
+  await fetchData(`${urls.clearHistory}${elements.personid.value}`, "DELETE"); // Send a DELETE request to clear chat history
   elements.chat.innerHTML = ""; // Clear the chat display area
   appendMessage(assets.botName, assets.botImg, "left", "Your chat history has been cleared! Go ahead and send me a new message. 😄", assets.botTitle, "", formatDate(new Date())); // Inform the user that the chat history is cleared
 });
@@ -54,7 +46,7 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
   event.preventDefault(); // Prevent the default form submission
   //const chatHistory = await fetchData(`${urls.retrieveHistory}`); // Fetch chat history
   //const chats = JSON.parse(chatHistory).chats; // Parse the chat history
-  const chats = await fetchData(`${urls.retrieveHistory}`); // Fetch chat history
+  const chats = await fetchData(`${urls.retrieveHistory}${elements.personid.value}`); // Fetch chat history
   console.log(chats);
   elements.chat.innerHTML = ""; // Clear the chat display area
   appendMessage(assets.botName, assets.botImg, "left", "Your chat history!", assets.botTitle, "", formatDate(new Date())); // Inform the user that the chat history is loaded
@@ -68,13 +60,13 @@ elements.retrieveChatHistory.addEventListener("click", async (event) => {
 
 
 // State variable to keep track of the current response function
-let useSecondBotResponse = false;
+let instantChatResponseFlag = false;
 
 // Event listener for the toggle button
 
 document.getElementById("toggle-response-btn").addEventListener("click", () => {
-  useSecondBotResponse = !useSecondBotResponse;
-  alert(`Using ${useSecondBotResponse ? "instant chat" : "streamed chat"}`);
+  instantChatResponseFlag = !instantChatResponseFlag;
+  alert(`Using ${instantChatResponseFlag ? "instant chat" : "streamed chat"}`);
 });
 
 
@@ -88,11 +80,8 @@ elements.form.addEventListener("submit", (event) => {
   appendMessage(assets.personName, assets.personImg, "right", msgText, assets.personTitle, "", formatDate(new Date())); // Append the user's message to the chat
   elements.input.value = ""; // Clear the input field
   elements.spinner.style.display = ""; // Display the loading spinner)
-  if (useSecondBotResponse)  {
-    secondbotResponse(msgText); // Send the message to the second bot response
-  } else {
-    botResponse(msgText); // Send the message to the bot
-  }});
+  botResponse(msgText); // Send the message to the bot
+  });
 
 // Function to append a message to the chat display area
 function appendMessage(name, img, side, text, title, chatid, chattime) {
@@ -115,7 +104,7 @@ function appendMessage(name, img, side, text, title, chatid, chattime) {
 }
 
 async function deleteChat(id){
-  const chats = await fetchData(`${urls.deleteChat}${id}`, "DELETE"); // Send a DELETE request to clear chat history
+  const chats = await fetchData(`${urls.deleteChat}${id}?personid=${elements.personid.value}`, "DELETE"); // Send a DELETE request to clear chat history
   // it returns the update chat history
   // display updated chat history
   console.log(chats);
@@ -132,8 +121,8 @@ async function deleteChat(id){
 }
 
 async function secondbotResponse(msgText) {
-  const data = await fetchData(`${urls.chat}${msgText}`); // Fetch the bot's response
-  appendMessage(assets.botName, assets.botImg, "left", data, assets.botTitle); // Append the bot's response to the chat
+  const data = await fetchData(`${urls.chat}${msgText}&personid=${elements.personid.value}`); // Fetch the bot's response
+  appendMessage(assets.botName, assets.botImg, "left", data.chatReponse, assets.botTitle,data.id, formatMessageDate(data.timestamp)); // Append the bot's response to the chat
   elements.spinner.style.display = "none"; // Hide the loading spinner
 }
 
@@ -145,9 +134,16 @@ async function botResponse(msgText) {
   elements.spinner.style.display = "block";
 
   // Fetch the bot's response
-  const data = await fetchData(`${urls.chat}${msgText}`);
-  console.log(data);
+  const data = await fetchData(`${urls.chat}${msgText}&personid=${elements.personid.value}`);
 
+  console.log(data);
+  console.log(data.chatReponse);
+  console.log(data.id);
+
+  if (instantChatResponseFlag){
+    appendMessage(assets.botName, assets.botImg, "left", data.chatReponse, assets.botTitle,data.id, formatMessageDate(data.timestamp)); // Append the bot's response to the chat
+    elements.spinner.style.display = "none"; // Hide the loading spinner
+  } else {
   // Function to split the data into smaller chunks
   function* chunkString(str, size) {
     for (let i = 0; i < str.length; i += size) {
@@ -156,9 +152,8 @@ async function botResponse(msgText) {
   }
 
 
-  console.log(data.chatReponse);
-  console.log(data.id);
-  // Split the response into chunks of a specified size (e.g., 10 characters) :)
+  
+  // Split the response into chunks of a specified size (e.g., 10 characters)
   const chunks = Array.from(chunkString(data.chatReponse, 10));
 
   // Create a single message container for the response
@@ -184,6 +179,8 @@ async function botResponse(msgText) {
 
   // Set an interval to append chunks at specified intervals (e.g., every 100 milliseconds)
   const intervalId = setInterval(appendNextChunk, 100);
+
+  }
 }
 
 
@@ -219,13 +216,14 @@ async function fetchData(url, method = "GET", data = null) {
   const options = {
     method, // HTTP method (GET, POST, DELETE, etc.)
     headers: { "Content-Type": "application/json" }, // Headers for the request
+    mode: "cors", // Cross-origin resource sharing
     cache: "no-cache", // No caching
-    credentials: "include", // Same-origin credentials
+    credentials: "same-origin", // Same-origin credentials
     redirect: "follow", // Follow redirects
     referrerPolicy: "no-referrer", // No referrer policy
   };
   if (data) options.body = JSON.stringify(data); // Add body data if provided
-  const response = await fetch(url, options); // Fetch data from the API :)
+  const response = await fetch(url, options); // Fetch data from the API
   if (!response.ok){
     const errorMsg = 'AI Bot Error: ' + response.status;
     console.log(errorMsg);
@@ -241,8 +239,9 @@ async function fetchUserData() {
   console.log("Getting user data");
   var requestOptions = {
     method: 'GET',
-    redirect: 'follow',
-    credentials: "include"
+    mode: 'cors',
+    cache: 'default',
+    credentials: 'include',
   };
 
   const response = await fetch(uri + "/api/person/jwt", requestOptions);
