@@ -224,7 +224,7 @@ async function fetchData(url, method = "GET", data = null) {
     referrerPolicy: "no-referrer", // No referrer policy
   };
   if (data) options.body = JSON.stringify(data); // Add body data if provided
-  const response = await fetch(url, options); // Fetch data from the API
+  const response = await fetch(url, options); // Fetch data from the API //:)
   if (!response.ok){
     const errorMsg = 'AI Bot Error: ' + response.status;
     console.log(errorMsg);
