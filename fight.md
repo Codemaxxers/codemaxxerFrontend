@@ -40,7 +40,7 @@ permalink: /fight
         <h1>Attack</h1>
         <p id="question-text">Select an Attack</p>
         <div id="answers">
-            <!-- Dynamically filled answers will go here -->
+            <!-- Dynamically filled answers will go here! -->
         </div>
         <div id="hint-box">
             <h1 id="hint-text"></h1>
