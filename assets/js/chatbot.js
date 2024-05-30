@@ -220,7 +220,7 @@ async function fetchData(url, method = "GET", data = null) {
     method, // HTTP method (GET, POST, DELETE, etc.)
     headers: { "Content-Type": "application/json" }, // Headers for the request
     cache: "no-cache", // No caching
-    credentials: "same-origin", // Same-origin credentials
+    credentials: "include", // Same-origin credentials
     redirect: "follow", // Follow redirects
     referrerPolicy: "no-referrer", // No referrer policy
   };
