@@ -219,7 +219,6 @@ async function fetchData(url, method = "GET", data = null) {
   const options = {
     method, // HTTP method (GET, POST, DELETE, etc.)
     headers: { "Content-Type": "application/json" }, // Headers for the request
-    mode: "cors", // Cross-origin resource sharing
     cache: "no-cache", // No caching
     credentials: "same-origin", // Same-origin credentials
     redirect: "follow", // Follow redirects
