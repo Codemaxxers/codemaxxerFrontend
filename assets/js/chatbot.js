@@ -13,7 +13,8 @@ const elements = {
 };
 
 // Define URLs for various API endpoints
-uri = "http://localhost:8032";
+//uri = "http://localhost:8032";
+uri = "https://codemaxxers.stu.nighthawkcodingsociety.com/";
 const urls = {
   chat: uri+"/aichatbot/chat?message=", // Endpoint for sending a chat message
   clearHistory: uri+"/aichatbot/chat/history/clear?personid=", // Endpoint for clearing chat history
