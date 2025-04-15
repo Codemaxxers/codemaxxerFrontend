@@ -44,7 +44,7 @@ async function compileCode() {
   const code = document.getElementById('code').value;
   try {
   const response = await fetch('http://localhost:8032/api/compile/JudgeController', { 
-// fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/compile/JudgeController", requestOptions)
+// fetch("https://codemaxxerbackend.onrender.com/api/compile/JudgeController", requestOptions)
   method: 'POST',
 headers: {
     'Content-Type': 'application/json'
