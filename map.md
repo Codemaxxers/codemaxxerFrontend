@@ -75,11 +75,14 @@ permalink: /map
             <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Calculus Island</a></div>
         </div>
         <div class="island" style="top: 400px; left: 250px;">
-            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">CSA Island</a></div>
+            <div class="island-name"><a href="http://127.0.0.1:5501/game/index.html">CSA Island</a></div>
         </div>
         <div class="island" style="top: 600px; left: 500px;">
             <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Physics Island</a></div>
         </div>
+        <!-- <div class="island" style="top: px; left: px;">
+            <div class="island-name"><a href="https://codemaxxers.github.io/codemaxxerFrontend/islandmap">Cybersecurity Island</a></div>
+        </div> -->
     </div>
 </body>
 </html>

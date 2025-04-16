@@ -66,21 +66,20 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
   left: 0;
   height: 100%;
   width: 270px;
-  background: #4A4744;
+  background: #202124;
   padding: 15px 1px;
   padding-right: 10px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0);
   transition: all 0.4s ease;
+  color: #FFFFFF;
 }
 .sidebar.close {
   width: calc(55px + 20px);
 }
-.logo_items {
-  gap: 8px;
-}
+
 .logo_name {
   font-size: 22px;
-  color: black;
+  color: white;
   font-weight: 500px;
   transition: all 0.3s ease;
 }
@@ -107,7 +106,7 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 10px;
   overflow-y: auto;
   height: calc(100% - 82px);
 }
@@ -148,13 +147,14 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
   text-decoration: none;
   border-radius: 8px;
   margin-bottom: 8px;
-  color: black !important;
+  color: white !important;
   transition: all 0.4s ease;
 }
 .link:hover {
   color: #fff;
-  background-color: #F6F6F6;
+  background-color: #010101;
   transition: all 0.4s ease;
+  text-decoration: none
 }
 .link span {
   white-space: nowrap;
@@ -170,7 +170,7 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
 }
 
 .title {
-  color: black !important;
+  color: white !important;
 }
 
 .line {
@@ -228,7 +228,6 @@ h1,h2,h3,h4,h5,h6,p,ul,li {
 .navbar img {
   height: 40px;
   width: 40px;
-  margin-left: 20px;
 }
 .data_text {
   margin-left: 10px;
