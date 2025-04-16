@@ -3,7 +3,15 @@ layout: profile
 search_exclude: true
 ---
 
-<div id="player-cards-container" class="profilePicturesShown"></div>
+<script src="uri.js"></script>
+
+<div id="player-cards-container" class="profilePicturesShown">
+    <div class="account-card header">
+        <div class="name">Name</div>
+        <div class="email">Email</div>
+        <div class="csaPoints">CSA Points</div>
+    </div>
+</div>
 
 <script>
     window.onload = function () {
@@ -22,8 +30,7 @@ search_exclude: true
         };
 
         // Fetch the top 5 players with highest CSA points
-        // fetch("http://localhost:8032/api/person/leaderboardCSA", requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/leaderboardCSA", requestOptions)
+        fetch(uri + "/api/person/leaderboardCSA", requestOptions)
             .then(response => response.json())
             .then(data => {
                 // Call function to generate player cards
@@ -47,14 +54,17 @@ search_exclude: true
             card.classList.add('account-card');
 
             var name = document.createElement('h2');
+            name.classList.add('name');
             name.textContent = count + " " + player.name;
             count++;
 
             var email = document.createElement('p');
             email.textContent = player.email;
+            email.classList.add('email');
 
             var csaPoints = document.createElement('p');
-            csaPoints.textContent = "CSA Points: " + player.csaPoints;
+            csaPoints.textContent = player.csaPoints;
+            csaPoints.classList.add('csaPoints');
 
             // Append elements to the card
             card.appendChild(name);
@@ -71,16 +81,18 @@ search_exclude: true
 
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
     .profilePicturesShown {
-        display: flex;
-        justify-content: space-between;
+        width: 1000px;
+	    height: auto;
         align-items: center;
         margin: 20px auto;
         padding: 20px;
-        max-width: 800px; /* Adjust as needed */
+        justify-content: space-between;
         border: 1px solid #ccc;
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     }
     #profPic1,
     #profPic2,
@@ -242,14 +254,30 @@ search_exclude: true
         background-color: #0056b3;
     }
 
+    .header {
+        font-weight: bold;
+        font-size: 30px;
+        font-family: "DotGothic16", sans-serif;
+        border-bottom: 1px solid black;
+    }
+
+    /* Adjustments for column layout */
     .account-card {
-        width: 300px; /* Adjust width as needed */
-        padding: 20px;
-        background-color: #E5E4E2;
-        border-radius: 10px;
-        text-align: center;
-        margin-bottom: 20px; /* Adjust bottom margin as needed */
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
         background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(230,151,8,1) 0%, rgba(255,0,0,1) 100%);
+        border-bottom: 1px solid none;
+        color: #000;
+    }
+
+    .name,
+    .email,
+    .csaPoints {
+        flex: 1;
+        font-family: "DotGothic16", sans-serif;
+        text-align: center;
+        font-size: 16px;
     }
 
 </style>

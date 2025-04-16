@@ -3,6 +3,9 @@ layout: star
 search_exclude: true
 permalink: login
 ---
+
+<script src="uri.js"></script>
+
 <body>
     <div class="banner">
         <div class="navbar">
@@ -62,9 +65,7 @@ permalink: login
             redirect: 'follow'
         };
 
-        // LOCAL TESTING
-        // fetch("http://localhost:8032/authenticate", requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
+        fetch(uri + "/authenticate", requestOptions)
         .then(response => {
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;

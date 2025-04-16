@@ -3,6 +3,8 @@ layout: profile
 search_exclude: true
 --- 
 
+<script src="uri.js"></script>
+
 <script>
     window.onload = function () {
         fetchUserData();
@@ -16,9 +18,7 @@ search_exclude: true
         credentials: 'include',
         };
 
-        // LOCAL TESTING
-         //fetch("http://localhost:8032/api/person/jwt", requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/jwt", requestOptions)
+        fetch(uri + "/api/person/jwt", requestOptions)
         .then(response => {
                 if (!response.ok) {
                     const errorMsg = 'Login error: ' + response.status;
@@ -99,8 +99,7 @@ search_exclude: true
         };
 
         // LOCAL TESTING
-        // fetch("http://localhost:8032/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
-        fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
+        fetch(uri + "/api/person/changeProfilePic?profilePicInt=" + selectedImageNumber, requestOptions)
         .then(response => {
             if (response.ok) {
                 // If the response is successful, reload the window
@@ -117,38 +116,37 @@ search_exclude: true
 
 
         function updateUserProfile(data) {
-    // Extracting form data
-    const formData = new FormData(data);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const id = document.getElementById('id').innerHTML;
+            // Extracting form data
+            const formData = new FormData(data);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const id = document.getElementById('id').innerHTML;
 
-    // Constructing the request body
-    const requestBody = {
-    name: name,
-    email: email
-    };
-    console.log(requestBody);
-    // Making the POST request LOCAL TESTING
-    // fetch(`http://localhost:8032/api/person/updatePerson/${id}`, {
-    fetch(`https://codemaxxers.stu.nighthawkcodingsociety.com/api/person/updatePerson/${id}`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(requestBody)
-    })
-    .then(response => {
-    if (!response.ok) {
-        throw new Error('Failed to update profile');
-    }
-    // SHOULD Redirect to the reading page after successful update BUT only if I fix email not updating
-    //signout();
-    })
-    .catch(error => {
-    console.error('Error updating profile:', error);
-    });
-}
+            // Constructing the request body
+            const requestBody = {
+            name: name,
+            email: email
+            };
+            console.log(requestBody);
+            // Making the POST request LOCAL TESTING
+            fetch(uri + `/api/person/updatePerson/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+            })
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update profile');
+            }
+            // SHOULD Redirect to the reading page after successful update BUT only if I fix email not updating
+            //signout();
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+            });
+        }
 
 
 
@@ -160,8 +158,7 @@ search_exclude: true
     };
 
     // LOCAL TESTING
-     //fetch("http://localhost:8032/signout", requestOptions)
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+    fetch(uri + "/signout", requestOptions)
       .then(response => response.text())
       .then(result => {
             console.log(result);
@@ -176,7 +173,7 @@ search_exclude: true
   <div id="profile-info">
     <img id="profile-picture" src="">
     <h1 id="profile-name"></h1> 
-    <h1 id="id"></h1> 
+    <!-- <h1 id="id"></h1>  -->
     <button id="profilePicChangeButton">Change Profile Picture</button>
   </div>
   <div id="profile-form">

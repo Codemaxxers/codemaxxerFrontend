@@ -13,7 +13,7 @@ permalink: /qrt
 
 <script>
     document.getElementById('fetchButton').addEventListener('click', function() {
-        const baseURL = "https://codemaxxers.stu.nighthawkcodingsociety.com/api/questions/course";
+        const baseURL = "https://codemaxxerbackend.onrender.com/api/questions/course";
         const course = "csa"; // Replace with the actual course value
         const url = `${baseURL}/${course}`;
         fetch(url, {

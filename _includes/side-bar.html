@@ -1,3 +1,5 @@
+<script src="uri.js"></script>
+
 <div class="container">
 <nav class="sidebar locked">
     <div class="logo_items flex">
@@ -16,8 +18,14 @@
           </div>
           <li class="item">
             <a href="menu" class="link flex">
-              <i class="bx bxs-magic-wand"></i>
+              <i class="bx bxs-joystick-alt"></i>
               <span>Rift Game</span>
+            </a>
+          </li>
+          <li class="item">
+            <a href="character" class="link flex">
+              <i class='bx bx-user-circle'></i>
+              <span>Character</span>
             </a>
           </li>
           <li class="item">
@@ -32,6 +40,12 @@
               <span>Leaderboard</span>
             </a>
           </li> 
+          <li class="item">
+            <a href="bot" class="link flex">
+              <i class='bx bx-user-circle'></i>
+              <span>Helpful ai assistant</span>
+            </a>
+          </li>
           <!-- <li class="item">
             <a href="#" class="link flex">
               <i class="bx bx-bell"></i>
@@ -57,17 +71,26 @@
             </a>
           </li>
           <li class="item">
+            <a href="characterbuilder" class="link flex">
+              <i class="bx bx-user"></i>
+              <span>AI Character Builder</span>
+            </a>
+          </li>
+          <li class="item">
             <a href="#" class="link flex">
               <i class="bx bx-cog"></i>
               <span>Settings</span>
             </a>
           </li>
+          
           <li class="item">
-            <a href="#" class="link flex">
+            <a onclick="signout()" class="link flex">
               <i class="bx bx-log-out"></i>
-              <span onclick="signout()">Log out</span>
+              <span>Log out</span>
             </a>
           </li>
+        
+        
         </ul>
       </div>
       <div class="sidebar_profile flex">
@@ -79,6 +102,12 @@
   </nav>
 </div>
 
+<style>
+  .item {
+    cursor: pointer;
+  }
+</style>
+
 <script>
   function signout() {
     var requestOptions = {
@@ -88,8 +117,7 @@
     };
 
     // LOCAL TESTING
-    // fetch("http://localhost:8032/signout", requestOptions)
-    fetch("https://codemaxxers.stu.nighthawkcodingsociety.com/signout", requestOptions)
+    fetch(uri + "/signout", requestOptions)
       .then(response => response.text())
       .then(result => {
             console.log(result);

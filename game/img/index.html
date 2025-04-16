@@ -1,4 +1,4 @@
-
+<script src="uri.js"></script>
 <!-- saved from url=(0056)http://127.0.0.1:4100/codemaxxerFrontend/game/index.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -185,7 +185,7 @@
     // Check if the click occurred in the top half of the canvas
     if (event.clientY < canvas.height / 2) {
         // Fetch questions from the API
-        fetch('http://localhost:8032/api/questions/random/csp')
+        fetch(uri + '/api/questions/random/csp')
             .then(response => response.json())
             .then(questions => {
                 // Extract the first question from the response
@@ -211,7 +211,7 @@ function checkAnswer() {
     document.querySelector('.dialog-container').style.display = 'none';
 
     // Fetch questions from the API
-    fetch('http://localhost:8032/api/questions/random/csp')
+    fetch(uri + '/api/questions/random/csp')
         .then(response => response.json())
         .then(questions => {
             // Extract the first question from the response
