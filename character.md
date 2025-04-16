@@ -10,22 +10,22 @@ search_exclude: true
         <img id="playerImage" src="game/img/player.png">
         <br>
         <div id="playerStats">
-            <h1 class="centered">Player Stats</h1><hr/>
+            <h1 class="centered whiteText">Player Stats</h1><hr/>
             <h1 id="characterHealth"></h1>
             <h1 id="characterDamage"></h1>
             <br>
-            <h1>Equipped Gear</h1>
+            <h1 class="whiteText">Equipped Gear</h1>
             <div id="equipped" class="flex-container">
             </div>
         </div>
     </div>
     <div id="inventory">
         <div class="inventoryArmor">
-            <h1>Armor</h1>
+            <h1 class="whiteText">Armor</h1>
         </div>
         <br>
         <div class="inventoryWeapons">
-            <h1>Weapons</h1>
+            <h1 class="whiteText">Weapons</h1>
         </div>
         <br>
         <!-- 
